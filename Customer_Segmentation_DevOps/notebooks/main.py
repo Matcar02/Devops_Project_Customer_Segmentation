@@ -341,7 +341,7 @@ def dendogram(X):
     plt.ylabel("Distances")
     plt.xticks([])    #no ticks is displayed
     plt.show()
-    return Dend 
+    return Dend
 
 
 
