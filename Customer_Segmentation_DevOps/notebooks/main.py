@@ -1,14 +1,9 @@
 
-
-
-
 #!/usr/bin/env python
 # coding: utf-8
 
 # # Machine learning project on customer segmentation  
-# <h3> Group members: Carucci Matteo, Agudio Tommaso, Natoli Vittorio Alessandro </h3>
 
-# <p style="font-size: 16px" font-family="sans-serif">
 # In the first part of the project, we deal with a customers database where customers' orders in Brazil are registered. There are many information stored for each order, including the price spent and also some relevant information about the customer and sellers themselves; Below we will start an explorative data analysis to find out more of the "customer_segmentation" dataset to capture some interesting trends and patterns.
 
 # In[2]:

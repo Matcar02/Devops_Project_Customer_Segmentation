@@ -145,6 +145,7 @@ def installments_analysis(df, rfmcopy):
     return paydf 
 
 
+##to be assessed
 def customers_insights(paydf):
     clusterstype = ['mid-spenders','at-risk customers', 'top-customers','high-spenders']
     paydict = {}
@@ -208,18 +209,16 @@ def payments_insights(df):
     return paymentdistr 
 
 
+##to be assessed
 def prod_insights(df):
     dfcat = pd.value_counts(df['product_category_name_english']).iloc[:15].index 
-
     ax = sns.countplot(df['product_category_name_english'], order= dfcat)
     ax.set_xticklabels(ax.get_xticklabels(), rotation = 60)
 
 
 def customer_geography(df):
     dfgeo = pd.value_counts(df['customer_state']).iloc[:20]
-
     dfticks = pd.value_counts(df['customer_state']).iloc[:20].index.to_list() 
-
     dfgeo.plot()
 
 

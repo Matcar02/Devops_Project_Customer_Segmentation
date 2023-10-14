@@ -16,12 +16,22 @@ def drop_columns(df):
 
 
 def drop_c_id(df):
-    df.shape
     df['customer_unique_id'].nunique()
     df['customer_id'].nunique()
     df.drop(columns = 'customer_unique_id',inplace= True)
     df.head()
+    return df 
 
 def clean_data(df):
     df = df[df['order_status'] == 'delivered']
     return df
+
+
+
+##testing if they work properly (they do)
+
+df = prepare_data('data\external\customer_segmentation.csv')
+df = drop_c_id(df)
+df = clean_data(df)
+print(df)
+
