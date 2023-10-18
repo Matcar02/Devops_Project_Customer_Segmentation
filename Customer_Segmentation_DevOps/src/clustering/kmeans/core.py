@@ -1,3 +1,6 @@
+from sklearn.cluster import KMeans 
+
+
 def clustering(clusters1, algorithm1, rand_state, X, df):
     kmeans = KMeans(n_clusters = clusters1, init = 'k-means++', random_state = rand_state, algorithm = algorithm1, n_init = 3)
     y_kmeans = kmeans.fit_predict(X)
