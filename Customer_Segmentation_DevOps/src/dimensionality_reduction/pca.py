@@ -3,7 +3,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA 
 from sklearn.cluster import KMeans 
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import pandas as pd
 
 
@@ -62,6 +62,9 @@ def pca(X_):
         kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
         kmeans.fit(X_)
         wcss.append(kmeans.inertia_)
+    
+    #return the best number of clusters based on the scores
+    
 
     plt.plot(range(1, 11), wcss)
     plt.title('The Elbow Method')

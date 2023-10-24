@@ -1,3 +1,6 @@
+import pandas as pd
+import keras 
+import tensorflow as tf 
 from keras.models import Model
 from keras.layers import Input, Dense
 from sklearn.cluster import KMeans 
@@ -13,7 +16,7 @@ def ann_autoencoder(X_):
     input_df = Input(shape=(input_dim,)) 
 
     x = Dense(encoding_dim, activation='relu')(input_df)
-    x = Dense(500, activation='relu', kernel_initializer = GlorotUniform())  
+    x = Dense(500, activation='relu', kernel_initializer = GlorotUniform())(x)
     x = Dense(500, activation='relu', kernel_initializer = GlorotUniform())(x)
     x = Dense(2000, activation='relu', kernel_initializer = GlorotUniform())(x)
 
@@ -22,7 +25,7 @@ def ann_autoencoder(X_):
     x = Dense(2000, activation='relu', kernel_initializer = GlorotUniform())(encoded)
     x = Dense(500, activation='relu', kernel_initializer = GlorotUniform())(x)
 
-    decoded = Dense(1807, kernel_initializer = GlorotUniform())(x)
+    decoded = Dense(input_dim, kernel_initializer = GlorotUniform())(x)
 
     autoencoder = Model(input_df, decoded)
 
@@ -48,7 +51,7 @@ def conc_pca_ann(rfm_dataset, kmeansann, rfmcopy):
     return dfann 
 
 
-def ann_clusters(dfann, clustersann):
+def ann_clusters(dfann):
     plot4 = go.Figure()
 
     

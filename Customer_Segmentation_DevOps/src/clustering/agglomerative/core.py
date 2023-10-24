@@ -1,6 +1,8 @@
 from sklearn.cluster import AgglomerativeClustering
 import plotly.graph_objs as go 
 
+
+
 def agglomerative_clustering(X, rfmcopy):
     hc = AgglomerativeClustering(n_clusters = 4, affinity = 'euclidean', linkage = 'ward')
     y_hc = hc.fit_predict(X)

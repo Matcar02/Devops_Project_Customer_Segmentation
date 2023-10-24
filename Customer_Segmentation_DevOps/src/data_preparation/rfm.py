@@ -1,18 +1,9 @@
 #testing if they work properly (they do)
-from cleaning import prepare_data, drop_columns, drop_c_id, clean_data
-df = prepare_data('data\external\customer_segmentation.csv')
+from src.data_preparation.cleaning import prepare_data, drop_columns, drop_c_id, clean_data
+df = prepare_data(r"C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\Customer_Segmentation_DevOps\data\external\customer_segmentation.csv")
 df = drop_c_id(df)
 df = clean_data(df)
 
-frequencies = get_frequencies(df)
-recency = get_recency(df)
-monetary = get_monetary(df)
-rfm_dataset = concatenate_dataframes(recency, monetary, frequencies)
-
-print(rfm_dataset)
-
-
-#######
 
 
 import pandas as pd

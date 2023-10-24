@@ -28,10 +28,4 @@ def clean_data(df):
 
 
 
-##testing if they work properly (they do)
-
-df = prepare_data('data\external\customer_segmentation.csv')
-df = drop_c_id(df)
-df = clean_data(df)
-print(df)
 

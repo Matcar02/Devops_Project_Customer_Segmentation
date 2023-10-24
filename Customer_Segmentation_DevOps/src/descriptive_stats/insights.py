@@ -1,6 +1,6 @@
 import seaborn as sns
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 def segments_insights(rfmcopy):
 
@@ -90,12 +90,12 @@ def kmeans_summary(rfmcopy):
 
 def cluster_summary(df, column_name):
 
-    kmeans_size = df.groupby('kmeans_clusters')[column_name].size()
-    kmeans_sum = df.groupby('kmeans_clusters')[column_name].sum()
-    kmeans_mean = df.groupby('kmeans_clusters')[column_name].mean()
-    kmeans_frequency = df.groupby('kmeans_clusters')['Frequency'].mean()
-    kmeans_fsd = df.groupby('kmeans_clusters')['Frequency'].std()
-    kmeans_sd = df.groupby('kmeans_clusters')[column_name].std()
+    kmeans_size = df.groupby('kmeans_cluster')[column_name].size()
+    kmeans_sum = df.groupby('kmeans_cluster')[column_name].sum()
+    kmeans_mean = df.groupby('kmeans_cluster')[column_name].mean()
+    kmeans_frequency = df.groupby('kmeans_cluster')['Frequency'].mean()
+    kmeans_fsd = df.groupby('kmeans_cluster')['Frequency'].std()
+    kmeans_sd = df.groupby('kmeans_cluster')[column_name].std()
     Kmeanssummary = pd.DataFrame({'Clustersize': kmeans_size, 'Total spending by cluster': kmeans_sum,
                                   'Average spending by cluster': kmeans_mean, 'Average frequency by cluster': kmeans_frequency,
                                   'Frequency std': kmeans_fsd, 'Spending sd': kmeans_sd})

@@ -25,12 +25,4 @@ def get_dummies_df(df):
 
 
 
-#testing if they work properly (get_dummies and encode_df are redumdant!)
-from cleaning import prepare_data, drop_columns, drop_c_id, clean_data
-df = prepare_data('Customer_Segmentation_DevOps\data\external\customer_segmentation.csv')
-df = drop_c_id(df)
-df = clean_data(df)
-print(df)
-#df = encode_df(df)
-encoded_df = get_dummies_df(df)
-print(encoded_df)
+
