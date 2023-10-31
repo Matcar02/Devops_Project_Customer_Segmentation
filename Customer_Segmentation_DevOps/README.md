@@ -1,9 +1,25 @@
-Customer Segmentation
+## Customer Segmentation
+==============================
+## An end-to-end work to manage a customer segmentation ML project using a MLOps approach. 
+
+## Description
+The project allows business stakeholders to visualize and inspect customer segmentations using clustering methods. This method allows the business to save money by identifying the best products to sell as well as the consumers' profile and their spending behaviour to enhance marketing strategies such as cross-selling.
+The methods provide relevant metrics such as Silhouette score, which indicates the proximity (how close customers are) of the elements
+in the segments to assess similarities in consumers' behaviour. 
 ==============================
 
-An end-to-end work to manage a customer segmentation ML project using a MLOps approach. 
+## Installation
+1. Clone the repositry.
+2. Create a conda environment using the conda.yml file with this command
 
-Project Organization
+conda env create -f conda.yml
+
+3. Activate the conda env:
+conda activate devops_env
+==============================
+
+## Project Structure (Tree)
+The project uses a config.yaml to for configuration settings, including the data path and model parameters.
 ------------
 
 ├───data          <- data used for modeling.
@@ -43,4 +59,4 @@ Project Organization
 
 --------
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+

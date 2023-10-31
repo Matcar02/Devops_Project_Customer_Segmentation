@@ -43,3 +43,26 @@ def visualize_spectral_clusters(X, sp):
                         font=dict(family="Gilroy", color='black', size=12))
 
     plot.show()
+
+
+    
+def plot_clusters_pca(rfmcopy, clusterspca):
+    plot = go.Figure() 
+    
+    nclusters = [i for i in range (0, clusterspca)]
+    for x in nclusters:
+        plot.add_trace(go.Scatter3d(x = rfmcopy[rfmcopy.pca_clusters == x]['Recency'], 
+                                    y = rfmcopy[rfmcopy.pca_clusters == x]['Frequency'],
+                                    z = rfmcopy[rfmcopy.pca_clusters == x]['Monetary value'],  
+                                    mode='markers', marker_size = 8, marker_line_width = 1,
+                                    name = 'Cluster ' + str(x+1)
+                                    ))
+
+
+    plot.update_layout(width = 800, height = 800, autosize = True, showlegend = True,
+                    scene = dict(xaxis=dict(title = 'Recency', titlefont_color = 'black'),
+                                    yaxis=dict(title = 'Frequency', titlefont_color = 'black'),
+                                    zaxis=dict(title = 'Monetary value', titlefont_color = 'black')),
+                    font = dict(family = "Gilroy", color  = 'black', size = 12))
+
+    plot.show()

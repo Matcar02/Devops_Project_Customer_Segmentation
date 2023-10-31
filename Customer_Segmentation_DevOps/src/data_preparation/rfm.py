@@ -1,12 +1,14 @@
-#testing if they work properly (they do)
+import pandas as pd
 from src.data_preparation.cleaning import prepare_data, drop_columns, drop_c_id, clean_data
-df = prepare_data(r"C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\Customer_Segmentation_DevOps\data\external\customer_segmentation.csv")
+import json 
+
+
+#df = prepare_data(r"C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\Customer_Segmentation_DevOps\data\external\customer_segmentation.csv")
+'''
+df = prepare_data(data_path)
 df = drop_c_id(df)
 df = clean_data(df)
-
-
-
-import pandas as pd
+'''
 
 def get_frequencies(df):
     #grouping by and getting the total money spent by customer
@@ -43,12 +45,11 @@ def get_monetary(df):
     return monetary 
 
 
+
 def concatenate_dataframes(recency, monetary, frequencies):
     rfm_dataset = pd.concat([recency, monetary['Monetary value'], frequencies['Frequency']], axis=1)
     rfm_dataset.dropna(inplace=True)   #dropping the nulls, if any
     return rfm_dataset
-
-
 
 
 

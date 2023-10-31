@@ -3,8 +3,8 @@ import plotly.graph_objs as go
 
 
 
-def agglomerative_clustering(X, rfmcopy):
-    hc = AgglomerativeClustering(n_clusters = 4, affinity = 'euclidean', linkage = 'ward')
+def agglomerative_clustering(X, rfmcopy, n_clustersagg):
+    hc = AgglomerativeClustering(n_clusters = n_clustersagg, affinity = 'euclidean', linkage = 'ward')
     y_hc = hc.fit_predict(X)
     
     plot2 = go.Figure()

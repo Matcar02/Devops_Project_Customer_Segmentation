@@ -4,6 +4,9 @@ from sklearn.cluster import KMeans
 from sklearn.model_selection import GridSearchCV
 import pandas as pd
 
+####
+
+
 
 
 def elbow_method(rfm_dataset):
@@ -49,6 +52,5 @@ def silhouette_score_f(X, y, method):
     return silscores 
 
 
-print("wuuuu")
 
 

@@ -147,7 +147,7 @@ def installments_analysis(df, rfmcopy):
 
 ##to be assessed
 def customers_insights(paydf):
-    clusterstype = ['mid-spenders','at-risk customers', 'top-customers','high-spenders']
+    #clusterstype = ['mid-spenders','at-risk customers', 'top-customers','high-spenders']
     paydict = {}
     for i in range(4):
         countpay = paydf[paydf['kmeans_cluster'] == i]['payment_type'].value_counts()
@@ -155,34 +155,34 @@ def customers_insights(paydf):
         paydict[i+1] = {'cluster'+str(i+1):[countpay,meaninst]}
         
         print("")
-        print(f"The payment distribution for the cluster made by {clusterstype[i]} of kmeans is")
+        print(f"The payment distribution for the cluster made by cluster{[i]} of kmeans is")
         print(countpay)
         print("")
-        print(f"The average installments made by customers in cluster of {clusterstype[i]} is {meaninst}")
+        print(f"The average installments made by customers in cluster{[i]} is {meaninst}")
         print("---------------------------------")
 
-    customersHc = ['Mid-spenders','top customers','at-risk customers', 'high-spenders']
+    #customersHc = ['Mid-spenders','top customers','at-risk customers', 'high-spenders']
     paydict2 = {}
     for i in range(4):
         countpay = paydf[paydf['hc_clusters'] == i]['payment_type'].value_counts() 
         meaninst = paydf[paydf['hc_clusters'] == i]['payment_installments'].mean() 
         paydict2[i+1] = {'cluster'+str(i+1):[countpay,meaninst]}
         
-        print(f"The payment distribution for the cluster {customersHc[i]} of HC is")
+        print(f"The payment distribution for the cluster cluster{[i]} of HC is")
         print(countpay)
-        print(f"The average installments made by customers in cluster {customersHc[i]} is {meaninst}")
+        print(f"The average installments made by customers in cluster {[i]} is {meaninst}")
         print("---------------------------------")
 
-    customersSp = ['Low spenders', 'at-risk customers','top customers', 'High spenders']
+    #customersSp = ['Low spenders', 'at-risk customers','top customers', 'High spenders']
     paydict3 = {}
     for i in range(4):
         countpay = paydf[paydf['sp_clusters'] == i]['payment_type'].value_counts()
         meaninst = paydf[paydf['sp_clusters'] == i]['payment_installments'].mean() 
         paydict3[i+1] = {'cluster'+str(i+1):[countpay,meaninst]}
         
-        print(f"The payment distribution for the cluster {customersSp[i]} of Spectral is")
+        print(f"The payment distribution for the cluster {[i]} of Spectral is")
         print(countpay)
-        print(f"The average installments made by customers in cluster {customersSp[i]} is {meaninst}")
+        print(f"The average installments made by customers in cluster {[i]} is {meaninst}")
         print("---------------------------------")
 
     return paydict, paydict2, paydict3
@@ -194,6 +194,7 @@ def recency(recency):
     plt.xlabel('days since last purchase')
     plt.ylabel('number of people per period')
     sns.histplot()
+    plt.show()
 
 
 def payments_insights(df):
@@ -206,28 +207,32 @@ def payments_insights(df):
     plt.xlabel("Payment Type")
     plt.ylabel("Average Price")
     plt.title("Average Spending Distribution by Payment Type")
+    plt.show()
     return paymentdistr 
 
 
 ##to be assessed
 def prod_insights(df):
     dfcat = pd.value_counts(df['product_category_name_english']).iloc[:15].index 
-    ax = sns.countplot(df['product_category_name_english'], order= dfcat)
+    df['product_category_name_english'] = pd.Categorical(df['product_category_name_english'], categories=dfcat, ordered=True)
+    ax = sns.countplot(x='product_category_name_english', data=df)
     ax.set_xticklabels(ax.get_xticklabels(), rotation = 60)
+    plt.show()
 
 
 def customer_geography(df):
     dfgeo = pd.value_counts(df['customer_state']).iloc[:20]
     dfticks = pd.value_counts(df['customer_state']).iloc[:20].index.to_list() 
     dfgeo.plot()
-
-
+    plt.title("Customers per state")
+    
     l = []
     for i in range(20):
         l.append(df[df["customer_state"] == dfticks[i]]["payment_value"].mean())
 
     ax = sns.lineplot(x = dfticks, y = l)
     ax.set_xticklabels(ax.get_xticklabels(), rotation = 90)
+    plt.show()
     return dfgeo
 
 
