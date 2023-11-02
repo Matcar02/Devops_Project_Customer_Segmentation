@@ -235,6 +235,43 @@ def customer_geography(df):
     plt.show()
     return dfgeo
 
+def get_frequencies(df):
+    frequencies = df.groupby(
+        by=['customer_id'], as_index=False)['order_delivered_customer_date'].count()
+    frequencies.columns = ['Frequencies Customer ID', 'Frequency']
+    return frequencies
+
+def get_recency(df):
+    df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
+
+    recency = df.groupby(by='customer_id',
+                            as_index=False)['order_purchase_timestamp'].max()
+
+    recency.columns = ['Customer ID', 'Latest Purchase']
+
+    recent_date = recency['Latest Purchase'].max()
+
+    recency['Recency'] = recency['Latest Purchase'].apply(
+        lambda x: (recent_date - x).days)                     
+        
+    recency.drop(columns=['Latest Purchase'], inplace=True) 
+    return recency
+
+
+def get_monetary(df):
+    monetary = df.groupby(by='customer_id', as_index=False)['payment_value'].sum()
+    monetary.columns = [' Monetary Customer ID', 'Monetary value']
+    return monetary 
+
+
+def concatenate_dataframes(recency, monetary, frequencies):
+    rfm_dataset = pd.concat([recency, monetary, frequencies], axis=1)
+    cols = [3,5]   
+    rfm_dataset.drop(columns=rfm_dataset.columns[cols], axis=1, inplace=True)
+    rfm_dataset.dropna(inplace=True)  
+    return rfm_dataset
+
+
 
 
 
