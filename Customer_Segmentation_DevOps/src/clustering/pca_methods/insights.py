@@ -10,7 +10,7 @@ def pca_insights(dfpca):
     sec.describe()
     th.describe()
     four.describe()
-    return first, sec, th
+    return first, sec, th 
 
 
 def pca_insights2(df, dfpca):

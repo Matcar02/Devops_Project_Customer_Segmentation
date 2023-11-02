@@ -1,10 +1,11 @@
+import pandas as pd
+import numpy as np
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA 
 from sklearn.cluster import KMeans 
-import matplotlib as plt
-import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def encoding_PCA(df, rfm_dataset):
@@ -33,35 +34,41 @@ def pca_preprocessing(newdf):
     sc_features['Monetary value'] = new
     sc_features['Recency'] = new2 
     sc_features['Frequency'] = new3
-    sc_features.head() 
-    
-    sc_features.dropna(inplace = True) 
-    sc_features.shape
+    sc_features.dropna(inplace=True)
+    sc_features.drop_duplicates(inplace=True) # replace null values with 0
+    print(sc_features.isnull().sum()) 
+    print(sc_features.shape)
     return sc_features
 
 def pca_ncomponents(sc_features):
     X_ = sc_features.values
-
     pca = PCA(n_components = 20) 
     principalComponents = pca.fit_transform(X_)
 
     features = range(pca.n_components_)
     plt.plot(features, pca.explained_variance_ratio_.cumsum(), marker ="o") 
+    plt.title('Explained variance by components')
     plt.xlabel('PCA components')                                   
     plt.ylabel('variance explained')
     plt.xticks(features)
+    plt.show() 
     return X_ 
 
 
 def pca(X_):
     pca = PCA(n_components = 3)
     scores = pca.fit_transform(X_)
-
+    mask = np.isnan(scores)
+    scores = scores[~mask.any(axis=1)]
+    scores = np.unique(scores, axis=0)
     wcss = []
     for i in range(1, 11):
         kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
         kmeans.fit(X_)
         wcss.append(kmeans.inertia_)
+    
+    #return the best number of clusters based on the scores
+    
 
     plt.plot(range(1, 11), wcss)
     plt.title('The Elbow Method')
@@ -69,3 +76,4 @@ def pca(X_):
     plt.ylabel('WCSS')
     plt.show()
     return scores 
+

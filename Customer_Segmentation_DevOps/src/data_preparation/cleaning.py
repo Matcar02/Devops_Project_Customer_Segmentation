@@ -1,5 +1,7 @@
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
+import json 
+
 
 
 def prepare_data(filepath):
@@ -15,13 +17,22 @@ def drop_columns(df):
     return df
 
 
+import pandas as pd
+
 def drop_c_id(df):
-    df.shape
     df['customer_unique_id'].nunique()
     df['customer_id'].nunique()
     df.drop(columns = 'customer_unique_id',inplace= True)
     df.head()
+    return df 
 
 def clean_data(df):
+    df = pd.DataFrame(df)
     df = df[df['order_status'] == 'delivered']
+    df = df.sample(frac=0.1, random_state=1)
     return df
+
+
+
+
+

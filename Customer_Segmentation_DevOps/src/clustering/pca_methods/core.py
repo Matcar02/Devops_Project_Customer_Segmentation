@@ -1,12 +1,13 @@
 import pandas as pd
+import numpy as np
 import seaborn as sns
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans 
 
 
-def pca_kmeans(sc_features, scores):
+def pca_kmeans(sc_features, scores, nclusterspca):
 
-    kmeanspca = KMeans(n_clusters = 4, init="k-means++", random_state = 42)
+    kmeanspca = KMeans(n_clusters = nclusterspca, init="k-means++", random_state = 42)
     kmeanspca.fit(scores)
 
     sc_features2 = sc_features.iloc[:,[0,1,2]]

@@ -1,8 +1,12 @@
 from sklearn.metrics import silhouette_score 
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans 
 from sklearn.model_selection import GridSearchCV
 import pandas as pd
+
+####
+
+
 
 
 def elbow_method(rfm_dataset):
@@ -46,4 +50,7 @@ def silhouette_score_f(X, y, method):
 
     print(f"The silhouette score for {method} is: {silscores[method]}")
     return silscores 
+
+
+
 

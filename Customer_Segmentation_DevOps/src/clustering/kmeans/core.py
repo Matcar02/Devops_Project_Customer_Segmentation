@@ -1,4 +1,4 @@
-from sklearn.cluster import KMeans 
+from sklearn.cluster import KMeans
 
 
 def clustering(clusters1, algorithm1, rand_state, X, df):
@@ -30,5 +30,5 @@ def choose(rfm_dataset, X):
         inp3 = int(input("reinsert an random integer:"))
 
     rfmcopy = clustering(inp1, inp2, inp3, X, rfm_dataset)
-    plot_clusters(rfmcopy, inp1)
-    return rfmcopy
+    #plot_clusters(rfmcopy, inp1)
+    return rfmcopy, inp1 

@@ -1,4 +1,4 @@
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import scipy.cluster.hierarchy as sch      
 
 def dendogram(X):
