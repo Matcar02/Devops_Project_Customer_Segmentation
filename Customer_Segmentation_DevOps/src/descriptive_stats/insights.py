@@ -47,11 +47,11 @@ def segments_insights(rfmcopy):
     logging.debug('highspenderssc: \n%s', highspenderssc.describe())
 
     logging.info('Finished analysis. Returning segmented data.')
-
+    
     return lowspendershc, lowspenderskmeans, lowspenderssc, midspenderskm, midspenderssp, midspendershc, highspenderskm, highspenderssc, highspendershc 
 
 
-def kmeans_summary(rfmcopy):
+def kmeans_summary(rfmcopy,nclusterskmeans):
     
     # Log the total size of the input data
     logging.info(f"Input data has {len(rfmcopy)} records.")
@@ -246,7 +246,9 @@ def payments_insights(df):
 
     logging.debug("Plotting histogram and countplot for payments insights...")
     sns.histplot(data=df["payment_installments"])
+    plt.show()
     sns.countplot(x=df["payment_type"])
+    plt.show()
     paymentdistr = df.groupby(['payment_type'])['payment_value'].mean().reset_index(name='Avg_Spending').sort_values(['Avg_Spending'], ascending=False)
     
     if paymentdistr.empty:
@@ -296,6 +298,7 @@ def customer_geography(df):
     dfticks = dfgeo.index.to_list() 
     dfgeo.plot()
     plt.title("Customers per state")
+    plt.show()
 
     l = []
     for i in range(20):
@@ -309,76 +312,9 @@ def customer_geography(df):
     
     return dfgeo
 
-def get_frequencies(df):
-    logging.info("Starting get_frequencies function...")
-    frequencies = df.groupby(by=['customer_id'], as_index=False)['order_delivered_customer_date'].count()
-    
-    if frequencies.empty:
-        logging.warning("Frequencies DataFrame is empty. No customer deliveries recorded.")
-        return None
-    
-    frequencies.columns = ['Frequencies Customer ID', 'Frequency']
-    logging.debug("Finished generating frequencies DataFrame.")
-    
-    return frequencies
 
-def get_recency(df):
-    logging.info("Starting get_recency function...")
-    df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
 
-    recency = df.groupby(by='customer_id', as_index=False)['order_purchase_timestamp'].max()
 
-    if recency.empty:
-        logging.warning("Recency DataFrame is empty. No customer purchase timestamps recorded.")
-        return None
-
-    recency.columns = ['Customer ID', 'Latest Purchase']
-
-    recent_date = recency['Latest Purchase'].max()
-    
-    if pd.isnull(recent_date):
-        logging.error("Recent date is NaN. Exiting function.")
-        return None
-
-    logging.debug("Calculating Recency for each customer...")
-    recency['Recency'] = recency['Latest Purchase'].apply(lambda x: (recent_date - x).days)                     
-    recency.drop(columns=['Latest Purchase'], inplace=True)
-    logging.debug("Finished generating recency DataFrame.")
-
-    return recency
-
-def get_monetary(df):
-    logging.info("Starting get_monetary function...")
-    
-    if df.empty:
-        logging.warning("Input DataFrame is empty. No data to process for monetary value.")
-        return pd.DataFrame()
-    
-    monetary = df.groupby(by='customer_id', as_index=False)['payment_value'].sum()
-    monetary.columns = ['Monetary Customer ID', 'Monetary value']
-
-    logging.debug("Monetary value calculation complete.")
-    
-    return monetary 
-
-def concatenate_dataframes(recency, monetary, frequencies):
-    logging.info("Starting concatenate_dataframes function...")
-    
-    if recency.empty or monetary.empty or frequencies.empty:
-        logging.warning("One or more of the input DataFrames are empty.")
-        return pd.DataFrame()
-
-    rfm_dataset = pd.concat([recency, monetary, frequencies], axis=1)
-
-    logging.debug("Concatenation of DataFrames successful.")
-
-    cols = [3, 5]
-    rfm_dataset.drop(columns=rfm_dataset.columns[cols], axis=1, inplace=True)
-    rfm_dataset.dropna(inplace=True)  
-
-    logging.info("Finished data cleaning and final DataFrame is ready.")
-    
-    return rfm_dataset
 
 
 

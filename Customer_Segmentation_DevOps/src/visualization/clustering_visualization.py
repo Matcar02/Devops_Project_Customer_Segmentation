@@ -25,6 +25,7 @@ def plot_clusters(rfmcopy, clusters1):
                                 zaxis=dict(title='Monetary value', titlefont_color='black')),
                     font=dict(family="Gilroy", color='black', size=12))
 
+    plot.title("K-Means Clustering")
     plot.show()
     logging.info("Cluster plotting completed.")
 
@@ -52,7 +53,8 @@ def visualize_spectral_clusters(X, sp):
                                    yaxis=dict(title='Frequency', titlefont_color='blue'),
                                    zaxis=dict(title='Monetary value', titlefont_color='green')),
                         font=dict(family="Gilroy", color='black', size=12))
-
+    
+    plot.title("Spectral Clustering clusters")
     plot.show()
     logging.info("Spectral cluster visualization completed.")
 
@@ -78,5 +80,6 @@ def plot_clusters_pca(rfmcopy, clusterspca):
                                 zaxis=dict(title='Monetary value', titlefont_color='black')),
                     font=dict(family="Gilroy", color='black', size=12))
 
+    plot.title("PCA Clustering clusters")
     plot.show()
     logging.info("PCA cluster plotting completed.")

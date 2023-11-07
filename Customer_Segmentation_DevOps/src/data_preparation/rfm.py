@@ -1,16 +1,10 @@
 import pandas as pd
-from src.data_preparation.cleaning import prepare_data, drop_columns, drop_c_id, clean_data
 import json 
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-#df = prepare_data(r"C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\Customer_Segmentation_DevOps\data\external\customer_segmentation.csv")
-'''
-df = prepare_data(data_path)
-df = drop_c_id(df)
-df = clean_data(df)
-'''
+
 
 def get_frequencies(df):
     logging.info("Computing frequencies.")
@@ -34,7 +28,7 @@ def get_monetary(df):
     monetary.columns = [' Monetary Customer ID', 'Monetary value']
     return monetary 
 
-def concatenate_dataframes(recency, monetary, frequencies):
+def concatenate_dataframes_(recency, monetary, frequencies):
     logging.info("Concatenating recency, monetary, and frequencies dataframes.")
     rfm_dataset = pd.concat([recency, monetary['Monetary value'], frequencies['Frequency']], axis=1)
     if rfm_dataset.isnull().sum().any():
