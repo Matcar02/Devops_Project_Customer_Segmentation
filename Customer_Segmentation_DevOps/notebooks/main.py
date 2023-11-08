@@ -20,8 +20,7 @@ import scipy.cluster.hierarchy as sch
 from sklearn.cluster import AgglomerativeClustering, SpectralClustering
 from sklearn.decomposition import PCA 
 from sklearn.preprocessing import StandardScaler
-import descriptive_stats.stats as stats
-from stats import corr 
+import logging 
 
 
 
@@ -37,14 +36,6 @@ def prepare_data(filepath):
     df.drop_duplicates(inplace=True)
     df.drop(columns=['product_name_lenght', 'product_description_lenght', 'shipping_limit_date', 'product_category_name'], axis=1, inplace=True)
     return df
-df = pd.read_csv('customer_segmentation.csv')
-df.drop_duplicates(inplace = True)
-df.columns
-
-
-#df = prepare_data(file_path)
-
-
 
 
 # ## Data preparation
@@ -84,18 +75,10 @@ def drop_c_id(df):
 
     df.head()
 
-#Checking the features that are categorical
-categorical_features = df.select_dtypes(include='O').keys()
-
-#Displaying those features
-categorical_features
-
-# Before starting analyzing the dataset, we want to introduce and start working on the real goal of the project; segmenting customers using clusters which identify similarities in consumer behaviour, based on the dataset information.
 
 
 def clean_data(df):
-    #dropping order which have not been delivered is important. Instead of dropping, we consider df as the dataframe having only
-    #orders delivered
+
     df = df[df['order_status'] == 'delivered']
     return df
 

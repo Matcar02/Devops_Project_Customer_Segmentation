@@ -1,7 +1,10 @@
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder
 import json 
 import logging
+import os
+import sys
+import random as rand
+from datetime import datetime
 
 # Set up logging configuration
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -25,6 +28,7 @@ def prepare_data(filepath):
     logging.info('Data prepared successfully.')
     return df
 
+
 def drop_c_id(df):
     """
     Drop the customer_unique_id column.
@@ -42,6 +46,7 @@ def drop_c_id(df):
     logging.info('Customer id dropped successfully.')
     return df 
 
+
 def clean_data(df):
     """
     Filter data by order status and sample a fraction.
@@ -50,7 +55,28 @@ def clean_data(df):
     
     df = pd.DataFrame(df)
     df = df[df['order_status'] == 'delivered']
-    df = df.sample(frac=0.1, random_state=1)
+    df = df.sample(frac=0.1, random_state= rand.randint(0, 1000))
     logging.debug('Data after filtering by order status and sampling:\n{}'.format(df.head()))
     logging.info('Data cleaned successfully.')
     return df
+
+
+def get_df(df):
+    logging.info('Getting DataFrame...')
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    logging.info('Saving DataFrame to CSV...')
+    
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        df.to_csv(os.path.join(reports_path, 'dataframes', f'initialdata_{now}.csv'), index=False)
+
+    except:
+        logging.error('Error saving DataFrame to CSV.')
+        return
+        
+    logging.info('DataFrame saved successfully.')
+

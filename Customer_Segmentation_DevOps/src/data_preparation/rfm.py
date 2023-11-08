@@ -1,9 +1,11 @@
 import pandas as pd
 import json 
 import logging
+import os
+import sys
+from datetime import datetime
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
 
 
 def get_frequencies(df):
@@ -35,6 +37,29 @@ def concatenate_dataframes_(recency, monetary, frequencies):
         logging.warning(f"Detected missing values after concatenation. Number of missing values: {rfm_dataset.isnull().sum().sum()}")
     rfm_dataset.dropna(inplace=True)
     logging.info("Dataframes concatenated successfully.")
+    
+    return rfm_dataset
+
+
+def get_rfm_dataset(rfm_dataset):
+    logging.info('Getting DataFrame...')
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    logging.info('Saving DataFrame to CSV...')
+    
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f'rfmdata_{now}.csv'
+        rfm_dataset.to_csv(os.path.join(reports_path, 'dataframes', filename), index=False)
+
+    except:
+        logging.error('Error saving DataFrame to CSV.')
+        return
+        
+    logging.info('DataFrame saved successfully.')
     return rfm_dataset
 
 
