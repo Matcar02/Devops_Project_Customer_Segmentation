@@ -76,6 +76,24 @@ def kmeans_summary(rfmcopy, nclusterskmeans):
 
     Kmeanssummary = pd.DataFrame(dictio2, index=[1, 2, 3, 4])
 
+    #saving df...
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    logging.info('Saving DataFrame to CSV...')
+    
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f'kmeanssummary_{now}.csv'
+        Kmeanssummary.to_csv(os.path.join(reports_path, 'dataframes', filename), index=False)
+
+    except:
+        logging.error('Error saving DataFrame to CSV.')
+        return
+        
+    logging.info('DataFrame saved successfully.')
     
     return Kmeanssummary 
 
@@ -90,16 +108,12 @@ def cluster_summary(df, column_name):
     kmeans_size = df.groupby('kmeans_cluster')[column_name].size()
     kmeans_sum = df.groupby('kmeans_cluster')[column_name].sum()
     kmeans_mean = df.groupby('kmeans_cluster')[column_name].mean()
-    kmeans_frequency = df.groupby('kmeans_cluster')['Frequency'].mean()
-    kmeans_fsd = df.groupby('kmeans_cluster')['Frequency'].std()
     kmeans_sd = df.groupby('kmeans_cluster')[column_name].std()
     Kmeanssummary = pd.DataFrame({
         'Clustersize': kmeans_size,
-        'Total spending by cluster': kmeans_sum,
-        'Average spending by cluster': kmeans_mean,
-        'Average frequency by cluster': kmeans_frequency,
-        'Frequency std': kmeans_fsd,
-        'Spending sd': kmeans_sd
+        'Column sum': kmeans_sum,
+        f'Average of {column_name}': kmeans_mean,
+        f'Column {column_name} sd': kmeans_sd
     })
     logging.info(f"KMeans summary processed with {len(Kmeanssummary)} clusters.")
 
@@ -107,16 +121,12 @@ def cluster_summary(df, column_name):
     hc_size = df.groupby('hc_clusters')[column_name].size()
     hc_sum = df.groupby('hc_clusters')[column_name].sum()
     hc_mean = df.groupby('hc_clusters')[column_name].mean()
-    hc_frequency = df.groupby('hc_clusters')['Frequency'].mean()
-    hc_fsd = df.groupby('hc_clusters')['Frequency'].std()
     hc_sd = df.groupby('hc_clusters')[column_name].std()
     Hcsummary = pd.DataFrame({
         'Clustersize': hc_size,
-        'Total spending by cluster': hc_sum,
-        'Average spending by cluster': hc_mean,
-        'Average frequency by cluster': hc_frequency,
-        'Frequency std': hc_fsd,
-        'Spending sd': hc_sd
+        'Column sum': hc_sum,
+        f'Average of {column_name}': hc_mean,
+        f'Column {column_name} sd': hc_sd
     })
     logging.info(f"HC summary processed with {len(Hcsummary)} clusters.")
 
@@ -124,16 +134,12 @@ def cluster_summary(df, column_name):
     sp_size = df.groupby('sp_clusters')[column_name].size()
     sp_sum = df.groupby('sp_clusters')[column_name].sum()
     sp_mean = df.groupby('sp_clusters')[column_name].mean()
-    sp_frequency = df.groupby('sp_clusters')['Frequency'].mean()
-    sp_fsd = df.groupby('sp_clusters')['Frequency'].std()
     sp_sd = df.groupby('sp_clusters')[column_name].std()
     Spsummary = pd.DataFrame({
         'Clustersize': sp_size,
-        'Total spending by cluster': sp_sum,
-        'Average spending by cluster': sp_mean,
-        'Average frequency by cluster': sp_frequency,
-        'Frequency std': sp_fsd,
-        'Spending sd': sp_sd
+        'Column sum': sp_sum,
+        f'Average of {column_name}': sp_mean,
+        f'Column {column_name} sd': sp_sd
     })
     logging.info(f"SP summary processed with {len(Spsummary)} clusters.")
     
@@ -259,8 +265,13 @@ def payments_insights(df):
     logging.debug("Plotting histogram and countplot for payments insights...")
     sns.histplot(data=df["payment_installments"])
     plt.show()
+    plt.close()
+
     sns.countplot(x=df["payment_type"])
     plt.show()
+    plt.close()
+    logging.info("Payments insights displayed.")
+
     paymentdistr = df.groupby(['payment_type'])['payment_value'].mean().reset_index(name='Avg_Spending').sort_values(['Avg_Spending'], ascending=False)
     
     if paymentdistr.empty:
@@ -287,14 +298,14 @@ def payments_insights(df):
     
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        pltpay.savefig(os.path.join(reports_path, 'figures', f'paymentsinsights_{now}.png'))
+        plt.savefig(os.path.join(reports_path, 'figures', f'paymentsinsights_{now}.png'))
 
     except:
         logging.error('Error saving Image.')
         return
         
     logging.info('Image saved successfully.')
-
+    plt.close()
     
     return paymentdistr 
 
@@ -329,13 +340,14 @@ def prod_insights(df):
     
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        ax.savefig(os.path.join(reports_path, 'figures', f'productinsights_{now}.png'))
+        plt.savefig(os.path.join(reports_path, 'figures', f'productinsights_{now}.png'))
 
     except:
         logging.error('Error saving Image.')
         return
         
     logging.info('Image saved successfully.')
+    plt.close()
 
 
 
@@ -373,14 +385,14 @@ def customer_geography(df):
     
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        ax.savefig(os.path.join(reports_path, 'figures', f'customergeography_{now}.png'))
+        plt.savefig(os.path.join(reports_path, 'figures', f'customergeography_{now}.png'))
 
     except:
         logging.error('Error saving Image.')
         return
         
     logging.info('Image saved successfully.')
-    
+    plt.close()
     return dfgeo
 
 

@@ -10,7 +10,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 def visualize_data(rfm_dataset):
     logging.info("Visualizing data...")
-    plot3 = sns.pairplot(rfm_dataset)
+    sns.pairplot(rfm_dataset)
+    plt.title("Pairplot")
+    plt.show()
     
     #saving plot
     logging.info("Saving plot...")
@@ -22,15 +24,19 @@ def visualize_data(rfm_dataset):
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f'pairplot_{now}.png'
-        fig1 = plot3.fig.suptitle("Pairplot")
-        fig1.savefig(os.path.join(reports_path, 'figures', filename))
+        #fig1 = plot3.get_figure()
+        #fig1.savefig(os.path.join(reports_path, 'figures', filename))
+        plt.savefig(os.path.join(reports_path, 'figures', filename)) 
     except:
         logging.error('Error saving plot.')
         return
-    
 
+    plt.close()
+        
+    
+    sns.lineplot(x="Recency", y="Monetary value", data=rfm_dataset.sort_values(by=["Recency"], ascending=False))
+    plt.title("Spending by recency")
     plt.show()
-    plot1 = sns.lineplot(x="Recency", y="Monetary value", data=rfm_dataset.sort_values(by=["Recency"], ascending=False))
 
     #saving plot
     logging.info("Saving plot...")
@@ -42,15 +48,16 @@ def visualize_data(rfm_dataset):
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename2 = f'recency_monetary_{now}.png'
-        fig2 = plot1.get_figure()
-        fig2.savefig(os.path.join(reports_path, 'figures', filename2))
+        plt.savefig(os.path.join(reports_path, 'figures', filename2))
     except:
         logging.error('Error saving plot.')
         return
+
+    plt.close()
+
+    sns.histplot(data=rfm_dataset['Frequency'], discrete=True)
+    plt.title("Frequency plot")
     plt.show()
-
-
-    plot2 = sns.histplot(data=rfm_dataset['Frequency'], discrete=True)
 
     #saving plot
     logging.info("Saving plot...")
@@ -62,21 +69,20 @@ def visualize_data(rfm_dataset):
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename3 = f'frequencyplot_{now}.png'
-        fig3 = plot2.get_figure()
-        fig3.savefig(os.path.join(reports_path, 'figures', filename3))
+        plt.savefig(os.path.join(reports_path, 'figures', filename3))
     except:
         logging.error('Error saving plot.')
         return
-    plt.show()
+
+    plt.close()
     logging.info("Data visualization complete.")
-    return plot1, plot2, plot3 
+    return plt  
 
 
 def plot_average_spending_by_frequency(rfm_dataset):
     logging.info("Plotting average spending by frequency...")
     frd = rfm_dataset.groupby(['Frequency'])['Monetary value'].mean().reset_index(name='Average Spending by frequency')
-    #sns.lineplot(data=frd, x="Frequency", y="Average Spending by frequency")
-    plt1 = sns.scatterplot(data=frd, x="Frequency", y="Average Spending by frequency", s=100, color='red')
+    sns.scatterplot(data=frd, x="Frequency", y="Average Spending by frequency", s=100, color='red')
     plt.title("Average Spending by Frequency")
     plt.xlabel("Frequency")
     plt.ylabel("Average Spending")
@@ -93,18 +99,19 @@ def plot_average_spending_by_frequency(rfm_dataset):
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f'average_spending_by_frequency_{now}.png'
-        fig = plt1.get_figure()
-        fig.savefig(os.path.join(reports_path, 'figures', filename))
+        plt.savefig(os.path.join(reports_path, 'figures', filename))
     except:
         logging.error('Error saving plot.')
         return
+
+    plt.close()
 
 
 def plot_payment_value_distribution(rfm_dataset):
     logging.info("Plotting payment value distribution...")
     LogMin, LogMax = np.log10(rfm_dataset['Monetary value'].min()), np.log10(rfm_dataset['Monetary value'].max())
     newbins = np.logspace(LogMin, LogMax, 4)
-    plt1 = sns.distplot(rfm_dataset['Monetary value'], kde=False, bins=newbins)
+    sns.distplot(rfm_dataset['Monetary value'], kde=False, bins=newbins)
     plt.title("Payment value distribution")
     plt.ylabel("Count")
     plt.show()
@@ -120,8 +127,7 @@ def plot_payment_value_distribution(rfm_dataset):
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f'plot_payment_value_distribution{now}.png'
-        fig = plt1.get_figure()
-        fig.savefig(os.path.join(reports_path, 'figures', filename))
+        plt.savefig(os.path.join(reports_path, 'figures', filename))
     except:
         logging.error('Error saving plot.')
         return

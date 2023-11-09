@@ -22,6 +22,7 @@ def silhouette_score_df(silscores):
         filename = f'silscores_{now}.csv'
         silscores.to_csv(os.path.join(reports_path, 'dataframes', filename), index=False)
         sns.displot(silscores)
+        plt.show()
     except:
         logging.error('Error saving DataFrame to CSV.')
         return
