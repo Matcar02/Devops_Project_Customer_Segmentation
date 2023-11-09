@@ -17,6 +17,7 @@ def clustering(clusters1, algorithm1, rand_state, X, df):
 
     return rfmcopy
 
+
 def choose(rfm_dataset, X):
     logging.info("Starting cluster selection")
 

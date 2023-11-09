@@ -1,6 +1,10 @@
 import plotly.graph_objs as go 
+import matplotlib.pyplot as plt
 import pandas as pd
 import logging
+import os
+import sys
+from datetime import datetime
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -25,8 +29,24 @@ def plot_clusters(rfmcopy, clusters1):
                                 zaxis=dict(title='Monetary value', titlefont_color='black')),
                     font=dict(family="Gilroy", color='black', size=12))
 
+    plt.title("K-Means Clustering")
     plot.show()
     logging.info("Cluster plotting completed.")
+
+    #saving plot
+    logging.info("Saving plot...")
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f'Kmeans_clusters_{now}.png'
+        plot.write_image(os.path.join(reports_path, 'figures', filename))
+    except:
+        logging.error('Error saving plot.')
+        return
 
 
 def visualize_spectral_clusters(X, sp):
@@ -52,9 +72,25 @@ def visualize_spectral_clusters(X, sp):
                                    yaxis=dict(title='Frequency', titlefont_color='blue'),
                                    zaxis=dict(title='Monetary value', titlefont_color='green')),
                         font=dict(family="Gilroy", color='black', size=12))
-
+    
+    plt.title("Spectral Clustering clusters")
     plot.show()
     logging.info("Spectral cluster visualization completed.")
+
+    #saving plot
+    logging.info("Saving plot...")
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f'spectral_clusters_{now}.png'
+        plot.write_image(os.path.join(reports_path, 'figures', filename))
+    except:
+        logging.error('Error saving plot.')
+        return
 
 
 def plot_clusters_pca(rfmcopy, clusterspca):
@@ -78,5 +114,25 @@ def plot_clusters_pca(rfmcopy, clusterspca):
                                 zaxis=dict(title='Monetary value', titlefont_color='black')),
                     font=dict(family="Gilroy", color='black', size=12))
 
+    plt.title("PCA Clustering clusters")
     plot.show()
     logging.info("PCA cluster plotting completed.")
+
+    #saving plot
+    logging.info("Saving plot...")
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f'pca_clusters_{now}.png'
+        plot.write_image(os.path.join(reports_path, 'figures', filename))
+    except:
+        logging.error('Error saving plot.')
+        return
+    
+    
+    
+

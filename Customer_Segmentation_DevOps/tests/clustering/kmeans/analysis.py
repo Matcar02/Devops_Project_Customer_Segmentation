@@ -58,7 +58,8 @@ def silhouette_score_f(X, y, method):
     results = y[method]
     silscores = {}
     silscores[method] = silhouette_score(X, results, metric='euclidean')  
-
+    silsc = silhouette_score(X, results, metric='euclidean')  
     logging.info(f"The silhouette score for {method} is: {silscores[method]}")
     
-    return silscores
+    return silscores, silsc 
+

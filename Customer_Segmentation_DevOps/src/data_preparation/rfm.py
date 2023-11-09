@@ -43,22 +43,17 @@ def concatenate_dataframes_(recency, monetary, frequencies):
 def get_rfm_dataset(rfm_dataset):
     logging.info('Getting DataFrame...')
     current_path = os.getcwd()
-    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports', 'dataframes'))
     if not os.path.exists(reports_path):
         os.makedirs(reports_path)
-
-    logging.info('Saving DataFrame to CSV...')
-    
+    now = datetime.now().strftime("%Y-%m-%d_%H-%M")
+    filename = f'rfmdata_{now}.csv'
+    file_path = os.path.join(reports_path, filename)
     try:
-        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        filename = f'rfmdata_{now}.csv'
-        rfm_dataset.to_csv(os.path.join(reports_path, 'dataframes', filename), index=False)
-
-    except:
-        logging.error('Error saving DataFrame to CSV.')
-        return
-        
-    logging.info('DataFrame saved successfully.')
-    return rfm_dataset
-
+        rfm_dataset.to_csv(file_path, index=False)
+        logging.info('DataFrame saved successfully.')
+    except Exception as e:
+        logging.error(f'Error saving DataFrame to CSV: {e}')
+        return None
+    return rfm_dataset  # Return the DataFrame after saving it
 

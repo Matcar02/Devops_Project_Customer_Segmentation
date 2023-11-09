@@ -2,10 +2,13 @@ import logging
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+import sys
+from datetime import datetime
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def segments_insights(rfmcopy):
+def segments_insights(rfmcopy, nclusterskmeans):
 
     logging.info('Starting analysis on the given rfmcopy data.')
 
@@ -15,43 +18,30 @@ def segments_insights(rfmcopy):
 
     sns.set_palette("Dark2")
     logging.debug('Plotting kmeans_cluster based segments...')
-    sns.displot(data = scaledrfm , x = 'Monetary value', hue = "kmeans_cluster", multiple = "stack")
-    sns.displot(data = scaledrfm , x = "Frequency" , hue = "kmeans_cluster", multiple = "stack")
-    sns.displot(data = scaledrfm , x = "Recency" , hue = "kmeans_cluster", multiple = "stack")
+    km1 = sns.displot(data = scaledrfm , x = 'Monetary value', hue = "kmeans_cluster", multiple = "stack")
+    km2 = sns.displot(data = scaledrfm , x = "Frequency" , hue = "kmeans_cluster", multiple = "stack")
+    km3 = sns.displot(data = scaledrfm , x = "Recency" , hue = "kmeans_cluster", multiple = "stack")
+    plt.show()
 
     sns.set_palette("colorblind", 4)
     logging.debug('Plotting sp_clusters based segments...')
-    sns.displot(data = scaledrfm , x = 'Monetary value', hue = "sp_clusters", multiple = "stack")
-    sns.displot(data = scaledrfm , x = "Frequency" , hue = "sp_clusters", multiple = "stack")
-    sns.displot(data = scaledrfm , x = "Recency" , hue = "sp_clusters", multiple = "stack")
+    sp1 = sns.displot(data = scaledrfm , x = 'Monetary value', hue = "sp_clusters", multiple = "stack")
+    sp2 = sns.displot(data = scaledrfm , x = "Frequency" , hue = "sp_clusters", multiple = "stack")
+    sp3 = sns.displot(data = scaledrfm , x = "Recency" , hue = "sp_clusters", multiple = "stack")
+    #arrange these plots in a grid and set it as a variable
+    plt.show()
 
-    feat = ['Recency', 'Frequency', 'Monetary value']
-    
-    logging.debug('Segmenting data based on different cluster categories...')
-    lowspenderskmeans = rfmcopy[rfmcopy['kmeans_cluster'] == 1][feat]
-    lowspendershc = rfmcopy[rfmcopy['hc_clusters'] == 2][feat]
-    lowspenderssc = rfmcopy[rfmcopy['sp_clusters'] == 0][feat]
-    midspenderssp = rfmcopy[(rfmcopy['sp_clusters'] == 1) | (rfmcopy['sp_clusters'] == 3)][feat]
-    midspendershc = rfmcopy[rfmcopy['hc_clusters'] == 0][feat]
-    midspenderskm = rfmcopy[rfmcopy['kmeans_cluster'] == 0][feat]
-    highspenderssc = rfmcopy[ (rfmcopy['sp_clusters'] == 2)][feat]
-    highspendershc = rfmcopy[(rfmcopy['hc_clusters'] == 3) | (rfmcopy['hc_clusters'] == 1)][feat]
-    highspenderskm = rfmcopy[(rfmcopy['kmeans_cluster'] == 2) | (rfmcopy['kmeans_cluster'] == 3)][feat]
-
-    logging.info('Descriptive analysis for each segment...')
-    logging.debug('lowspenderskmeans: \n%s', lowspenderskmeans.describe()) 
-    logging.debug('lowspenderssc: \n%s', lowspenderssc.describe())
-    logging.debug('midspenderskm: \n%s', midspenderskm.describe())
-    logging.debug('midspenderssp: \n%s', midspenderssp.describe())
-    logging.debug('highspenderskm: \n%s', highspenderskm.describe())
-    logging.debug('highspenderssc: \n%s', highspenderssc.describe())
-
+    sns.set_palette("bright")
+    logging.debug('Plotting hc_clusters based segments...')
+    hc1 = sns.displot(data = scaledrfm , x = 'Monetary value', hue = "hc_clusters", multiple = "stack")
+    hc2 = sns.displot(data = scaledrfm , x = "Frequency" , hue = "hc_clusters", multiple = "stack")
+    hc3 = sns.displot(data = scaledrfm , x = "Recency" , hue = "hc_clusters", multiple = "stack")
+    plt.show()
     logging.info('Finished analysis. Returning segmented data.')
+    
+    return 
 
-    return lowspendershc, lowspenderskmeans, lowspenderssc, midspenderskm, midspenderssp, midspendershc, highspenderskm, highspenderssc, highspendershc 
-
-
-def kmeans_summary(rfmcopy):
+def kmeans_summary(rfmcopy, nclusterskmeans):
     
     # Log the total size of the input data
     logging.info(f"Input data has {len(rfmcopy)} records.")
@@ -85,7 +75,28 @@ def kmeans_summary(rfmcopy):
     }
 
     Kmeanssummary = pd.DataFrame(dictio2, index=[1, 2, 3, 4])
+
+    #saving df...
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    logging.info('Saving DataFrame to CSV...')
+    
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f'kmeanssummary_{now}.csv'
+        Kmeanssummary.to_csv(os.path.join(reports_path, 'dataframes', filename), index=False)
+
+    except:
+        logging.error('Error saving DataFrame to CSV.')
+        return
+        
+    logging.info('DataFrame saved successfully.')
+    
     return Kmeanssummary 
+
 
 
 def cluster_summary(df, column_name):
@@ -97,16 +108,12 @@ def cluster_summary(df, column_name):
     kmeans_size = df.groupby('kmeans_cluster')[column_name].size()
     kmeans_sum = df.groupby('kmeans_cluster')[column_name].sum()
     kmeans_mean = df.groupby('kmeans_cluster')[column_name].mean()
-    kmeans_frequency = df.groupby('kmeans_cluster')['Frequency'].mean()
-    kmeans_fsd = df.groupby('kmeans_cluster')['Frequency'].std()
     kmeans_sd = df.groupby('kmeans_cluster')[column_name].std()
     Kmeanssummary = pd.DataFrame({
         'Clustersize': kmeans_size,
-        'Total spending by cluster': kmeans_sum,
-        'Average spending by cluster': kmeans_mean,
-        'Average frequency by cluster': kmeans_frequency,
-        'Frequency std': kmeans_fsd,
-        'Spending sd': kmeans_sd
+        'Column sum': kmeans_sum,
+        f'Average of {column_name}': kmeans_mean,
+        f'Column {column_name} sd': kmeans_sd
     })
     logging.info(f"KMeans summary processed with {len(Kmeanssummary)} clusters.")
 
@@ -114,16 +121,12 @@ def cluster_summary(df, column_name):
     hc_size = df.groupby('hc_clusters')[column_name].size()
     hc_sum = df.groupby('hc_clusters')[column_name].sum()
     hc_mean = df.groupby('hc_clusters')[column_name].mean()
-    hc_frequency = df.groupby('hc_clusters')['Frequency'].mean()
-    hc_fsd = df.groupby('hc_clusters')['Frequency'].std()
     hc_sd = df.groupby('hc_clusters')[column_name].std()
     Hcsummary = pd.DataFrame({
         'Clustersize': hc_size,
-        'Total spending by cluster': hc_sum,
-        'Average spending by cluster': hc_mean,
-        'Average frequency by cluster': hc_frequency,
-        'Frequency std': hc_fsd,
-        'Spending sd': hc_sd
+        'Column sum': hc_sum,
+        f'Average of {column_name}': hc_mean,
+        f'Column {column_name} sd': hc_sd
     })
     logging.info(f"HC summary processed with {len(Hcsummary)} clusters.")
 
@@ -131,19 +134,35 @@ def cluster_summary(df, column_name):
     sp_size = df.groupby('sp_clusters')[column_name].size()
     sp_sum = df.groupby('sp_clusters')[column_name].sum()
     sp_mean = df.groupby('sp_clusters')[column_name].mean()
-    sp_frequency = df.groupby('sp_clusters')['Frequency'].mean()
-    sp_fsd = df.groupby('sp_clusters')['Frequency'].std()
     sp_sd = df.groupby('sp_clusters')[column_name].std()
     Spsummary = pd.DataFrame({
         'Clustersize': sp_size,
-        'Total spending by cluster': sp_sum,
-        'Average spending by cluster': sp_mean,
-        'Average frequency by cluster': sp_frequency,
-        'Frequency std': sp_fsd,
-        'Spending sd': sp_sd
+        'Column sum': sp_sum,
+        f'Average of {column_name}': sp_mean,
+        f'Column {column_name} sd': sp_sd
     })
     logging.info(f"SP summary processed with {len(Spsummary)} clusters.")
     
+    #getting all the info
+    logging.info('Getting DataFrames...')
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    logging.info('Saving DataFrame to CSV...')
+    
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        Kmeanssummary.to_csv(os.path.join(reports_path, 'dataframes', f'Kmeans_summary{now}.csv'), index=False)
+        Hcsummary.to_csv(os.path.join(reports_path, 'dataframes', f'Hc_summary{now}.csv'), index=False)
+        Spsummary.to_csv(os.path.join(reports_path, 'dataframes', f'Sp_summary{now}.csv'), index=False)
+    
+    except:
+        logging.error('Error saving DataFrame to CSV.')
+        return
+        
+    logging.info('DataFrame saved successfully.')
     return Kmeanssummary, Hcsummary, Spsummary
 
 
@@ -180,13 +199,12 @@ def installments_analysis(df, rfmcopy):
     return paydf 
 
 
-##to be assessed
-def customers_insights(paydf):
+def customers_insights(paydf, nclusterskmeans):
 
     logging.debug("Starting customers_insights function...")
 
     paydict = {}
-    for i in range(4):
+    for i in range(nclusterskmeans):
         countpay = paydf[paydf['kmeans_cluster'] == i]['payment_type'].value_counts()
         meaninst = paydf[paydf['kmeans_cluster'] == i]['payment_installments'].mean()
         paydict[i+1] = {'cluster'+str(i+1):[countpay,meaninst]}
@@ -196,7 +214,7 @@ def customers_insights(paydf):
         logging.debug("---------------------------------")
 
     paydict2 = {}
-    for i in range(4):
+    for i in range(nclusterskmeans):
         countpay = paydf[paydf['hc_clusters'] == i]['payment_type'].value_counts() 
         meaninst = paydf[paydf['hc_clusters'] == i]['payment_installments'].mean() 
         paydict2[i+1] = {'cluster'+str(i+1):[countpay,meaninst]}
@@ -206,7 +224,7 @@ def customers_insights(paydf):
         logging.debug("---------------------------------")
 
     paydict3 = {}
-    for i in range(4):
+    for i in range(nclusterskmeans):
         countpay = paydf[paydf['sp_clusters'] == i]['payment_type'].value_counts()
         meaninst = paydf[paydf['sp_clusters'] == i]['payment_installments'].mean() 
         paydict3[i+1] = {'cluster'+str(i+1):[countpay,meaninst]}
@@ -246,7 +264,14 @@ def payments_insights(df):
 
     logging.debug("Plotting histogram and countplot for payments insights...")
     sns.histplot(data=df["payment_installments"])
+    plt.show()
+    plt.close()
+
     sns.countplot(x=df["payment_type"])
+    plt.show()
+    plt.close()
+    logging.info("Payments insights displayed.")
+
     paymentdistr = df.groupby(['payment_type'])['payment_value'].mean().reset_index(name='Avg_Spending').sort_values(['Avg_Spending'], ascending=False)
     
     if paymentdistr.empty:
@@ -255,12 +280,32 @@ def payments_insights(df):
 
     x = ["boleto", "credit_card", "debit_card", "voucher"]
     y = paymentdistr["Avg_Spending"]
-    plt.plot(x, y)
+    pltpay = plt.plot(x, y)
     plt.xlabel("Payment Type")
     plt.ylabel("Average Price")
     plt.title("Average Spending Distribution by Payment Type")
     plt.show()
     logging.info("Payment insights displayed.")
+    
+    #saving plot
+    logging.info('Getting plot...')
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    logging.info('Saving plot...')
+    
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        plt.savefig(os.path.join(reports_path, 'figures', f'paymentsinsights_{now}.png'))
+
+    except:
+        logging.error('Error saving Image.')
+        return
+        
+    logging.info('Image saved successfully.')
+    plt.close()
     
     return paymentdistr 
 
@@ -284,6 +329,27 @@ def prod_insights(df):
     plt.show()
     logging.info("Product insights displayed.")
 
+    #saving plot
+    logging.info('Getting plot...')
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    logging.info('Saving plot...')
+    
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        plt.savefig(os.path.join(reports_path, 'figures', f'productinsights_{now}.png'))
+
+    except:
+        logging.error('Error saving Image.')
+        return
+        
+    logging.info('Image saved successfully.')
+    plt.close()
+
+
 
 def customer_geography(df):
     logging.info("Starting customer_geography function...")
@@ -296,6 +362,7 @@ def customer_geography(df):
     dfticks = dfgeo.index.to_list() 
     dfgeo.plot()
     plt.title("Customers per state")
+    plt.show()
 
     l = []
     for i in range(20):
@@ -306,79 +373,31 @@ def customer_geography(df):
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     plt.show()
     logging.info("Customer geography plot displayed.")
+
+    #saving plot
+    logging.info('Getting plot...')
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+
+    logging.info('Saving plot...')
     
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        plt.savefig(os.path.join(reports_path, 'figures', f'customergeography_{now}.png'))
+
+    except:
+        logging.error('Error saving Image.')
+        return
+        
+    logging.info('Image saved successfully.')
+    plt.close()
     return dfgeo
 
-def get_frequencies(df):
-    logging.info("Starting get_frequencies function...")
-    frequencies = df.groupby(by=['customer_id'], as_index=False)['order_delivered_customer_date'].count()
-    
-    if frequencies.empty:
-        logging.warning("Frequencies DataFrame is empty. No customer deliveries recorded.")
-        return None
-    
-    frequencies.columns = ['Frequencies Customer ID', 'Frequency']
-    logging.debug("Finished generating frequencies DataFrame.")
-    
-    return frequencies
 
-def get_recency(df):
-    logging.info("Starting get_recency function...")
-    df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
 
-    recency = df.groupby(by='customer_id', as_index=False)['order_purchase_timestamp'].max()
 
-    if recency.empty:
-        logging.warning("Recency DataFrame is empty. No customer purchase timestamps recorded.")
-        return None
-
-    recency.columns = ['Customer ID', 'Latest Purchase']
-
-    recent_date = recency['Latest Purchase'].max()
-    
-    if pd.isnull(recent_date):
-        logging.error("Recent date is NaN. Exiting function.")
-        return None
-
-    logging.debug("Calculating Recency for each customer...")
-    recency['Recency'] = recency['Latest Purchase'].apply(lambda x: (recent_date - x).days)                     
-    recency.drop(columns=['Latest Purchase'], inplace=True)
-    logging.debug("Finished generating recency DataFrame.")
-
-    return recency
-
-def get_monetary(df):
-    logging.info("Starting get_monetary function...")
-    
-    if df.empty:
-        logging.warning("Input DataFrame is empty. No data to process for monetary value.")
-        return pd.DataFrame()
-    
-    monetary = df.groupby(by='customer_id', as_index=False)['payment_value'].sum()
-    monetary.columns = ['Monetary Customer ID', 'Monetary value']
-
-    logging.debug("Monetary value calculation complete.")
-    
-    return monetary 
-
-def concatenate_dataframes(recency, monetary, frequencies):
-    logging.info("Starting concatenate_dataframes function...")
-    
-    if recency.empty or monetary.empty or frequencies.empty:
-        logging.warning("One or more of the input DataFrames are empty.")
-        return pd.DataFrame()
-
-    rfm_dataset = pd.concat([recency, monetary, frequencies], axis=1)
-
-    logging.debug("Concatenation of DataFrames successful.")
-
-    cols = [3, 5]
-    rfm_dataset.drop(columns=rfm_dataset.columns[cols], axis=1, inplace=True)
-    rfm_dataset.dropna(inplace=True)  
-
-    logging.info("Finished data cleaning and final DataFrame is ready.")
-    
-    return rfm_dataset
 
 
 

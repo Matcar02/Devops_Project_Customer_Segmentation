@@ -61,22 +61,26 @@ def clean_data(df):
     return df
 
 
-def get_df(df):
+def get_df(df, output_dir=None):
     logging.info('Getting DataFrame...')
-    current_path = os.getcwd()
-    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
-    if not os.path.exists(reports_path):
-        os.makedirs(reports_path)
+    if output_dir is None:
+        current_path = os.getcwd()
+        output_dir = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     logging.info('Saving DataFrame to CSV...')
     
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        df.to_csv(os.path.join(reports_path, 'dataframes', f'initialdata_{now}.csv'), index=False)
+        output_path = os.path.join(output_dir, 'dataframes')
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
+        df.to_csv(os.path.join(output_path, f'initialdata_{now}.csv'), index=False)
+        logging.info('DataFrame saved successfully.')
+        return True
+    except Exception as e:
+        logging.error('Error saving DataFrame to CSV: {}'.format(e))
+        return False
 
-    except:
-        logging.error('Error saving DataFrame to CSV.')
-        return
-        
-    logging.info('DataFrame saved successfully.')
 
