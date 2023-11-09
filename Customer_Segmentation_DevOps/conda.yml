@@ -9,14 +9,12 @@ dependencies:
   - matplotlib=3.7.1
   - seaborn=0.12.2
   - jupyter=1.0.0
+  - pytest=7.4.0
+  - mlflow=1.20.2
+  - scipy=1.10.1
+  - numpy=1.24.3
+  - logging=0.5.1.2
+  - datetime=4.3
+  - rand=0.4.6
   - pip:
-    - mlflow=1.20.2
-    - scipy=1.10.1
-    - numpy=1.24.3
     - plotly=5.9.0
-    - logging=0.5.1.2
-    - os=0.1.1
-    - sys=0.3.4
-    - datetime=4.3
-    - rand=0.4.6
-    - scikit-learn=1.0

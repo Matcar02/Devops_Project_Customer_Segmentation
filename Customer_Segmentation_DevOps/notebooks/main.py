@@ -1206,6 +1206,7 @@ def payments_distribution(rfm_dataset):
 
 
 
+#how do i add the MIT license in this project?
 
 
 
