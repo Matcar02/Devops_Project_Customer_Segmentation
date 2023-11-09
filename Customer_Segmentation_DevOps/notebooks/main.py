@@ -6,11 +6,8 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-import json 
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
-import pandas as pd
-import numpy as np
 from sklearn.cluster import KMeans 
 from sklearn.model_selection import GridSearchCV
 import scipy.cluster.hierarchy as sch         
@@ -24,9 +21,7 @@ from datetime import datetime
 import random as rand
 import plotly.express as px
 import plotly.graph_objects as go
-from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_samples, silhouette_score
+from sklearn.metrics import silhouette_score
 
 
 
@@ -130,21 +125,6 @@ def get_dummies_df(df):
     dummies_df = pd.get_dummies(df, columns=['order_status','payment_type', 'customer_city', 'customer_state', 'seller_city','seller_state', 'product_category_name_english'])
     logging.info("Encoding using get_dummies completed.")
     return dummies_df
-
-
-
-def clean_data(df):
-    """
-    Filter data by order status and sample a fraction.
-    """
-    logging.info('Cleaning data...')
-    
-    df = pd.DataFrame(df)
-    df = df[df['order_status'] == 'delivered']
-    df = df.sample(frac=0.1, random_state= rand.randint(0, 1000))
-    logging.debug('Data after filtering by order status and sampling:\n{}'.format(df.head()))
-    logging.info('Data cleaned successfully.')
-    return df
 
 
 
