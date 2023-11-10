@@ -17,4 +17,4 @@ dependencies:
   - datetime=4.3
   - rand=0.4.6
   - pip:
-    - plotly=5.9.0
+    - plotly==5.9.0
