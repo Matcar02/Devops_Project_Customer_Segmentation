@@ -3,20 +3,21 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans 
 from sklearn.model_selection import GridSearchCV
 import pandas as pd
+import logging
 
-####
-
-
-
+# Configure the logging
+logging.basicConfig(level=logging.INFO)  # Set the desired logging level
 
 def elbow_method(rfm_dataset):
+    logging.info("Starting Elbow Method")
+
     features = ['Recency','Monetary value','Frequency']
     wcss = []
 
     X = rfm_dataset[features]
 
     for i in range(1, 11):
-        kmeans = KMeans(n_clusters = i, init = 'k-means++', random_state = 42)
+        kmeans = KMeans(n_clusters=i, init='k-means++', random_state=42)
         kmeans.fit(X)
         wcss.append(kmeans.inertia_)
 
@@ -25,10 +26,15 @@ def elbow_method(rfm_dataset):
     plt.xlabel('Number of clusters')
     plt.ylabel('WCSS')
     plt.show()
+
+    logging.info("Elbow Method completed")
+    
     return X, features 
 
 
 def get_best_kmeans_params(X):
+    logging.info("Starting GridSearchCV for KMeans parameters")
+
     params = {
         'algorithm': ['lloyd', 'elkan'],
         'n_init': [i for i in range(1, 15)],
@@ -39,18 +45,22 @@ def get_best_kmeans_params(X):
     clf = GridSearchCV(estimator=kmeans, param_grid=params).fit(X)
 
     cv_results = pd.DataFrame(clf.cv_results_)
-    print(f"The top parameters to tune into Kmeans are: {clf.best_params_}")
+    logging.info(f"The top parameters to tune into Kmeans are: {clf.best_params_}")
+
+    logging.info("GridSearchCV for KMeans parameters completed")
+    
     return clf.best_params_
 
 
 def silhouette_score_f(X, y, method):
+    logging.info(f"Calculating Silhouette Score for {method}")
+    
     results = y[method]
-    silscores = {}
-    silscores[method] = silhouette_score(X, results, metric='euclidean')  
-
-    print(f"The silhouette score for {method} is: {silscores[method]}")
-    return silscores 
-
-
+    silsc = silhouette_score(X, results, metric='euclidean')  # Call silhouette_score only once
+    silscores = {method: silsc}
+    
+    logging.info(f"The silhouette score for {method} is: {silsc}")
+    
+    return silscores, silsc
 
 

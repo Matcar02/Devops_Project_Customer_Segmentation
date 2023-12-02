@@ -1,11 +1,20 @@
 import matplotlib.pyplot as plt
-import scipy.cluster.hierarchy as sch      
+import scipy.cluster.hierarchy as sch
+import logging
 
-def dendogram(X):
+# Configure the logging
+logging.basicConfig(level=logging.INFO)  # Set the desired logging level
+
+def dendrogram(X):
+    logging.info("Starting Dendrogram generation")
+
     Dend = sch.dendrogram(sch.linkage(X, method="ward"))
-    plt.title("Dendogram")
+    plt.title("Dendrogram")
     plt.xlabel("Clusters")
     plt.ylabel("Distances")
-    plt.xticks([])    #no ticks is displayed
+    plt.xticks([])  # No ticks are displayed
     plt.show()
-    return Dend 
+
+    logging.info("Dendrogram generation completed")
+
+    return Dend

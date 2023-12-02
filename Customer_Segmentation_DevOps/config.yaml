@@ -1,0 +1,21 @@
+data:
+  current_path: "path/to/current"
+  data_folder: "path/to/data/external"
+  data_filepath: "path/to/data/external/customer_segmentation.csv"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(levelname)s - %(message)s"
+
+clustering:
+  kmeans:
+    clusters: 3
+    algorithm: "elkan"  # or "lloyd"
+    random_state: 42
+  agglomerative:
+    n_clusters: 3
+  spectral:
+    n_neighbors: 5
+    affinity: "nearest_neighbors"
+  pca_kmeans:
+    n_clusters: 3

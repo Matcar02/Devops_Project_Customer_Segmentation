@@ -1,0 +1,15 @@
+file_paths: 
+    data_input: data/external/customer_segmentation
+    output_files: /reports
+    
+n_clusters: 
+    default: 3
+    reccomended: 3-6
+
+logging:
+    format: '%(asctime)s [%(levelname)s] %(message)s'
+    level: info, warning, debug
+
+data_sampling:
+    default: 10%
+

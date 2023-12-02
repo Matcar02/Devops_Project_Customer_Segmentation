@@ -9,13 +9,15 @@ in the segments to assess similarities in consumers' behaviour.
 ==============================
 
 ## Installation
-1. Clone the repositry.
+1. Clone the repository.
 2. Create a conda environment using the conda.yml file with this command
-
+```
 conda env create -f conda.yml
-
+```
 3. Activate the conda env:
+```
 conda activate devops_env
+```
 ==============================
 
 ## Project Structure (Tree)
@@ -57,6 +59,17 @@ The project uses a config.yaml to for configuration settings, including the data
     └───__pycache__
 
 
---------
+## *Use*
+In order to use and test the code, please run the different modules and functions in the notebook folder either under ```checkall.ipynb``` or another python file you may want to use. The paths have been set such that the files are stored and processed in specific paths. All the artifacts and output files are stored in the ```reports``` folder where are divided into figures (plots) and dataframes (csv files).
+
+## Testing 
+In order to carry out tests on the code, make sure to download pytest. Once you have it installed, run:
+
+```
+pytest tests/
+```
+
+## License 
+The project is licensed under the MIT License.
 
 
