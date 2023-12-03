@@ -89,15 +89,11 @@ def kmeans_summary(rfmcopy, nclusterskmeans):
         filename = f'kmeanssummary_{now}.csv'
         Kmeanssummary.to_csv(os.path.join(reports_path, 'dataframes', filename), index=False)
 
-    except:
-        logging.error('Error saving DataFrame to CSV.')
+    except Exception as e:
+        logging.error(f'Error saving DataFrame to CSV. {e}')
         return
-        
     logging.info('DataFrame saved successfully.')
-    
     return Kmeanssummary 
-
-
 
 def cluster_summary(df, column_name):
     # Log the initial size and column details of the input dataframe
@@ -158,13 +154,12 @@ def cluster_summary(df, column_name):
         Hcsummary.to_csv(os.path.join(reports_path, 'dataframes', f'Hc_summary{now}.csv'), index=False)
         Spsummary.to_csv(os.path.join(reports_path, 'dataframes', f'Sp_summary{now}.csv'), index=False)
     
-    except:
-        logging.error('Error saving DataFrame to CSV.')
+    except Exception as e:
+        logging.error(f'Error saving DataFrame to CSV: {str(e)}')
         return
         
     logging.info('DataFrame saved successfully.')
     return Kmeanssummary, Hcsummary, Spsummary
-
 
 
 def installments_analysis(df, rfmcopy):
@@ -195,6 +190,22 @@ def installments_analysis(df, rfmcopy):
     # Confirming final dataframe characteristics
     logging.info(f"Final 'paydf' dataframe shape: {paydf.shape}")
     logging.info(f"Head of 'paydf':\n{paydf.head()}")
+
+    #saving df in dataframes folder...
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+    
+    logging.info('Saving DataFrame to CSV...')
+
+    try:
+        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        paydf.to_csv(os.path.join(reports_path, 'dataframes', f'paydf_{now}.csv'), index=False)
+
+    except Exception as e:
+        logging.error(f'Error saving DataFrame to CSV: {str(e)}')
+        return
     
     return paydf 
 
@@ -236,6 +247,9 @@ def customers_insights(paydf, nclusterskmeans):
     if not (paydict and paydict2 and paydict3):
         logging.warning("One or more of the paydicts is empty.")
 
+    paydict, paydict2, paydict3 = pd.DataFrame(paydict), pd.DataFrame(paydict2), pd.DataFrame(paydict3)
+    logging.info("Finished customers_insights function.")
+    
     return paydict, paydict2, paydict3
 
 
@@ -290,7 +304,7 @@ def payments_insights(df):
     #saving plot
     logging.info('Getting plot...')
     current_path = os.getcwd()
-    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports', 'figures'))
     if not os.path.exists(reports_path):
         os.makedirs(reports_path)
 
@@ -298,10 +312,10 @@ def payments_insights(df):
     
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        plt.savefig(os.path.join(reports_path, 'figures', f'paymentsinsights_{now}.png'))
+        plt.savefig(reports_path, f'paymentinsights_{now}.png' )
 
-    except:
-        logging.error('Error saving Image.')
+    except Exception as e:
+        logging.error(f'Error saving Image: {str(e)}')
         return
         
     logging.info('Image saved successfully.')
@@ -342,8 +356,8 @@ def prod_insights(df):
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         plt.savefig(os.path.join(reports_path, 'figures', f'productinsights_{now}.png'))
 
-    except:
-        logging.error('Error saving Image.')
+    except Exception as e:
+        logging.error(f'Error saving Image: {str(e)}')
         return
         
     logging.info('Image saved successfully.')
@@ -387,22 +401,10 @@ def customer_geography(df):
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         plt.savefig(os.path.join(reports_path, 'figures', f'customergeography_{now}.png'))
 
-    except:
-        logging.error('Error saving Image.')
+    except Exception as e:
+        logging.error(f'Error saving Image: {str(e)}')
         return
         
     logging.info('Image saved successfully.')
     plt.close()
     return dfgeo
-
-
-
-
-
-
-
-
-
-
-
-

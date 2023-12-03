@@ -46,14 +46,18 @@ def get_rfm_dataset(rfm_dataset):
     reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports', 'dataframes'))
     if not os.path.exists(reports_path):
         os.makedirs(reports_path)
+    
     now = datetime.now().strftime("%Y-%m-%d_%H-%M")
     filename = f'rfmdata_{now}.csv'
-    file_path = os.path.join(reports_path, filename)
     try:
-        rfm_dataset.to_csv(file_path, index=False)
+        rfm_dataset = pd.DataFrame(rfm_dataset)
+        file_path = os.path.join(reports_path, filename)  # Construct the complete file path
+        rfm_dataset.to_csv(file_path, index=False)  # Pass the file path to to_csv function
         logging.info('DataFrame saved successfully.')
     except Exception as e:
         logging.error(f'Error saving DataFrame to CSV: {e}')
         return None
+    
+    rfm_dataset = pd.DataFrame(rfm_dataset)
     return rfm_dataset  # Return the DataFrame after saving it
 

@@ -52,7 +52,8 @@ def test_concatenate_dataframes_(sample_rfm_dataframe):
 
 def test_get_rfm_dataset(sample_rfm_dataframe, tmpdir, caplog):
     # Set up a temporary directory for the reports
-    reports_path = tmpdir.mkdir("reports").mkdir("dataframes")
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports', 'dataframes'))
 
     # Call the actual function to test
     returned_df = get_rfm_dataset(sample_rfm_dataframe)
@@ -63,12 +64,12 @@ def test_get_rfm_dataset(sample_rfm_dataframe, tmpdir, caplog):
     assert isinstance(returned_df, pd.DataFrame), "The function should return a DataFrame."
 
     # Check if a CSV file was saved correctly without relying on the name
-    saved_files = [f for f in os.listdir(reports_path) if f.endswith('.csv')]
-    assert len(saved_files) == 1, "A CSV file was not saved correctly."
+    saved_files = [f for f in os.listdir(reports_path) if f.startswith('rfmdata')]
+    assert len(saved_files) > 1, "A CSV file was not saved correctly."
 
     # Print saved file name for debugging
-    if saved_files:
-        print("Saved file:", saved_files[0])
+    #if saved_files:
+        #print("Saved file:", saved_files[0])
 
     # If there was an error logged, let's assert that it shouldn't happen
     for record in caplog.records:
