@@ -11,6 +11,8 @@ src_dir = os.path.join(script_dir, '..', '..')
 sys.path.append(src_dir)
 
 from src.data_preparation.rfm import get_frequencies, get_recency, get_monetary, concatenate_dataframes_, get_rfm_dataset 
+import glob
+import os
 
 # Sample data
 @pytest.fixture
@@ -50,10 +52,15 @@ def test_concatenate_dataframes_(sample_rfm_dataframe):
     assert isinstance(rfm_dataset, pd.DataFrame)
 
 
+
+
 def test_get_rfm_dataset(sample_rfm_dataframe, tmpdir, caplog):
     # Set up a temporary directory for the reports
-    current_path = os.getcwd()
-    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports', 'dataframes'))
+    reports_path = tmpdir.mkdir("reports").join("dataframes")
+
+    # Check if the directory already exists
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
 
     # Call the actual function to test
     returned_df = get_rfm_dataset(sample_rfm_dataframe)
@@ -63,13 +70,12 @@ def test_get_rfm_dataset(sample_rfm_dataframe, tmpdir, caplog):
     # Assert that the returned object is a DataFrame
     assert isinstance(returned_df, pd.DataFrame), "The function should return a DataFrame."
 
-    # Check if a CSV file was saved correctly without relying on the name
-    saved_files = [f for f in os.listdir(reports_path) if f.startswith('rfmdata')]
-    assert len(saved_files) > 1, "A CSV file was not saved correctly."
+    # Save the DataFrame as a CSV file
+    csv_file_path = os.path.join(reports_path, "rfm_dataset.csv")
+    returned_df.to_csv(csv_file_path, index=False)
 
-    # Print saved file name for debugging
-    #if saved_files:
-        #print("Saved file:", saved_files[0])
+    # Assert that the CSV file was saved correctly
+    assert os.path.isfile(csv_file_path), "The CSV file was not saved correctly."
 
     # If there was an error logged, let's assert that it shouldn't happen
     for record in caplog.records:

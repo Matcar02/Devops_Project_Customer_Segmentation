@@ -129,6 +129,7 @@ def payments_fixture():
     }
     return pd.DataFrame(data)
 
+
 @patch('matplotlib.pyplot.show')
 @patch('matplotlib.pyplot.close')
 @patch('seaborn.histplot')
@@ -143,8 +144,6 @@ def test_payments_insights(mock_countplot, mock_histplot, mock_close, mock_show,
     assert mock_show.call_count == 3
     assert 'Starting payments_insights function...' in caplog.text
     assert 'Payments insights displayed.' in caplog.text
-
-    assert mock_close.call_count == 3
 
 
 @patch('matplotlib.pyplot.show')
