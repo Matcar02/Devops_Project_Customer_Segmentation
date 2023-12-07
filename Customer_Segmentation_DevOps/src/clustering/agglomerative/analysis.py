@@ -1,14 +1,24 @@
+import logging
 import matplotlib.pyplot as plt
 import scipy.cluster.hierarchy as sch
-import logging
 
 # Configure the logging
 logging.basicConfig(level=logging.INFO)  # Set the desired logging level
 
-def dendrogram(X):
+def dendrogram(x):
+    """
+    Generate a dendrogram plot based on the given data.
+
+    Args:
+        x (array-like): The input data.
+
+    Returns:
+        dict: The dendrogram dictionary.
+
+    """
     logging.info("Starting Dendrogram generation")
 
-    Dend = sch.dendrogram(sch.linkage(X, method="ward"))
+    dend = sch.dendrogram(sch.linkage(x, method="ward"))
     plt.title("Dendrogram")
     plt.xlabel("Clusters")
     plt.ylabel("Distances")
@@ -17,4 +27,4 @@ def dendrogram(X):
 
     logging.info("Dendrogram generation completed")
 
-    return Dend
+    return dend

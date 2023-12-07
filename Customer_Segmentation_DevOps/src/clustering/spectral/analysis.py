@@ -1,5 +1,5 @@
-import pandas as pd
 import logging
+import pandas as pd
 
 # Configure the logging
 logging.basicConfig(level=logging.INFO)  # Set the desired logging level

@@ -5,6 +5,15 @@ import logging
 logging.basicConfig(level=logging.INFO)  # Set the desired logging level
 
 def pca_insights(dfpca):
+    """
+    Perform PCA insights on the given dataframe.
+
+    Args:
+        dfpca (pd.DataFrame): The dataframe containing PCA results.
+
+    Returns:
+        tuple: A tuple of dataframes containing the descriptive statistics for each cluster.
+    """
     logging.info("Starting PCA insights")
 
     f2 = ['Recency', 'Monetary value', 'Frequency']
@@ -26,7 +35,18 @@ def pca_insights(dfpca):
     
     return first_description, sec_description, th_description, four_description
 
+
 def pca_insights2(df, dfpca):
+    """
+    Perform PCA insights 2 on the given dataframes.
+
+    Args:
+        df (pd.DataFrame): The original dataframe.
+        dfpca (pd.DataFrame): The dataframe containing PCA results.
+
+    Returns:
+        pd.DataFrame: The combined dataframe with PCA insights.
+    """
     logging.info("Starting PCA insights 2")
 
     customer_payment = df.groupby(by='customer_id', as_index=False)['payment_type'].max()
@@ -46,8 +66,10 @@ def pca_insights2(df, dfpca):
     temp = pd.concat([e, r, q, t], axis=1)
 
     temp.reset_index(drop=True, inplace=True)
+
     dfpcaf = pd.concat([dfpca, temp], axis=1)
-    
+
     logging.info("PCA insights 2 completed")
-    
-    return dfpcaf
+
+    return dfpcaf 
+

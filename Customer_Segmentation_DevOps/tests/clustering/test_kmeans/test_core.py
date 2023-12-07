@@ -4,11 +4,12 @@ from sklearn.datasets import make_blobs
 import sys, os, logging
 from unittest.mock import patch 
 
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.join(script_dir, '..', '..', '..')
 sys.path.append(src_dir)
-
 from src.clustering.kmeans.core import clustering, choose
+
 
 @pytest.fixture
 def sample_data():

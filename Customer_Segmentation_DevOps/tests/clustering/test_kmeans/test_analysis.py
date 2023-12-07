@@ -4,26 +4,36 @@ from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 import pandas as pd
 import logging
-import sys, os, logging
+import sys
+import os 
+
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-src_dir = os.path.join(script_dir, '..', '..', '..')
+src_dir = os.path.join(script_dir, '..', '..')
 sys.path.append(src_dir)
-
 from src.clustering.kmeans.analysis import elbow_method, get_best_kmeans_params, silhouette_score_f
 
-@pytest.fixture
+
 def rfm_dataset():
+    """
+    Fixture for generating the RFM dataset.
+    """
     X, _ = make_blobs(n_samples=100, centers=5, n_features=3, random_state=42)
     rfm_dataset = pd.DataFrame(X, columns=['Recency', 'Monetary value', 'Frequency'])
     return rfm_dataset
 
-@pytest.fixture
 def cluster_labels():
+    """
+    Fixture for generating cluster labels.
+    """
     return [0, 1, 2, 3, 4] * 20
+
 
 @patch('matplotlib.pyplot.show')
 def test_elbow_method(mock_show, rfm_dataset, caplog):
+    """
+    Test case for the elbow_method function.
+    """
     caplog.set_level(logging.INFO)
     X, features = elbow_method(rfm_dataset)
 
@@ -31,9 +41,14 @@ def test_elbow_method(mock_show, rfm_dataset, caplog):
     assert 'Starting Elbow Method' in caplog.text
     assert 'Elbow Method completed' in caplog.text
     assert X.shape == (100, 3), "The function should return the correct shape of X"
+
     assert set(features) == {'Recency', 'Monetary value', 'Frequency'}, "Features should match"
 
+
 def test_get_best_kmeans_params(rfm_dataset, caplog):
+    """
+    Test case for the get_best_kmeans_params function.
+    """
     caplog.set_level(logging.INFO)
     features = ['Recency', 'Monetary value', 'Frequency']
     X = rfm_dataset[features]
@@ -43,8 +58,12 @@ def test_get_best_kmeans_params(rfm_dataset, caplog):
     assert 'GridSearchCV for KMeans parameters completed' in caplog.text
     assert isinstance(best_params, dict), "The function should return a dictionary of best parameters"
 
+
 @patch('src.clustering.kmeans.analysis.silhouette_score')
 def test_silhouette_score_f(mock_silhouette_score, rfm_dataset, cluster_labels, caplog):
+    """
+    Test case for the silhouette_score_f function.
+    """
     caplog.set_level(logging.INFO)
     features = ['Recency', 'Monetary value', 'Frequency']
     X = rfm_dataset[features]

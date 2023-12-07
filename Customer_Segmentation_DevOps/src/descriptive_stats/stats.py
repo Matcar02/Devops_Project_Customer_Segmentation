@@ -6,6 +6,9 @@ import pandas as pd
 logging.basicConfig(level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Access the imported pandas module
+pd
+
 def describe_dataset(rfm_dataset):
     logging.info('Starting describe_dataset function...')
     

@@ -63,7 +63,7 @@ def test_segments_insights(mock_displot, mock_show, rfmcopy_fixture, caplog):
 def test_kmeans_summary(mock_to_csv, rfmcopy_fixture, caplog):
     caplog.set_level(logging.INFO)
 
-    summary = kmeans_summary(rfmcopy_fixture, nclusterskmeans=4)
+    summary = kmeans_summary(rfmcopy_fixture, cluster_num=4)
 
     mock_to_csv.assert_called()
     

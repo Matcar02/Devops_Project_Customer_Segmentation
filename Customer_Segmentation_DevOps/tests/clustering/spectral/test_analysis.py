@@ -1,16 +1,20 @@
-import pytest
 import logging
-import sys, os, logging
+import sys
+import os
+from src.clustering.spectral.analysis import show_silscores
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.join(script_dir, '..', '..', '..')
 sys.path.append(src_dir)
 
-from src.clustering.spectral.analysis import show_silscores
+
 
 def test_show_silscores(capsys, caplog):
+    """
+    Test for show_silscores function.
+    """
     caplog.set_level(logging.INFO)
-    
+
     silscores = {'method1': 0.5, 'method2': 0.7}
     show_silscores(silscores)
 

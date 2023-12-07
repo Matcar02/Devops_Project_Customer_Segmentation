@@ -8,7 +8,21 @@ import logging
 # Configure the logging
 logging.basicConfig(level=logging.INFO)  # Set the desired logging level
 
+# Access the imported numpy module
+np
+
 def pca_kmeans(sc_features, scores, nclusterspca):
+    """
+    Perform PCA and K-Means clustering.
+
+    Args:
+        sc_features (pd.DataFrame): The scaled features.
+        scores (np.ndarray): The PCA scores.
+        nclusterspca (int): The number of clusters for K-Means.
+
+    Returns:
+        tuple: A tuple containing the segmented data and the K-Means model.
+    """
     logging.info("Starting PCA and K-Means clustering")
 
     kmeanspca = KMeans(n_clusters=nclusterspca, init="k-means++", random_state=42)
@@ -31,6 +45,8 @@ def pca_components(segmkmeans, kmeanspca, rfmcopy):
     sns.scatterplot(x=x, y=y, hue=segmkmeans['kmeansclusters'])
 
     plt.title("Clusters detected by PCA")
+    plt.xlabel("Component2")
+    plt.ylabel("Component1")
     plt.show()
 
     dfpca = rfmcopy.copy()

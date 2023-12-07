@@ -6,15 +6,21 @@ import os
 import sys
 from datetime import datetime
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 def visualize_data(rfm_dataset):
+    """
+    Visualize the data using a pairplot.
+    
+    Args:
+        rfm_dataset (DataFrame): The dataset to visualize.
+    """
     logging.info("Visualizing data...")
     sns.pairplot(rfm_dataset)
     plt.title("Pairplot")
     plt.show()
     
-    #saving plot
+    # Saving plot
     logging.info("Saving plot...")
     current_path = os.getcwd()
     reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
@@ -24,12 +30,10 @@ def visualize_data(rfm_dataset):
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f'pairplot_{now}.png'
-        #fig1 = plot3.get_figure()
-        #fig1.savefig(os.path.join(reports_path, 'figures', filename))
-        plt.savefig(os.path.join(reports_path, 'figures', filename)) 
-    except:
-        logging.error('Error saving plot.')
-        return
+        plt.savefig(os.path.join(reports_path, 'figures', filename))
+    except Exception as e:
+        logging.error(f'Error saving plot: {str(e)}')
+        return None
 
     plt.close()
         
@@ -96,41 +100,42 @@ def plot_average_spending_by_frequency(rfm_dataset):
     if not os.path.exists(reports_path):
         os.makedirs(reports_path)
 
-    try:
-        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        filename = f'average_spending_by_frequency_{now}.png'
-        plt.savefig(os.path.join(reports_path, 'figures', filename))
-    except:
-        logging.error('Error saving plot.')
-        return
 
-    plt.close()
+        try:
+            now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            filename = f'average_spending_by_frequency_{now}.png'
+            plt.savefig(os.path.join(reports_path, 'figures', filename))
+        except Exception as e:
+            logging.error(f'Error saving plot: {str(e)}')
+            return
+
+        plt.close()
 
 
 def plot_payment_value_distribution(rfm_dataset):
+    """
+    Plot the payment value distribution.
+    """
     logging.info("Plotting payment value distribution...")
-    LogMin, LogMax = np.log10(rfm_dataset['Monetary value'].min()), np.log10(rfm_dataset['Monetary value'].max())
-    newbins = np.logspace(LogMin, LogMax, 4)
-    sns.distplot(rfm_dataset['Monetary value'], kde=False, bins=newbins)
+    log_min, log_max = np.log10(rfm_dataset['Monetary value'].min()), np.log10(rfm_dataset['Monetary value'].max())
+    new_bins = np.logspace(log_min, log_max, 4)
+    sns.distplot(rfm_dataset['Monetary value'], kde=False, bins=new_bins)
     plt.title("Payment value distribution")
     plt.ylabel("Count")
     plt.show()
     logging.info("Payment value distribution plotted.")
 
-   #saving plot
+    # Saving plot
     logging.info("Saving plot...")
     current_path = os.getcwd()
     reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
     if not os.path.exists(reports_path):
         os.makedirs(reports_path)
 
-    try:
-        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        filename = f'plot_payment_value_distribution{now}.png'
-        plt.savefig(os.path.join(reports_path, 'figures', filename))
-    except:
-        logging.error('Error saving plot.')
-        return
+    now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    filename = f'plot_payment_value_distribution_{now}.png'
+    plt.savefig(os.path.join(reports_path, 'figures', filename))
+
 
 def freq(rfm_dataset):
     logging.info("Generating frequency plots...")
