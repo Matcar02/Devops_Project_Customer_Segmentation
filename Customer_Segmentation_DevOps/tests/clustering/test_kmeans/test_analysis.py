@@ -9,7 +9,7 @@ import os
 
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-src_dir = os.path.join(script_dir, '..', '..')
+src_dir = os.path.join(script_dir, '..', '..', '..')
 sys.path.append(src_dir)
 from src.clustering.kmeans.analysis import elbow_method, get_best_kmeans_params, silhouette_score_f
 

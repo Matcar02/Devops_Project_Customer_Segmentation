@@ -1,10 +1,12 @@
 import plotly.graph_objs as go 
+import plotly.io as pio
 import matplotlib.pyplot as plt
 import pandas as pd
 import logging
 import os
 import sys
 from datetime import datetime
+import wandb 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -30,7 +32,7 @@ def plot_clusters(rfmcopy, clusters1):
                     font=dict(family="Gilroy", color='black', size=12))
 
     plt.title("K-Means Clustering")
-    plot.show()
+    
     logging.info("Cluster plotting completed.")
 
     #saving plot
@@ -43,10 +45,15 @@ def plot_clusters(rfmcopy, clusters1):
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f'Kmeans_clusters_{now}.png'
-        plot.write_image(os.path.join(reports_path, 'figures', filename))
-    except:
-        logging.error('Error saving plot.')
+        plt.savefig(os.path.join(reports_path, 'figures', filename))
+    except Exception as e:
+        logging.error(f'Error saving plot. {e}')
         return
+
+    
+    plot.show()
+
+        
 
 
 def visualize_spectral_clusters(X, sp):
@@ -74,7 +81,7 @@ def visualize_spectral_clusters(X, sp):
                         font=dict(family="Gilroy", color='black', size=12))
     
     plt.title("Spectral Clustering clusters")
-    plot.show()
+    
     logging.info("Spectral cluster visualization completed.")
 
     #saving plot
@@ -87,10 +94,12 @@ def visualize_spectral_clusters(X, sp):
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f'spectral_clusters_{now}.png'
-        plot.write_image(os.path.join(reports_path, 'figures', filename))
-    except:
-        logging.error('Error saving plot.')
-        return
+        plt.savefig(os.path.join(reports_path, 'figures', filename))
+    except Exception as e:
+        logging.error(f'Error saving plot. {e}')
+        return 
+    
+    plot.show()
 
 
 def plot_clusters_pca(rfmcopy, clusterspca):
@@ -115,7 +124,7 @@ def plot_clusters_pca(rfmcopy, clusterspca):
                     font=dict(family="Gilroy", color='black', size=12))
 
     plt.title("PCA Clustering clusters")
-    plot.show()
+    
     logging.info("PCA cluster plotting completed.")
 
     #saving plot
@@ -128,10 +137,12 @@ def plot_clusters_pca(rfmcopy, clusterspca):
     try:
         now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f'pca_clusters_{now}.png'
-        plot.write_image(os.path.join(reports_path, 'figures', filename))
-    except:
-        logging.error('Error saving plot.')
+        plt.savefig(os.path.join(reports_path, 'figures', filename))
+    except Exception as e:
+        logging.error(f'Error saving plot. {e}')
         return
+    
+    plot.show()
     
     
     

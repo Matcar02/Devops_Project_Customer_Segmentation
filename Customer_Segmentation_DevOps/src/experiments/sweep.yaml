@@ -1,0 +1,12 @@
+program: kmeans_sweeps
+method: grid
+metric:
+  goal: maximize
+  name: Silhouette Score
+parameters:
+  n_clusters:
+    values: [3, 4, 5, 6]
+  algorithm:
+    values: ["lloyd", "elkan"]
+  random_state:
+    values: [42, 123, 456]

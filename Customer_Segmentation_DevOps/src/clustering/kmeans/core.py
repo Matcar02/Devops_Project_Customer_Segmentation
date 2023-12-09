@@ -1,5 +1,7 @@
 import logging
+import wandb
 from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
 
 
 def clustering(clusters, algorithm, rand_state, X, df):
@@ -20,15 +22,34 @@ def clustering(clusters, algorithm, rand_state, X, df):
 
     kmeans = KMeans(n_clusters=clusters, init='k-means++', random_state=rand_state, algorithm=algorithm, n_init=3)
     y_kmeans = kmeans.fit_predict(X)
-
+    
     rfmcopy = df.copy()
-    rfmcopy['kmeans_cluster'] = y_kmeans
+    rfmcopy['kmeans_cluster'] = y_kmeans 
+
+    #Log params 
+    wandb.log({"Number of Clusters": clusters, "Clustering Algorithm": algorithm})
+    wandb.log({"Silhouette Score": silhouette_score(X, y_kmeans)})
+    
+    logging.info("Saving Silhouette Score")
+    wandb.sklearn.plot_silhouette(kmeans, rfmcopy, [1,2,3,4])
+    logging.info("Saved Feature Plot")
+
+    #plot the clusters and save the plot in wandb
+    logging.info("Plotting clusters")
+    wandb.sklearn.plot_clusterer(kmeans, rfmcopy, list(rfmcopy.columns)[:-1])
+    logging.info("Saved Cluster Plot")
+
+
 
     logging.info("Clustering completed")
 
-    return rfmcopy
+    return rfmcopy 
+   
 
 
+
+
+'''
 def choose(rfm_dataset, X):
     """
     Perform cluster selection.
@@ -59,6 +80,41 @@ def choose(rfm_dataset, X):
     if not isinstance(inp3, int):
         logging.warning("Random state must be an integer. Please reinsert.")
         inp3 = int(input("Reinsert a random integer: "))
+
+    wandb.config.n_cluster_chosen = inp1
+    wandb.config.kmeans_algorithm = inp2
+
+    rfm_copy = clustering(inp1, inp2, inp3, X, rfm_dataset)
+    logging.info("Cluster selection completed")
+
+    return rfm_copy, inp1
+
+    '''
+
+
+def choose(rfm_dataset, X):
+    """
+    Perform cluster selection.
+
+    Args:
+        rfm_dataset (pandas.DataFrame): RFM dataset.
+        X (array-like): Input data.
+
+    Returns:
+        Tuple[pandas.DataFrame, int]: Tuple containing the dataframe with clustering results and the number of clusters.
+    """
+    logging.info("Starting cluster selection")
+
+
+
+
+    # Retrieve sweep configuration
+    wandb.config.update(wandb.config, allow_val_change=True)
+
+    # Access parameters in your code
+    inp1 = wandb.config.n_clusters
+    inp2 = wandb.config.algorithm
+    inp3 = wandb.config.random_state
 
     rfm_copy = clustering(inp1, inp2, inp3, X, rfm_dataset)
     logging.info("Cluster selection completed")

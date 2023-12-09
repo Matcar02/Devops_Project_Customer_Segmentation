@@ -1,0 +1,8 @@
+wandb_version: 1
+
+algorithm:
+  value: lloyd
+n_clusters:
+  value: 4
+random_state:
+  value: 456
