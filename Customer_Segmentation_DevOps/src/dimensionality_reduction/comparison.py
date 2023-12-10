@@ -7,12 +7,25 @@ import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def pca_vs_spectral(dfpcaf, insights):
+    """
+    Compare PCA and Spectral Clustering results by visualizing key insights.
+
+    Args:
+        dfpcaf (pd.DataFrame): The DataFrame containing PCA and Spectral Clustering results.
+        insights (list): The list of columns to be used for insights generation.
+
+    Returns:
+        None: Displays comparison plots.
+    """
+
     logging.info("Starting pca_vs_spectral function...")
 
+    # Check if DataFrame is empty
     if dfpcaf.empty:
         logging.warning("Input DataFrame 'dfpcaf' is empty. No data to process.")
         return
 
+    # Create subplots for PCA and Spectral Clustering insights
     fig, ((ax1, ax2, ax3), (ax4, ax5, ax6)) = plt.subplots(2, 3, figsize=(30, 28))
 
     ins5 = dfpcaf[(dfpcaf['kmeansclustersPCA'] == 0) | (dfpcaf['kmeansclustersPCA'] == 0)][insights]

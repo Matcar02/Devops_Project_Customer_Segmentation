@@ -11,8 +11,20 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def encoding_PCA(df, rfm_dataset):
+    """
+    Perform one-hot encoding on specified columns and prepare data for PCA.
+
+    Args:
+        df (pd.DataFrame): The DataFrame containing categorical features for encoding.
+        rfm_dataset (pd.DataFrame): The RFM dataset to be combined with encoded features.
+
+    Returns:
+        tuple: A tuple containing the encoded DataFrame and the new DataFrame with RFM data.
+    """
+
     logging.info("Starting encoding_PCA function...")
     
+    # Apply one-hot encoding to specified columns
     transformer = make_column_transformer(
         (OneHotEncoder(sparse= False), ['payment_type', 'customer_city', 'product_category_name_english', 'payment_installments']),
         remainder='passthrough') 
@@ -28,8 +40,19 @@ def encoding_PCA(df, rfm_dataset):
     return encoded_df, newdf 
 
 def pca_preprocessing(newdf):
+    """
+    Preprocess the data by scaling features before PCA.
+
+    Args:
+        newdf (pd.DataFrame): The DataFrame to be preprocessed.
+
+    Returns:
+        pd.DataFrame: A DataFrame with scaled features.
+    """
+
     logging.info("Starting PCA preprocessing...")
     
+    # Scale features using StandardScaler
     sc_features = newdf.copy()
     sc = StandardScaler()
     new = sc.fit_transform(sc_features['Monetary value'].array.reshape(-1,1))
@@ -47,8 +70,19 @@ def pca_preprocessing(newdf):
     return sc_features
 
 def pca_ncomponents(sc_features):
+    """
+    Determine the optimal number of PCA components.
+
+    Args:
+        sc_features (pd.DataFrame): The DataFrame with scaled features.
+
+    Returns:
+        np.ndarray: The array of PCA-transformed features.
+    """
+
     logging.info("Determining optimal number of PCA components...")
 
+    # Apply PCA and plot the explained variance to find the optimal number of components
     X_ = sc_features.values
     pca = PCA(n_components = 20) 
     principalComponents = pca.fit_transform(X_)
@@ -65,8 +99,19 @@ def pca_ncomponents(sc_features):
     return X_ 
 
 def pca(X_):
+    """
+    Perform PCA transformation and determine the optimal number of clusters using the Elbow method.
+
+    Args:
+        X_ (np.ndarray): The array of features to be transformed using PCA.
+
+    Returns:
+        np.ndarray: The PCA-transformed feature scores.
+    """
+
     logging.info("Performing PCA transformation...")
     
+    # Apply PCA transformation and use the Elbow method to determine clusters
     pca = PCA(n_components = 3)
     scores = pca.fit_transform(X_)
     mask = np.isnan(scores)

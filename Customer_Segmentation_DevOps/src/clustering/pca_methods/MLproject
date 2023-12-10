@@ -1,0 +1,32 @@
+name: PCAMethodsClustering
+
+conda_env: conda.yaml
+
+entry_points:
+  core:
+    parameters:
+      data_filepath:
+        description: "Path to the input CSV file for PCA and K-Means clustering"
+        type: str
+        required: true
+      n_clusters:
+        description: "Number of clusters for K-Means"
+        type: int
+        default: 4
+      random_state:
+        description: "Random state for reproducibility"
+        type: int
+        default: 42
+    command: "python core.py --data_filepath {data_filepath} --n_clusters {n_clusters} --random_state {random_state}"
+
+  insights:
+    parameters:
+      pca_data_filepath:
+        description: "Path to the CSV file containing PCA clustering results"
+        type: str
+        required: true
+      original_data_filepath:
+        description: "Path to the original dataset CSV file"
+        type: str
+        required: true
+    command: "python insights.py --pca_data_filepath {pca_data_filepath} --original_data_filepath {original_data_filepath}"

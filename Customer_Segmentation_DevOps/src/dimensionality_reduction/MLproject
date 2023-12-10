@@ -1,0 +1,20 @@
+name: DimensionalityReduction
+
+conda_env: conda.yaml
+
+entry_points:
+  comparison:
+    command: "python comparison.py {input_filepath}"
+    parameters:
+      input_filepath:
+        type: string
+        default: ""
+        description: "The path to the input CSV file for PCA vs. Spectral comparison."
+
+  pca:
+    command: "python pca.py {input_filepath}"
+    parameters:
+      input_filepath:
+        type: string
+        default: ""
+        description: "The path to the input CSV file for PCA analysis."

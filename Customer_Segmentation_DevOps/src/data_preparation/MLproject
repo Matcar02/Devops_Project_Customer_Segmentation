@@ -1,0 +1,28 @@
+name: DataPreparation
+
+conda_env: conda.yaml
+
+entry_points:
+  cleaning:
+    command: "python cleaning.py {filepath}"
+    parameters:
+      filepath:
+        type: string
+        default: ""
+        description: "The path to the CSV file to clean."
+
+  encoding:
+    command: "python encoding.py {filepath}"
+    parameters:
+      filepath:
+        type: string
+        default: ""
+        description: "The path to the cleaned CSV file for encoding."
+
+  rfm:
+    command: "python rfm.py {filepath}"
+    parameters:
+      filepath:
+        type: string
+        default: ""
+        description: "The path to the encoded CSV file for RFM analysis."

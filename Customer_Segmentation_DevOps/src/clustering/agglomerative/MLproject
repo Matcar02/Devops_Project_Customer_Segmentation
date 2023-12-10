@@ -1,0 +1,28 @@
+name: AgglomerativeClusteringAnalysis
+
+conda_env: conda.yaml
+
+entry_points:
+  analysis:
+    parameters:
+      data_filepath:
+        description: "Path to the input CSV file for dendrogram analysis"
+        type: str
+        required: true
+      method:
+        description: "Method for hierarchical clustering (e.g., 'ward', 'single', 'complete')"
+        type: str
+        default: "ward"
+    command: "python analysis.py --data_filepath {data_filepath} --method {method}"
+
+  core:
+    parameters:
+      data_filepath:
+        description: "Path to the input CSV file for agglomerative clustering"
+        type: str
+        required: true
+      n_clusters:
+        description: "Number of clusters for Agglomerative Clustering"
+        type: int
+        required: true
+    command: "python core.py --data_filepath {data_filepath} --n_clusters {n_clusters}"

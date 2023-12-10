@@ -28,7 +28,6 @@ def choose_spectral():
 
     return inp1, inp2 
 
- 
 
 
 def spectral_clustering(X, nclusters, affinity, neighbors):

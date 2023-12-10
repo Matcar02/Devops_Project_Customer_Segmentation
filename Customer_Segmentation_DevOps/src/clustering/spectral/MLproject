@@ -1,0 +1,32 @@
+name: SpectralClusteringAnalysis
+
+conda_env: conda.yaml
+
+entry_points:
+  analysis:
+    parameters:
+      silscores_file:
+        description: "Path to the CSV file containing silhouette scores"
+        type: str
+        required: true
+    command: "python analysis.py --silscores_file {silscores_file}"
+
+  core:
+    parameters:
+      data_filepath:
+        description: "Path to the input CSV file for spectral clustering"
+        type: str
+        required: true
+      n_clusters:
+        description: "Number of clusters for Spectral Clustering"
+        type: int
+        default: 5
+      affinity:
+        description: "Affinity for Spectral Clustering ('nearest_neighbors', 'rbf', or 'precomputed')"
+        type: str
+        default: "nearest_neighbors"
+      n_neighbors:
+        description: "Number of neighbors for Spectral Clustering"
+        type: int
+        default: 5
+    command: "python core.py --data_filepath {data_filepath} --n_clusters {n_clusters} --affinity {affinity} --n_neighbors {n_neighbors}"

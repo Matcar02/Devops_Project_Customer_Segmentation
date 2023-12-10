@@ -1,0 +1,40 @@
+name: KMeansClusteringAnalysis
+
+conda_env: conda.yaml
+
+entry_points:
+  analysis:
+    parameters:
+      data_filepath:
+        description: "Path to the input CSV file for clustering analysis"
+        type: str
+        required: true
+      max_clusters:
+        description: "Maximum number of clusters to consider for the Elbow Method"
+        type: int
+        default: 10
+      random_state:
+        description: "Random state for KMeans clustering"
+        type: int
+        default: 42
+    command: "python analysis.py --data_filepath {data_filepath} --max_clusters {max_clusters} --random_state {random_state}"
+
+  core:
+    parameters:
+      data_filepath:
+        description: "Path to the input CSV file for core clustering operations"
+        type: str
+        required: true
+      n_clusters:
+        description: "Number of clusters for KMeans"
+        type: int
+        required: true
+      algorithm:
+        description: "Algorithm for KMeans clustering ('lloyd' or 'elkan')"
+        type: str
+        default: "lloyd"
+      random_state:
+        description: "Random state for KMeans clustering"
+        type: int
+        default: 42
+    command: "python core.py --data_filepath {data_filepath} --n_clusters {n_clusters} --algorithm {algorithm} --random_state {random_state}"

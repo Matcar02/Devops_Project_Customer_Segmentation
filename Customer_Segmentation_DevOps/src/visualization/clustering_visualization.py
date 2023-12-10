@@ -11,6 +11,17 @@ import wandb
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def plot_clusters(rfmcopy, clusters1):
+    """
+    Plot clusters using 3D scatter plots for K-Means clustering results.
+
+    Args:
+        rfmcopy (pd.DataFrame): The DataFrame containing RFM data with K-Means cluster labels.
+        clusters1 (int): The number of clusters to plot.
+
+    Returns:
+        None: The function generates and saves 3D scatter plots.
+    """
+
     logging.info("Starting plot_clusters function...")
     plot = go.Figure() 
 
@@ -57,6 +68,17 @@ def plot_clusters(rfmcopy, clusters1):
 
 
 def visualize_spectral_clusters(X, sp):
+    """
+    Visualize clusters using 3D scatter plots for Spectral clustering results.
+
+    Args:
+        X (array-like): The original data used for clustering.
+        sp (array-like): The cluster labels from Spectral clustering.
+
+    Returns:
+        None: The function generates and saves 3D scatter plots.
+    """
+
     logging.info("Starting visualize_spectral_clusters function...")
     plot = go.Figure()
     
@@ -103,6 +125,17 @@ def visualize_spectral_clusters(X, sp):
 
 
 def plot_clusters_pca(rfmcopy, clusterspca):
+    """
+    Plot clusters using 3D scatter plots for PCA clustering results.
+
+    Args:
+        rfmcopy (pd.DataFrame): The DataFrame containing RFM data with PCA cluster labels.
+        clusterspca (int): The number of PCA clusters to plot.
+
+    Returns:
+        None: The function generates and saves 3D scatter plots.
+    """
+    
     logging.info("Starting plot_clusters_pca function...")
     plot = go.Figure()
 

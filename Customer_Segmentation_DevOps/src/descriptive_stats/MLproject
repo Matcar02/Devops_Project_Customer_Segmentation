@@ -1,0 +1,20 @@
+name: DescriptiveStatistics
+
+conda_env: conda.yaml
+
+entry_points:
+  insights:
+    command: "python insights.py {input_filepath}"
+    parameters:
+      input_filepath:
+        type: string
+        default: ""
+        description: "The path to the input CSV file for generating insights."
+
+  stats:
+    command: "python stats.py {input_filepath}"
+    parameters:
+      input_filepath:
+        type: string
+        default: ""
+        description: "The path to the input CSV file for statistical analysis."

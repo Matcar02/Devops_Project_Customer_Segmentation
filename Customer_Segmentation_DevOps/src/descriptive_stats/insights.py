@@ -6,27 +6,43 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
 def segments_insights(rfmcopy, nclusterskmeans):
+    """
+    Generate insights by plotting distribution segments using different clustering results.
+
+    Args:
+        rfmcopy (pd.DataFrame): The DataFrame containing RFM data with clustering labels.
+        nclusterskmeans (int): The number of KMeans clusters.
+
+    Returns:
+        None: Displays various distribution plots based on clustering results.
+    """
 
     logging.info('Starting analysis on the given rfmcopy data.')
 
+    # Copy the rfm data for manipulation
     scaledrfm = rfmcopy.copy()
     
     logging.debug('Successfully copied the rfmcopy data to scaledrfm.')
 
+    # Set color palette and plot distribution for KMeans clustering
     sns.set_palette("Dark2")
+    # Distribution plots for KMeans clusters
     logging.debug('Plotting kmeans_cluster based segments...')
     km1 = sns.displot(data = scaledrfm , x = 'Monetary value', hue = "kmeans_cluster", multiple = "stack")
     km2 = sns.displot(data = scaledrfm , x = "Frequency" , hue = "kmeans_cluster", multiple = "stack")
     km3 = sns.displot(data = scaledrfm , x = "Recency" , hue = "kmeans_cluster", multiple = "stack")
     plt.show()
 
+
+    # Repeat process for other clustering techniques (Spectral, Hierarchical)
+
     sns.set_palette("colorblind", 4)
     logging.debug('Plotting sp_clusters based segments...')
     sp1 = sns.displot(data = scaledrfm , x = 'Monetary value', hue = "sp_clusters", multiple = "stack")
     sp2 = sns.displot(data = scaledrfm , x = "Frequency" , hue = "sp_clusters", multiple = "stack")
     sp3 = sns.displot(data = scaledrfm , x = "Recency" , hue = "sp_clusters", multiple = "stack")
-    #arrange these plots in a grid and set it as a variable
     plt.show()
 
     sns.set_palette("bright")
@@ -36,25 +52,25 @@ def segments_insights(rfmcopy, nclusterskmeans):
     hc3 = sns.displot(data = scaledrfm , x = "Recency" , hue = "hc_clusters", multiple = "stack")
     plt.show()
     logging.info('Finished analysis. Returning segmented data.')
-    
     return 
 
 def kmeans_summary(rfmcopy, cluster_num):
     """
-    Calculate and log cluster statistics based on the input data.
+    Calculate and summarize statistics for a specific KMeans cluster.
 
     Args:
-        rfmcopy (DataFrame): Input data.
+        rfmcopy (pd.DataFrame): The RFM dataset with KMeans cluster labels.
+        cluster_num (int): The specific cluster number to analyze.
 
     Returns:
-        DataFrame: Summary of cluster statistics.
+        pd.DataFrame: A DataFrame summarizing the statistics of the specified cluster.
     """
-    # Log the total size of the input data
     logging.info(f"Input data has {len(rfmcopy)} records.")
 
-    # Helper function to calculate and log cluster statistics
-    
+    # Calculate statistical data for the specified cluster    
     cluster_data = rfmcopy[rfmcopy['kmeans_cluster'] == cluster_num]
+    
+    # Calculate various statistics such as size, sum, mean, etc.
     size = len(cluster_data)
     mvalue_sum = cluster_data['Monetary value'].sum()
     mvalue_mean = cluster_data['Monetary value'].mean()
@@ -104,18 +120,20 @@ def kmeans_summary(rfmcopy, cluster_num):
 
 def cluster_summary(df, column_name):
     """
-    Calculate cluster summaries based on the input dataframe and column name.
+    Generate summaries for specified clusters based on a column.
 
     Args:
-        df (DataFrame): Input dataframe.
-        column_name (str): Name of the column.
+        df (pd.DataFrame): The DataFrame containing clustered data.
+        column_name (str): The name of the column for which to generate summaries.
 
     Returns:
-        tuple: Kmeanssummary, Hcsummary, Spsummary dataframes.
+        tuple: A tuple of DataFrames, each summarizing a different clustering approach.
     """
     # Log the initial size and column details of the input dataframe
     logging.info(f"Input dataframe has {len(df)} rows and {df.shape[1]} columns.")
     logging.info(f"Calculating summaries based on the column '{column_name}'.")
+
+    # Generate summaries for different clustering techniques (KMeans, Hierarchical, Spectral)
 
     # Kmeans summary
     kmeans_size = df.groupby('kmeans_cluster')[column_name].size()
@@ -181,14 +199,14 @@ def cluster_summary(df, column_name):
 
 def installments_analysis(df, rfmcopy):
     """
-    Analyze installments and payment types based on the input dataframes.
+    Analyze the installments and payment types in the data.
 
     Args:
-        df (DataFrame): Input dataframe.
-        rfmcopy (DataFrame): Copy of RFM dataframe.
+        df (pd.DataFrame): The original DataFrame containing payment details.
+        rfmcopy (pd.DataFrame): A copy of the RFM DataFrame for analysis.
 
     Returns:
-        DataFrame: Processed 'paydf' dataframe.
+        pd.DataFrame: A DataFrame with combined installment and payment type data.
     """
     # Log the initial size of the input dataframes
     logging.info(f"Input dataframe 'df' has {len(df)} rows and {df.shape[1]} columns.")
@@ -428,13 +446,30 @@ def prod_insights(df):
 
 
 def customer_geography(df):
+    """
+    Analyze and visualize customer distribution by state and their average payment value.
+
+    This function creates two plots: 
+    1. A bar plot showing the distribution of customers in the top 20 states.
+    2. A line plot showing the average payment value for customers in these states.
+
+    Args:
+        df (pd.DataFrame): The DataFrame containing customer and payment data.
+
+    Returns:
+        pd.Series: A Series containing the count of customers in the top 20 states.
+    """
+
     logging.info("Starting customer_geography function...")
+
+    # Count the number of customers in each state and select the top 20
     dfgeo = pd.value_counts(df['customer_state']).iloc[:20]
 
     if dfgeo.empty:
         logging.error("Geo DataFrame is empty.")
         return None
 
+    # Plot the distribution of customers in the top 20 states
     dfticks = dfgeo.index.to_list() 
     dfgeo.plot()
     plt.title("Customers per state")
@@ -450,7 +485,7 @@ def customer_geography(df):
     plt.show()
     logging.info("Customer geography plot displayed.")
 
-    #saving plot
+    # Saving plot
     logging.info('Getting plot...')
     current_path = os.getcwd()
     reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))

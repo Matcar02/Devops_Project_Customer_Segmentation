@@ -1,0 +1,13 @@
+name: ClusteringPerformance
+
+conda_env: conda.yaml
+
+entry_points:
+  performance:
+    command: "python performance.py {input_filepath}"
+    parameters:
+      input_filepath:
+        type: string
+        default: ""
+        description: "The path to the input CSV file."
+
