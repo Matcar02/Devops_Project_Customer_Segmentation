@@ -1,0 +1,10 @@
+name: DataCheck
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      data_file: {type: str, default: "data.csv"}
+      result_dir: {type: str, default: "results"}
+    command: "python your_script.py --data_file {data_file} --result_dir {result_dir}"
