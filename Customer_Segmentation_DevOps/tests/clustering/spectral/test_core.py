@@ -3,11 +3,12 @@ from unittest.mock import patch
 from sklearn.datasets import make_blobs
 from sklearn.metrics import silhouette_score
 import sys, os, logging
-from src.clustering.spectral.core import choose_spectral, spectral_clustering
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.join(script_dir, '..', '..', '..')
 sys.path.append(src_dir)
+from src.clustering.spectral.core import choose_spectral, spectral_clustering
+
 
 
 @pytest.fixture

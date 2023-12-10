@@ -2,11 +2,12 @@ import pytest
 import pandas as pd
 from sklearn.datasets import make_blobs
 import sys, os, logging
-from src.clustering.spectral.analysis import show_silscores
+
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.join(script_dir, '..', '..', '..')
 sys.path.append(src_dir)
+from src.clustering.spectral.analysis import show_silscores
 
 def test_show_silscores(capsys, caplog):
     """
