@@ -1,11 +1,11 @@
 import logging
 import sys
 import os
-from src.clustering.spectral.analysis import show_silscores
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.join(script_dir, '..', '..', '..')
 sys.path.append(src_dir)
+from src.clustering.spectral.analysis import show_silscores
 
 
 

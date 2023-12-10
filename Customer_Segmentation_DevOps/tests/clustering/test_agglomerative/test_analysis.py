@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import scipy.cluster.hierarchy as sch
 from unittest.mock import MagicMock, patch
 
-pd 
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.join(script_dir, '..', '..', '..')
