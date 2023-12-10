@@ -10,7 +10,6 @@ sys.path.append(src_dir)
 from src.clustering.spectral.core import choose_spectral, spectral_clustering
 
 
-
 @pytest.fixture
 def sample_data():
     """

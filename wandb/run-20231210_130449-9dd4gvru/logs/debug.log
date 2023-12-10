@@ -1,0 +1,40 @@
+2023-12-10 13:04:49,166 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Current SDK version is 0.15.12
+2023-12-10 13:04:49,167 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Configure stats pid to 18856
+2023-12-10 13:04:49,167 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Loading settings from C:\Users\39339\.config\wandb\settings
+2023-12-10 13:04:49,167 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Loading settings from C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\wandb\settings
+2023-12-10 13:04:49,167 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-12-10 13:04:49,167 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-12-10 13:04:49,167 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': '..\\..\\..\\..\\..\\..\\anaconda3\\envs\\devops_env\\Scripts\\pytest-script.py', 'program_abspath': 'C:\\Users\\39339\\anaconda3\\envs\\devops_env\\Scripts\\pytest-script.py', 'program': 'C:\\Users\\39339\\anaconda3\\envs\\devops_env\\Scripts\\pytest-script.py'}
+2023-12-10 13:04:49,168 INFO    MainThread:18856 [wandb_init.py:_log_setup():528] Logging user logs to C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\wandb\run-20231210_130449-9dd4gvru\logs\debug.log
+2023-12-10 13:04:49,168 INFO    MainThread:18856 [wandb_init.py:_log_setup():529] Logging internal logs to C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\wandb\run-20231210_130449-9dd4gvru\logs\debug-internal.log
+2023-12-10 13:04:49,168 INFO    MainThread:18856 [wandb_init.py:init():568] calling init triggers
+2023-12-10 13:04:49,169 INFO    MainThread:18856 [wandb_init.py:init():575] wandb.init called with sweep_config: {}
+config: {}
+2023-12-10 13:04:49,169 INFO    MainThread:18856 [wandb_init.py:init():613] wandb.init() called when a run is still active
+2023-12-10 13:05:54,555 INFO    MainThread:18856 [wandb_run.py:_config_callback():1324] config_cb None None {'algorithm': 'lloyd', 'n_clusters': 5, 'n_init': 1}
+2023-12-10 13:05:54,581 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Current SDK version is 0.15.12
+2023-12-10 13:05:54,582 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Configure stats pid to 18856
+2023-12-10 13:05:54,582 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Loading settings from C:\Users\39339\.config\wandb\settings
+2023-12-10 13:05:54,582 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Loading settings from C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\wandb\settings
+2023-12-10 13:05:54,582 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-12-10 13:05:54,582 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-12-10 13:05:54,583 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': '..\\..\\..\\..\\..\\..\\anaconda3\\envs\\devops_env\\Scripts\\pytest-script.py', 'program_abspath': 'C:\\Users\\39339\\anaconda3\\envs\\devops_env\\Scripts\\pytest-script.py', 'program': 'C:\\Users\\39339\\anaconda3\\envs\\devops_env\\Scripts\\pytest-script.py'}
+2023-12-10 13:05:54,583 INFO    MainThread:18856 [wandb_init.py:_log_setup():528] Logging user logs to C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\wandb\run-20231210_130554-s01jd8pb\logs\debug.log
+2023-12-10 13:05:54,584 INFO    MainThread:18856 [wandb_init.py:_log_setup():529] Logging internal logs to C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\wandb\run-20231210_130554-s01jd8pb\logs\debug-internal.log
+2023-12-10 13:05:54,585 INFO    MainThread:18856 [wandb_init.py:init():568] calling init triggers
+2023-12-10 13:05:54,585 INFO    MainThread:18856 [wandb_init.py:init():575] wandb.init called with sweep_config: {}
+config: {}
+2023-12-10 13:05:54,585 INFO    MainThread:18856 [wandb_init.py:init():613] wandb.init() called when a run is still active
+2023-12-10 13:05:54,606 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Current SDK version is 0.15.12
+2023-12-10 13:05:54,607 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Configure stats pid to 18856
+2023-12-10 13:05:54,607 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Loading settings from C:\Users\39339\.config\wandb\settings
+2023-12-10 13:05:54,607 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Loading settings from C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\wandb\settings
+2023-12-10 13:05:54,607 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-12-10 13:05:54,608 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-12-10 13:05:54,608 INFO    MainThread:18856 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': '..\\..\\..\\..\\..\\..\\anaconda3\\envs\\devops_env\\Scripts\\pytest-script.py', 'program_abspath': 'C:\\Users\\39339\\anaconda3\\envs\\devops_env\\Scripts\\pytest-script.py', 'program': 'C:\\Users\\39339\\anaconda3\\envs\\devops_env\\Scripts\\pytest-script.py'}
+2023-12-10 13:05:54,609 INFO    MainThread:18856 [wandb_init.py:_log_setup():528] Logging user logs to C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\wandb\run-20231210_130554-nev1leid\logs\debug.log
+2023-12-10 13:05:54,610 INFO    MainThread:18856 [wandb_init.py:_log_setup():529] Logging internal logs to C:\Users\39339\Documents\University materials\University materials\Erasmus IE\DevOps\Devops_Project\wandb\run-20231210_130554-nev1leid\logs\debug-internal.log
+2023-12-10 13:05:54,610 INFO    MainThread:18856 [wandb_init.py:init():568] calling init triggers
+2023-12-10 13:05:54,610 INFO    MainThread:18856 [wandb_init.py:init():575] wandb.init called with sweep_config: {}
+config: {}
+2023-12-10 13:05:54,611 INFO    MainThread:18856 [wandb_init.py:init():613] wandb.init() called when a run is still active

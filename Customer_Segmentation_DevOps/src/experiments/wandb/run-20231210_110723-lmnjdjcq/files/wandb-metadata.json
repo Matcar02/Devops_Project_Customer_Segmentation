@@ -1,0 +1,44 @@
+{
+    "os": "Windows-10-10.0.19045-SP0",
+    "python": "3.11.4",
+    "heartbeatAt": "2023-12-10T10:07:25.305295",
+    "startedAt": "2023-12-10T10:07:23.333435",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "<python with no main file>",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/Matcar02/Devops_Project_Customer_Segmentation.git",
+        "commit": "30521852f09ff24b602e37f459893915360d574c"
+    },
+    "email": "108555687+Matcar02@users.noreply.github.com",
+    "root": "C:/Users/39339/Documents/University materials/University materials/Erasmus IE/DevOps/Devops_Project",
+    "host": "DESKTOP-4HMEBO5",
+    "username": "39339",
+    "executable": "c:\\Users\\39339\\anaconda3\\envs\\devops_env\\python.exe",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1001.0,
+        "min": 0.0,
+        "max": 2803.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1001.0,
+            "min": 0.0,
+            "max": 2803.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 953.0751914978027,
+            "used": 278.1166000366211
+        }
+    },
+    "memory": {
+        "total": 15.648002624511719
+    }
+}

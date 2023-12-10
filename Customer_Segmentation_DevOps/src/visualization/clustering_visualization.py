@@ -44,12 +44,23 @@ def plot_clusters(rfmcopy, clusters1):
 
     plt.title("K-Means Clustering")
     
+
+    #save and log to wandb
+    logging.info("Saving clusters plot...")
+    table = wandb.Table(columns=["plotly_figure"])
+    path_to_plotly_html = "./plotly_figure.html"
+
+    plot.write_html(path_to_plotly_html)
+    table.add_data(wandb.Html(path_to_plotly_html))
+    wandb.log({"Kmeans Clusters": table})
     logging.info("Cluster plotting completed.")
+
+    ###
 
     #saving plot
     logging.info("Saving plot...")
     current_path = os.getcwd()
-    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports'))
+    reports_path = os.path.abspath(os.path.join(current_path, '..', '..', 'reports'))
     if not os.path.exists(reports_path):
         os.makedirs(reports_path)
 

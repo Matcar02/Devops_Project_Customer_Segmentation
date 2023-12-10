@@ -1,8 +1,6 @@
-import pytest
-import pandas as pd
-from sklearn.datasets import make_blobs
-import sys, os, logging
-
+import logging
+import sys
+import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.join(script_dir, '..', '..', '..')

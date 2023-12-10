@@ -2,6 +2,9 @@ import logging
 import wandb
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+import matplotlib.pyplot as plt
+from yellowbrick.cluster import SilhouetteVisualizer
+
 
 
 def clustering(clusters, algorithm, rand_state, X, df):
@@ -19,6 +22,8 @@ def clustering(clusters, algorithm, rand_state, X, df):
         pandas.DataFrame: Dataframe with clustering results.
     """
     logging.info("Starting clustering")
+    wandb.init(project="Customer_Segmentation", name="Kmeans_Experiment")
+
 
     kmeans = KMeans(n_clusters=clusters, init='k-means++', random_state=rand_state, algorithm=algorithm, n_init=3)
     y_kmeans = kmeans.fit_predict(X)
@@ -30,14 +35,19 @@ def clustering(clusters, algorithm, rand_state, X, df):
     wandb.log({"Number of Clusters": clusters, "Clustering Algorithm": algorithm})
     wandb.log({"Silhouette Score": silhouette_score(X, y_kmeans)})
     
+    #silhouette score plot 
     logging.info("Saving Silhouette Score")
     wandb.sklearn.plot_silhouette(kmeans, rfmcopy, [1,2,3,4])
     logging.info("Saved Feature Plot")
 
-    #plot the clusters and save the plot in wandb
-    logging.info("Plotting clusters")
-    wandb.sklearn.plot_clusterer(kmeans, rfmcopy, list(rfmcopy.columns)[:-1])
-    logging.info("Saved Cluster Plot")
+    #plot the silhouette score for each cluster (do not use wand.sklearn)
+    fig, ax = plt.subplots(figsize=(12, 8))
+    visualizer = SilhouetteVisualizer(kmeans, colors='yellowbrick')
+    visualizer.fit(X)
+    wandb.log({"Silhouette Score Plot": wandb.Image(fig)})
+    visualizer.show()  
+
+
 
 
 
@@ -45,6 +55,9 @@ def clustering(clusters, algorithm, rand_state, X, df):
 
     return rfmcopy 
    
+
+
+
 
 '''
 def choose(rfm_dataset, X):
@@ -102,6 +115,7 @@ def choose(rfm_dataset, X):
     """
 
     logging.info("Starting cluster selection")
+    wandb.init(project="Customer_Segmentation", name="Kmeans_Experiment")
 
     # Retrieve sweep configuration
     wandb.config.update(wandb.config, allow_val_change=True)
