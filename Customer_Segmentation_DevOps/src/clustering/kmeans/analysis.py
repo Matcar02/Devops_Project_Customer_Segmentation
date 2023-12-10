@@ -15,6 +15,7 @@ def elbow_method(rfm_dataset):
     Calculate the optimal number of clusters using the Elbow Method.
     """
     logging.info("Starting Elbow Method")
+    wandb.init(project="Customer_Segmentation", name="Kmeans_Experiment")
 
     features = ['Recency', 'Monetary value', 'Frequency']
     wcss = []
@@ -56,6 +57,7 @@ def get_best_kmeans_params(X):
     Find the best parameters for KMeans using GridSearchCV.
     """
     logging.info("Starting GridSearchCV for KMeans parameters")
+    wandb.init(project="Customer_Segmentation", name="Kmeans_Experiment")
 
     params = {
         'algorithm': ['lloyd', 'elkan'],
@@ -81,6 +83,7 @@ def silhouette_score_f(X, y, method):
     Calculate the Silhouette Score for a given clustering method.
     """
     logging.info("Calculating Silhouette Score for %s", method)
+    wandb.init(project="Customer_Segmentation", name="Kmeans_Experiment")
 
     results = y[method]
     silsc = silhouette_score(X, results, metric='euclidean')  # Call silhouette_score only once
