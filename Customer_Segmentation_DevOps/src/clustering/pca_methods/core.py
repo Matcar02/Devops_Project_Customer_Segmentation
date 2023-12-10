@@ -6,10 +6,8 @@ from sklearn.cluster import KMeans
 import logging
 
 # Configure the logging
-logging.basicConfig(level=logging.INFO)  # Set the desired logging level
+logging.basicConfig(level=logging.INFO)
 
-# Access the imported numpy module
-np
 
 def pca_kmeans(sc_features, scores, nclusterspca):
     """

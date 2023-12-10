@@ -3,7 +3,7 @@ import plotly.graph_objs as go
 from sklearn.cluster import AgglomerativeClustering
 
 # Configure the logging
-logging.basicConfig(level=logging.INFO)  # Set the desired logging level
+logging.basicConfig(level=logging.INFO)
 
 
 def agglomerative_clustering(X, rfmcopy, n_clustersagg):

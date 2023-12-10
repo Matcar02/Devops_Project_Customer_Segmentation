@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy.cluster.hierarchy as sch
 
 # Configure the logging
-logging.basicConfig(level=logging.INFO)  # Set the desired logging level
+logging.basicConfig(level=logging.INFO) 
 
 def dendrogram(x):
     """
@@ -22,7 +22,7 @@ def dendrogram(x):
     plt.title("Dendrogram")
     plt.xlabel("Clusters")
     plt.ylabel("Distances")
-    plt.xticks([])  # No ticks are displayed
+    plt.xticks([]) 
     plt.show()
 
     logging.info("Dendrogram generation completed")

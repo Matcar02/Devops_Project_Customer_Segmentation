@@ -9,8 +9,12 @@ from sklearn.metrics import silhouette_score
 
 def choose_spectral():
     """
-    Choose the parameters for Spectral Clustering.
+    Prompts the user to choose parameters for Spectral Clustering.
+
+    Returns:
+    tuple: A tuple containing the number of neighbors and the affinity type chosen by the user.
     """
+
     logging.info("Starting Spectral Clustering selection")
 
     # Instead of nclusters, ask for n_neighbors and affinity
@@ -32,8 +36,18 @@ def choose_spectral():
 
 def spectral_clustering(X, nclusters, affinity, neighbors):
     """
-    Perform Spectral Clustering on the given data.
+    Perform Spectral Clustering on the given dataset.
+
+    Args:
+    X (DataFrame or ndarray): The feature set for clustering.
+    nclusters (int): The number of clusters to form.
+    affinity (str): The type of affinity to use ('nearest_neighbors', 'rbf', 'precomputed').
+    neighbors (int): The number of neighbors to consider for each point.
+
+    Returns:
+    tuple: A tuple containing the clustering labels and the silhouette score.
     """
+    
     logging.info("Starting Spectral Clustering")
 
     spectral = SpectralClustering(n_clusters=nclusters, random_state=42, n_neighbors=neighbors, affinity=affinity)

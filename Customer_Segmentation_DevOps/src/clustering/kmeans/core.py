@@ -46,9 +46,6 @@ def clustering(clusters, algorithm, rand_state, X, df):
     return rfmcopy 
    
 
-
-
-
 '''
 def choose(rfm_dataset, X):
     """
@@ -103,10 +100,8 @@ def choose(rfm_dataset, X):
     Returns:
         Tuple[pandas.DataFrame, int]: Tuple containing the dataframe with clustering results and the number of clusters.
     """
+
     logging.info("Starting cluster selection")
-
-
-
 
     # Retrieve sweep configuration
     wandb.config.update(wandb.config, allow_val_change=True)

@@ -7,13 +7,20 @@ from sklearn.model_selection import GridSearchCV
 import wandb
 
 
-logging.basicConfig(level=logging.INFO)  # Set the desired logging level
+logging.basicConfig(level=logging.INFO)
 
 
 def elbow_method(rfm_dataset):
     """
     Calculate the optimal number of clusters using the Elbow Method.
+
+    Args:
+    rfm_dataset (DataFrame): The dataset with 'Recency', 'Monetary value', and 'Frequency' features.
+
+    Returns:
+    tuple: A tuple containing the feature set X and the list of features used.
     """
+
     logging.info("Starting Elbow Method")
 
     features = ['Recency', 'Monetary value', 'Frequency']
@@ -40,8 +47,6 @@ def elbow_method(rfm_dataset):
     logging.info("Elbow Method completed")
 
     # Log the WCSSand Inertia using wandb
-
-
     logging.info("Saving Inertia and combined score")
     wandb.log({"Inertia": wcss[-1]})  
     combined_score = 0.5*silhouette_score(X, kmeans.labels_, metric='euclidean') + 0.5*(1/wcss[-1])
@@ -53,8 +58,15 @@ def elbow_method(rfm_dataset):
 
 def get_best_kmeans_params(X):
     """
-    Find the best parameters for KMeans using GridSearchCV.
+    Find the best parameters for KMeans clustering using GridSearchCV.
+
+    Args:
+    X (DataFrame): The feature set on which to perform KMeans clustering.
+
+    Returns:
+    dict: The best parameters found for KMeans clustering.
     """
+
     logging.info("Starting GridSearchCV for KMeans parameters")
 
     params = {
@@ -79,11 +91,22 @@ def get_best_kmeans_params(X):
 def silhouette_score_f(X, y, method):
     """
     Calculate the Silhouette Score for a given clustering method.
+
+    Args:
+    X (DataFrame): The feature set used for clustering.
+    y (dict): A dictionary containing the clustering results.
+    method (str): The name of the clustering method.
+
+    Returns:
+    tuple: A tuple containing the dictionary of silhouette scores and the silhouette score for the specified method.
     """
+    
     logging.info("Calculating Silhouette Score for %s", method)
 
     results = y[method]
-    silsc = silhouette_score(X, results, metric='euclidean')  # Call silhouette_score only once
+
+    # Call silhouette_score only once
+    silsc = silhouette_score(X, results, metric='euclidean')  
     silscores = {method: silsc}
 
     logging.info("The silhouette score for %s is: %s", method, silsc)
