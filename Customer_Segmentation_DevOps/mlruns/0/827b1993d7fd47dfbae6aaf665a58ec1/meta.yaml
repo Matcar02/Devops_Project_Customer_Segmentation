@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/827b1993d7fd47dfbae6aaf665a58ec1/artifacts
+end_time: 1702281605693
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 827b1993d7fd47dfbae6aaf665a58ec1
+run_name: adorable-bear-691
+run_uuid: 827b1993d7fd47dfbae6aaf665a58ec1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702281594707
+status: 3
+tags: []
+user_id: rawbe

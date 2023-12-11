@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/59b8f09e7e9d488687d752feddca99fb/artifacts
+end_time: 1702281621244
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 59b8f09e7e9d488687d752feddca99fb
+run_name: melodic-moose-257
+run_uuid: 59b8f09e7e9d488687d752feddca99fb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702281609716
+status: 3
+tags: []
+user_id: rawbe

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/083a2f74a152456d9bb4f2c604bc3a91/artifacts
+end_time: 1702281634616
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 083a2f74a152456d9bb4f2c604bc3a91
+run_name: silent-crab-205
+run_uuid: 083a2f74a152456d9bb4f2c604bc3a91
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702281625406
+status: 3
+tags: []
+user_id: rawbe

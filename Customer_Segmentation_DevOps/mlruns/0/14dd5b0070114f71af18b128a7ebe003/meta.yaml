@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/14dd5b0070114f71af18b128a7ebe003/artifacts
+end_time: 1702281703474
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 14dd5b0070114f71af18b128a7ebe003
+run_name: masked-zebra-444
+run_uuid: 14dd5b0070114f71af18b128a7ebe003
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702281691419
+status: 4
+tags: []
+user_id: rawbe
