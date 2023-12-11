@@ -5,7 +5,11 @@ import logging
 import os 
 import sys
 from datetime import datetime
-
+import pandas
+import mlflow
+import argparse
+import pandas as pd
+import io
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -20,7 +24,12 @@ def visualize_data(rfm_dataset):
         None: The function generates and saves plots without returning any value.
     """
     logging.info("Visualizing data...")
-    sns.pairplot(rfm_dataset)
+
+    # Create a figure object with subplots
+    fig, axs = plt.subplots(3, 1, figsize=(10, 15))
+    sns.pairplot(rfm_dataset, ax=axs[0])
+    axs[0].set_title("Pairplot")
+
     plt.title("Pairplot")
     plt.show()
     
@@ -42,7 +51,8 @@ def visualize_data(rfm_dataset):
     plt.close()
         
     
-    sns.lineplot(x="Recency", y="Monetary value", data=rfm_dataset.sort_values(by=["Recency"], ascending=False))
+    sns.lineplot(x="Recency", y="Monetary value", data=rfm_dataset.sort_values(by=["Recency"], ascending=False), ax=axs[1])
+    axs[1].set_title("Spending by Recency")
     plt.title("Spending by recency")
     plt.show()
 
@@ -63,7 +73,8 @@ def visualize_data(rfm_dataset):
 
     plt.close()
 
-    sns.histplot(data=rfm_dataset['Frequency'], discrete=True)
+    sns.histplot(data=rfm_dataset['Frequency'], discrete=True, ax=axs[2])
+    axs[2].set_title("Frequency Plot")
     plt.title("Frequency plot")
     plt.show()
 
@@ -84,7 +95,7 @@ def visualize_data(rfm_dataset):
 
     plt.close()
     logging.info("Data visualization complete.")
-    return plt  
+    return fig  
 
 
 def plot_average_spending_by_frequency(rfm_dataset):
@@ -102,7 +113,9 @@ def plot_average_spending_by_frequency(rfm_dataset):
 
     # Calculations and plot generation for average spending by frequency
     frd = rfm_dataset.groupby(['Frequency'])['Monetary value'].mean().reset_index(name='Average Spending by frequency')
-    sns.scatterplot(data=frd, x="Frequency", y="Average Spending by frequency", s=100, color='red')
+    fig, axs = plt.subplots(3, 1, figsize=(10, 15))
+    sns.scatterplot(data=frd, x="Frequency", y="Average Spending by frequency", s=100, color='red', ax=axs[0])
+    axs[0].set_title("Average Spending by Frequency")
     plt.title("Average Spending by Frequency")
     plt.xlabel("Frequency")
     plt.ylabel("Average Spending")
@@ -126,6 +139,7 @@ def plot_average_spending_by_frequency(rfm_dataset):
             return
 
         plt.close()
+        return fig
 
 
 def plot_payment_value_distribution(rfm_dataset):
@@ -144,7 +158,9 @@ def plot_payment_value_distribution(rfm_dataset):
     # Calculations and plot generation for payment value distribution
     log_min, log_max = np.log10(rfm_dataset['Monetary value'].min()), np.log10(rfm_dataset['Monetary value'].max())
     new_bins = np.logspace(log_min, log_max, 4)
-    sns.distplot(rfm_dataset['Monetary value'], kde=False, bins=new_bins)
+    fig, axs = plt.subplots(3, 1, figsize=(10, 15))
+    sns.distplot(rfm_dataset['Monetary value'], kde=False, bins=new_bins, ax=axs[0])
+    axs[0].set_title("Payment value distribution")
     plt.title("Payment value distribution")
     plt.ylabel("Count")
     plt.show()
@@ -160,6 +176,7 @@ def plot_payment_value_distribution(rfm_dataset):
     now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     filename = f'plot_payment_value_distribution_{now}.png'
     plt.savefig(os.path.join(reports_path, 'figures', filename))
+    return fig
 
 
 def freq(rfm_dataset):
@@ -235,3 +252,53 @@ def payments_distribution(rfm_dataset):
     plt.title("Payments distribution")
     plt.show()
     logging.info("Payments distribution plotted.")
+
+
+def main(filepath):
+    # Load your data
+    with mlflow.start_run() as run:
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        data_dir = os.path.join(project_root, 'data')
+        default_filepath = os.path.join(data_dir, 'rfm_data.csv')
+
+        # Use the default filepath if "default" or not provided
+        if not filepath or filepath == "default":
+            filepath = default_filepath
+
+        rfm_dataset = pd.read_csv(filepath)
+
+        # Generate and log plots directly
+        fig = visualize_data(rfm_dataset)
+
+        # Save the figure temporarily
+        temp_file_path = "visualize_data.png"
+        fig.savefig(temp_file_path)
+
+        # Log the artifact in MLflow and close the figure
+        mlflow.log_artifact(temp_file_path, 'visuals')
+        plt.close(fig)
+
+
+        fig = plot_average_spending_by_frequency(rfm_dataset)
+        # Save the figure temporarily
+        temp_file_path = "plot_average_spending_by_frequency.png"
+        fig.savefig(temp_file_path)
+
+        # Log the artifact in MLflow and close the figure
+        mlflow.log_artifact(temp_file_path, 'visuals')
+        plt.close(fig)
+
+        fig = plot_payment_value_distribution(rfm_dataset)
+        # Save the figure temporarily
+        temp_file_path = "plot_payment_value_distribution.png"
+        fig.savefig(temp_file_path)
+
+        # Log the artifact in MLflow and close the figure
+        mlflow.log_artifact(temp_file_path, 'visuals')
+        plt.close(fig)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Data Visualization')
+    parser.add_argument('--filepath', type=str, help='Path to the input CSV file')
+    args = parser.parse_args()
+    main(args.filepath)

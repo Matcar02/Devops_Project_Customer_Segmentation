@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/ff49fe66e1b24a42ba5d075683464dd0/artifacts
+end_time: 1702253113964
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ff49fe66e1b24a42ba5d075683464dd0
+run_name: classy-snail-981
+run_uuid: ff49fe66e1b24a42ba5d075683464dd0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702253107341
+status: 3
+tags: []
+user_id: rawbe

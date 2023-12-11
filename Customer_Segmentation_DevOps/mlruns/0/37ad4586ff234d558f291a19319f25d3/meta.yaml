@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/37ad4586ff234d558f291a19319f25d3/artifacts
+end_time: 1702259453537
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 37ad4586ff234d558f291a19319f25d3
+run_name: silent-mouse-3
+run_uuid: 37ad4586ff234d558f291a19319f25d3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702259019135
+status: 4
+tags: []
+user_id: rawbe

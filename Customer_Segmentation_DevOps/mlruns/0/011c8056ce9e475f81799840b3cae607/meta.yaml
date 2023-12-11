@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/011c8056ce9e475f81799840b3cae607/artifacts
+end_time: 1702266657653
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 011c8056ce9e475f81799840b3cae607
+run_name: bold-hen-775
+run_uuid: 011c8056ce9e475f81799840b3cae607
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702266176204
+status: 4
+tags: []
+user_id: rawbe

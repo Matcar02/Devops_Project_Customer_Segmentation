@@ -4,6 +4,8 @@ from datetime import datetime
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+import argparse
+import mlflow
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -35,6 +37,9 @@ def segments_insights(rfmcopy, nclusterskmeans):
     km3 = sns.displot(data = scaledrfm , x = "Recency" , hue = "kmeans_cluster", multiple = "stack")
     plt.show()
 
+    # Save the plot as an image file
+    filename_kmeans = "kmeans_clusters.png"
+    km1.savefig(filename_kmeans)
 
     # Repeat process for other clustering techniques (Spectral, Hierarchical)
 
@@ -45,14 +50,23 @@ def segments_insights(rfmcopy, nclusterskmeans):
     sp3 = sns.displot(data = scaledrfm , x = "Recency" , hue = "sp_clusters", multiple = "stack")
     plt.show()
 
+    filename_spectral = "spectral_clusters.png"
+    sp1.savefig(filename_spectral)
+
     sns.set_palette("bright")
     logging.debug('Plotting hc_clusters based segments...')
     hc1 = sns.displot(data = scaledrfm , x = 'Monetary value', hue = "hc_clusters", multiple = "stack")
     hc2 = sns.displot(data = scaledrfm , x = "Frequency" , hue = "hc_clusters", multiple = "stack")
     hc3 = sns.displot(data = scaledrfm , x = "Recency" , hue = "hc_clusters", multiple = "stack")
     plt.show()
+
+    filename_hierarchical = "hierarchical_clusters.png"
+    hc1.savefig(filename_hierarchical)
+
     logging.info('Finished analysis. Returning segmented data.')
-    return 
+    
+    return filename_kmeans, filename_spectral, filename_hierarchical
+
 
 def kmeans_summary(rfmcopy, cluster_num):
     """
@@ -505,3 +519,49 @@ def customer_geography(df):
     logging.info('Image saved successfully.')
     plt.close()
     return dfgeo
+
+
+def main(filepath, nclusterskmeans, cluster_num, column_name, rfmcopy ):
+    # Load your data
+    
+
+    # Log the description and correlation matrix as an artifact
+    with mlflow.start_run() as run:
+
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        data_dir = os.path.join(project_root, 'data')
+        default_filepath = os.path.join(data_dir, 'rfm_data.csv')
+
+        # If filepath is "default" or not provided, use the default filepath
+        if not filepath or filepath == "default":
+            filepath = default_filepath
+
+        df = pd.read_csv(filepath)
+        rfmcopy = df.copy()
+
+        kmeans_filename, spectral_filename, hierarchical_filename = segments_insights(rfmcopy, nclusterskmeans)
+        kmeans_summary_output = kmeans_summary(rfmcopy, cluster_num)
+        cluster_summary_output = cluster_summary(df, column_name)
+        installments_analysis_output = installments_analysis(df, rfmcopy)
+        customers_insights_output = customers_insights(installments_analysis_output, nclusterskmeans)
+        recency_output = recency(df)
+        payments_insights_output = payments_insights(df)
+        prod_insights_output = prod_insights(df)
+        customer_geography_output = customer_geography(df)
+
+        mlflow.log_artifact(kmeans_filename)
+        mlflow.log_artifact(spectral_filename)
+        mlflow.log_artifact(hierarchical_filename)
+
+        
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run insights analysis")
+    parser.add_argument("--filepath", type=str, required=True, help="Path to the CSV file for analysis")
+    parser.add_argument("--nclusterskmeans", type=int, default=5, help="Number of KMeans clusters")
+    parser.add_argument("--cluster_num", type=int, default=0, help="Specific KMeans cluster number to analyze")
+    parser.add_argument("--column_name", type=str, default="Monetary value", help="Column name for cluster summary")
+    parser.add_argument("--rfmcopy", type=str, default="", help="Path to the RFM copy CSV file for analysis")
+
+    args = parser.parse_args()
+    main(args.filepath, args.nclusterskmeans, args.cluster_num, args.column_name, args.rfmcopy)

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/19f2a535d5da4af49739fc6a4381192f/artifacts
+end_time: 1702252925687
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 19f2a535d5da4af49739fc6a4381192f
+run_name: rare-finch-63
+run_uuid: 19f2a535d5da4af49739fc6a4381192f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702252919116
+status: 4
+tags: []
+user_id: rawbe

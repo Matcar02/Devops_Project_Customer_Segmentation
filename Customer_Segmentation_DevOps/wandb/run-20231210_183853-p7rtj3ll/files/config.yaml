@@ -1,0 +1,231 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    python_version: 3.11.5
+    cli_version: 0.16.1
+    framework: sklearn
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1702229933.864733
+    t:
+      1:
+      - 5
+      - 53
+      - 55
+      2:
+      - 5
+      - 53
+      - 55
+      3:
+      - 13
+      - 23
+      - 24
+      4: 3.11.5
+      5: 0.16.1
+      8:
+      - 3
+      - 5
+      13: windows-amd64
+algorithm:
+  desc: null
+  value: lloyd
+n_clusters:
+  desc: null
+  value: 5
+n_init:
+  desc: null
+  value: 1
+_items:
+  desc: null
+  value:
+    _wandb: {}
+    algorithm: lloyd
+    n_clusters: 5
+    n_init: 1
+_locked:
+  desc: null
+  value: {}
+_users:
+  desc: null
+  value: {}
+_users_inv:
+  desc: null
+  value: {}
+_users_cnt:
+  desc: null
+  value: 0
+_callback:
+  desc: null
+  value: wandb.sdk.wandb_run.Run._config_callback
+_settings:
+  desc: null
+  value:
+    _args:
+    - tests
+    _aws_lambda: false
+    _async_upload_concurrency_limit: null
+    _cli_only_mode: null
+    _colab: false
+    _cuda: null
+    _disable_meta: false
+    _disable_service: false
+    _disable_setproctitle: false
+    _disable_stats: false
+    _disable_viewer: null
+    _disable_machine_info: false
+    _except_exit: true
+    _executable: C:\Users\rawbe\anaconda3\envs\env_devops_project\python.exe
+    _extra_http_headers: null
+    _file_stream_retry_max: 125
+    _file_stream_retry_wait_min_seconds: 2
+    _file_stream_retry_wait_max_seconds: 60
+    _file_stream_timeout_seconds: 180
+    _file_transfer_retry_max: 10
+    _file_transfer_retry_wait_min_seconds: 2
+    _file_transfer_retry_wait_max_seconds: 60
+    _file_transfer_timeout_seconds: 0
+    _flow_control_custom: false
+    _flow_control_disabled: false
+    _graphql_retry_max: 10
+    _graphql_retry_wait_min_seconds: 2
+    _graphql_retry_wait_max_seconds: 60
+    _graphql_timeout_seconds: 30
+    _internal_check_process: 8.0
+    _internal_queue_timeout: 2.0
+    _ipython: false
+    _jupyter: false
+    _jupyter_name: null
+    _jupyter_path: null
+    _jupyter_root: null
+    _kaggle: false
+    _live_policy_rate_limit: null
+    _live_policy_wait_time: null
+    _log_level: 10
+    _network_buffer: null
+    _noop: false
+    _notebook: false
+    _offline: false
+    _sync: false
+    _os: Windows-10-10.0.22621-SP0
+    _platform: windows
+    _proxies: null
+    _python: 3.11.5
+    _runqueue_item_id: null
+    _require_nexus: false
+    _save_requirements: true
+    _service_transport: null
+    _service_wait: 30.0
+    _start_datetime: '20231210_183853'
+    _start_time: 1702229933.8494875
+    _stats_pid: 1116
+    _stats_sample_rate_seconds: 2.0
+    _stats_samples_to_average: 15
+    _stats_join_assets: true
+    _stats_neuron_monitor_config_path: null
+    _stats_open_metrics_endpoints: null
+    _stats_open_metrics_filters:
+    - .*
+    _stats_disk_paths:
+    - /
+    _stats_buffer_size: 0
+    _tmp_code_dir: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\run-20231210_183853-p7rtj3ll\tmp\code
+    _tracelog: null
+    _unsaved_keys: null
+    _windows: true
+    allow_val_change: null
+    anonymous: null
+    api_key: null
+    azure_account_url_to_access_key: null
+    base_url: https://api.wandb.ai
+    code_dir: null
+    colab_url: null
+    config_paths: null
+    console: wrap
+    deployment: cloud
+    disable_code: false
+    disable_git: false
+    disable_hints: null
+    disable_job_creation: false
+    disabled: false
+    docker: null
+    email: radhikari.ieu2020@student.ie.edu
+    entity: team_rawbeen
+    files_dir: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\run-20231210_183853-p7rtj3ll\files
+    force: null
+    git_commit: 9ca671c0d967e05d2595cabce4362e88b5ca27cd
+    git_remote: origin
+    git_remote_url: https://github.com/Matcar02/Devops_Project_Customer_Segmentation
+    git_root: null
+    heartbeat_seconds: 30
+    host: RAWBEENDRAW
+    ignore_globs: []
+    init_timeout: 90.0
+    is_local: false
+    job_name: null
+    job_source: null
+    label_disable: null
+    launch: null
+    launch_config_path: null
+    log_dir: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\run-20231210_183853-p7rtj3ll\logs
+    log_internal: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\run-20231210_183853-p7rtj3ll\logs\debug-internal.log
+    log_symlink_internal: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\debug-internal.log
+    log_symlink_user: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\debug.log
+    log_user: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\run-20231210_183853-p7rtj3ll\logs\debug.log
+    login_timeout: null
+    mode: online
+    notebook_name: null
+    problem: fatal
+    program: -m __main__
+    program_abspath: null
+    program_relpath: null
+    project: Customer_Segmentation
+    project_url: https://wandb.ai/team_rawbeen/Customer_Segmentation
+    quiet: null
+    reinit: null
+    relogin: null
+    resume: null
+    resume_fname: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\wandb-resume.json
+    resumed: false
+    root_dir: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps
+    run_group: null
+    run_id: p7rtj3ll
+    run_job_type: null
+    run_mode: run
+    run_name: Kmeans_Experiment
+    run_notes: null
+    run_tags: null
+    run_url: https://wandb.ai/team_rawbeen/Customer_Segmentation/runs/p7rtj3ll
+    sagemaker_disable: null
+    save_code: null
+    settings_system: C:\Users\rawbe\.config\wandb\settings
+    settings_workspace: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\settings
+    show_colors: null
+    show_emoji: null
+    show_errors: true
+    show_info: true
+    show_warnings: true
+    silent: false
+    start_method: null
+    strict: null
+    summary_errors: null
+    summary_timeout: 60
+    summary_warnings: 5
+    sweep_id: null
+    sweep_param_path: null
+    sweep_url: ''
+    symlink: false
+    sync_dir: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\run-20231210_183853-p7rtj3ll
+    sync_file: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\run-20231210_183853-p7rtj3ll\run-p7rtj3ll.wandb
+    sync_symlink_latest: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\latest-run
+    system_sample: 15
+    system_sample_seconds: 2
+    table_raise_on_max_row_limit_exceeded: false
+    timespec: '20231210_183853'
+    tmp_dir: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\run-20231210_183853-p7rtj3ll\tmp
+    username: rawbe
+    wandb_dir: C:\Users\rawbe\Downloads\IE_4thYear_1stSem\DevOps\Final_Project_DevOps\Devops_Project_Customer_Segmentation\Customer_Segmentation_DevOps\wandb\
+_artifact_callback:
+  desc: null
+  value: wandb.sdk.wandb_run.Run._config_artifact_callback

@@ -1,8 +1,10 @@
 import logging
 import os
 from datetime import datetime
-
+import mlflow
 import pandas as pd
+import argparse
+
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -132,3 +134,31 @@ def get_rfm_dataset(rfm_dataset):
     # Return the DataFrame after saving it
     return rfm_dataset  
 
+
+def main(filepath=None):
+    with mlflow.start_run() as run:
+
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        data_dir = os.path.join(project_root, 'data')
+        default_filepath = os.path.join(data_dir, 'cleaned_data.csv')
+
+        # If filepath is "default" or not provided, use the default filepath
+        if not filepath or filepath == "default":
+            filepath = default_filepath
+
+
+        df = pd.read_csv(filepath)
+        frequencies = get_frequencies(df)
+        recency = get_recency(df)
+        monetary = get_monetary(df)
+        rfm_dataset = concatenate_dataframes_(recency, monetary, frequencies)
+
+        rfm_csv_path = os.path.join(data_dir, 'rfm_data.csv')
+        rfm_dataset.to_csv(rfm_csv_path, index=False)
+        mlflow.log_artifact(rfm_csv_path, artifact_path="rfm_data")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run RFM analysis")
+    parser.add_argument("--filepath", type=str, help="Path to the encoded CSV file for RFM analysis", default=None)
+    args = parser.parse_args()
+    main(filepath=args.filepath)

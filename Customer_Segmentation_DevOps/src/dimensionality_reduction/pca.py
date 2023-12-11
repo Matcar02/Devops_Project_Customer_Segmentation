@@ -7,6 +7,9 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans 
 import matplotlib.pyplot as plt
 import logging
+import argparse
+import mlflow
+import os
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -131,3 +134,41 @@ def pca(X_):
 
     logging.info("PCA transformation completed.")
     return scores
+
+
+def main(filepath, filepath_rfm):
+    with mlflow.start_run() as run:
+
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        data_dir = os.path.join(project_root, 'data')
+        default_filepath_df = os.path.join(data_dir, 'cleaned_data.csv')
+        default_filepath_rfm_dataset = os.path.join(data_dir, 'rfm_data.csv')
+
+        # If filepath is "default" or not provided, use the default filepath
+        if not filepath or filepath == "default":
+            filepath = default_filepath_df
+
+        if not filepath_rfm or filepath_rfm == "default":
+            filepath_rfm = default_filepath_rfm_dataset
+
+        df = pd.read_csv(filepath)
+        rfm_dataset = pd.read_csv(filepath_rfm)
+
+
+        # Encoding and PCA
+        encoded_df, newdf = encoding_PCA(df, rfm_dataset)
+        sc_features = pca_preprocessing(newdf)
+        X_ = pca_ncomponents(sc_features)
+        scores = pca(X_)
+
+        # Save PCA results to CSV
+        scores_df = pd.DataFrame(scores)
+        scores_df.to_csv('pca_scores.csv', index=False)
+        mlflow.log_artifact('pca_scores.csv')
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="PCA Analysis")
+    parser.add_argument("--filepath", type=str, help="Path to the CSV file for DataFrame")
+    parser.add_argument("--filepath_rfm", type=str, help="Path to the CSV file for RFM Dataset")
+    args = parser.parse_args()
+    main(filepath=args.filepath, filepath_rfm=args.filepath_rfm)

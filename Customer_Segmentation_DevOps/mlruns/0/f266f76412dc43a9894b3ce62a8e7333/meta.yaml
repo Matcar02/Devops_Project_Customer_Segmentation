@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/f266f76412dc43a9894b3ce62a8e7333/artifacts
+end_time: 1702259541070
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f266f76412dc43a9894b3ce62a8e7333
+run_name: bedecked-snail-161
+run_uuid: f266f76412dc43a9894b3ce62a8e7333
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702259530463
+status: 4
+tags: []
+user_id: rawbe

@@ -4,17 +4,20 @@ conda_env: conda.yaml
 
 entry_points:
   insights:
-    command: "python insights.py {input_filepath}"
+    command: "python insights.py --filepath {filepath}"
     parameters:
-      input_filepath:
+      filepath:
         type: string
-        default: ""
-        description: "The path to the input CSV file for generating insights."
+        default: "default" 
+        description: "Path to the input CSV file for generating insights."
+
 
   stats:
-    command: "python stats.py {input_filepath}"
+    command: "python stats.py --filepath {filepath}"
     parameters:
-      input_filepath:
+      filepath:
         type: string
-        default: ""
+        default: "default"
         description: "The path to the input CSV file for statistical analysis."
+
+

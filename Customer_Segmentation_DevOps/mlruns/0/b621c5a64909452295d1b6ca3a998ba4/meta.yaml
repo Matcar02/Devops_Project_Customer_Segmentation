@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/b621c5a64909452295d1b6ca3a998ba4/artifacts
+end_time: 1702251796590
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b621c5a64909452295d1b6ca3a998ba4
+run_name: silent-dog-665
+run_uuid: b621c5a64909452295d1b6ca3a998ba4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702251789522
+status: 3
+tags: []
+user_id: rawbe

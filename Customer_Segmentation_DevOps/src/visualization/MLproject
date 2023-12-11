@@ -12,9 +12,9 @@ entry_points:
         description: "The path to the input CSV file for clustering visualization."
 
   data_visualization:
-    command: "python data_visualization.py {input_filepath}"
+    command: "python data_visualization.py --filepath {filepath}"
     parameters:
-      input_filepath:
+      filepath:
         type: string
-        default: ""
+        default: "default"
         description: "The path to the input CSV file for data visualization."

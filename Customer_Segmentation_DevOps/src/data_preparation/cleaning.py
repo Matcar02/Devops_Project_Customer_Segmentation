@@ -4,6 +4,7 @@ import os
 import random as rand
 from datetime import datetime
 import pandas as pd 
+import mlflow
 
 # Set up logging configuration
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -135,3 +136,24 @@ def get_df(df, output_dir=None):
         return False
 
 
+def main(filepath):
+    with mlflow.start_run() as run:
+        mlflow.set_tag("step", "cleaning")
+        df = prepare_data(filepath)
+        if df is not None:
+            df = drop_c_id(df)
+            df = clean_data(df)
+
+            # Save the cleaned DataFrame to CSV in the 'data' directory
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            data_dir = os.path.join(project_root, 'data')
+            cleaned_csv_path = os.path.join(data_dir, 'cleaned_data.csv')
+            df.to_csv(cleaned_csv_path, index=False)
+
+            # Log the cleaned DataFrame as an artifact in MLflow
+            mlflow.log_artifact(cleaned_csv_path, artifact_path="cleaned_data")
+
+if __name__ == "__main__":
+    import sys
+    filepath = sys.argv[1]
+    main(filepath)

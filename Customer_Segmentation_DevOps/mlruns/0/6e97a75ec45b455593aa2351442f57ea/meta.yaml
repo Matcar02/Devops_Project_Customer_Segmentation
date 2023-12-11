@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/6e97a75ec45b455593aa2351442f57ea/artifacts
+end_time: 1702264910193
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6e97a75ec45b455593aa2351442f57ea
+run_name: wise-toad-218
+run_uuid: 6e97a75ec45b455593aa2351442f57ea
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702264883272
+status: 3
+tags: []
+user_id: rawbe

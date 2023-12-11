@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/c9ded31f94654664808100aecb0ae34c/artifacts
+end_time: 1702252028344
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c9ded31f94654664808100aecb0ae34c
+run_name: redolent-mole-275
+run_uuid: c9ded31f94654664808100aecb0ae34c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702252020396
+status: 4
+tags: []
+user_id: rawbe

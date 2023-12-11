@@ -12,9 +12,13 @@ entry_points:
         description: "The path to the input CSV file for PCA vs. Spectral comparison."
 
   pca:
-    command: "python pca.py {input_filepath}"
+    command: "python pca.py --filepath {filepath} --filepath_rfm {filepath_rfm}"
     parameters:
-      input_filepath:
+      filepath:
         type: string
-        default: ""
-        description: "The path to the input CSV file for PCA analysis."
+        default: "default"
+        description: "Path to the CSV file for DataFrame."
+      filepath_rfm:
+        type: string
+        default: "default"
+        description: "Path to the CSV file for RFM Dataset."

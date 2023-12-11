@@ -4,6 +4,14 @@ import pandas as pd
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder
 import logging
+import mlflow
+import os
+import sys
+import argparse
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+src_dir = os.path.join(script_dir, '..', '..')
+sys.path.append(src_dir)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -56,5 +64,27 @@ def get_dummies_df(df):
     return dummies_df
 
 
+def main(filepath=None):
+    with mlflow.start_run() as run:
 
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        data_dir = os.path.join(project_root, 'data')
+        default_filepath = os.path.join(data_dir, 'cleaned_data.csv')
 
+        # If filepath is "default" or not provided, use the default filepath
+        if not filepath or filepath == "default":
+            filepath = default_filepath
+
+        df = pd.read_csv(filepath)
+        encoded_df = encode_df(df)
+
+        # Save and log the encoded DataFrame
+        encoded_csv_path = os.path.join(data_dir, 'encoded_data.csv')
+        encoded_df.to_csv(encoded_csv_path, index=False)
+        mlflow.log_artifact(encoded_csv_path, artifact_path="encoded_data")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run encoding")
+    parser.add_argument("--filepath", type=str, help="Path to the cleaned CSV file for encoding", default=None)
+    args = parser.parse_args()
+    main(filepath=args.filepath)

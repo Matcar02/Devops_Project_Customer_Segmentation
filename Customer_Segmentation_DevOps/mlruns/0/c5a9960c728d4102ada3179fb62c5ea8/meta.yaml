@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/c5a9960c728d4102ada3179fb62c5ea8/artifacts
+end_time: 1702252111339
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c5a9960c728d4102ada3179fb62c5ea8
+run_name: gregarious-sow-660
+run_uuid: c5a9960c728d4102ada3179fb62c5ea8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702252104215
+status: 4
+tags: []
+user_id: rawbe

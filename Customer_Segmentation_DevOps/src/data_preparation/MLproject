@@ -12,17 +12,17 @@ entry_points:
         description: "The path to the CSV file to clean."
 
   encoding:
-    command: "python encoding.py {filepath}"
+    command: "python encoding.py --filepath {filepath}"
     parameters:
       filepath:
         type: string
-        default: ""
-        description: "The path to the cleaned CSV file for encoding."
-
+        default: "default"
+        description: "The path to the cleaned CSV file for encoding. Optional, will use latest artifact if not provided."
+   
   rfm:
-    command: "python rfm.py {filepath}"
+    command: "python rfm.py --filepath {filepath}"
     parameters:
       filepath:
         type: string
-        default: ""
+        default: "default"
         description: "The path to the encoded CSV file for RFM analysis."

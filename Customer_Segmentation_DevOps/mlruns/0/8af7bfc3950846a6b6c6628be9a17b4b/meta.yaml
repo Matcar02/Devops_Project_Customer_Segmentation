@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/8af7bfc3950846a6b6c6628be9a17b4b/artifacts
+end_time: 1702252474444
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 8af7bfc3950846a6b6c6628be9a17b4b
+run_name: indecisive-boar-596
+run_uuid: 8af7bfc3950846a6b6c6628be9a17b4b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702252466809
+status: 3
+tags: []
+user_id: rawbe

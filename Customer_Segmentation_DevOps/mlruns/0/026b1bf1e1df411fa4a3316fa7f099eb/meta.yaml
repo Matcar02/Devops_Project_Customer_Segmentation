@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/026b1bf1e1df411fa4a3316fa7f099eb/artifacts
+end_time: 1702259687870
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 026b1bf1e1df411fa4a3316fa7f099eb
+run_name: luminous-grouse-298
+run_uuid: 026b1bf1e1df411fa4a3316fa7f099eb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702259676977
+status: 3
+tags: []
+user_id: rawbe
