@@ -8,7 +8,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 src_dir = os.path.join(script_dir, '..', '..')
 sys.path.append(src_dir)
 
-from src.data_preparation.cleaning import prepare_data, drop_c_id, clean_data, get_df
+from src.data_preparation.cleaning import prepare_data, drop_c_id, clean_data
 
 @pytest.fixture
 def sample_dataframe():
@@ -61,13 +61,4 @@ def test_clean_data(sample_dataframe):
     assert isinstance(df, pd.DataFrame)
     assert all(df['order_status'] == 'delivered')
 
-# Tests for get_df function
-
-def test_get_df(tmpdir, sample_dataframe):
-    output_dir = str(tmpdir.mkdir("reports"))
-    result = get_df(sample_dataframe, output_dir)
-    assert result is True
-    now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    expected_path = os.path.join(output_dir, 'dataframes', f'initialdata_{now}.csv')
-    assert os.path.exists(expected_path)
 

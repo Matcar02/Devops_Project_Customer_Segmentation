@@ -1,0 +1,46 @@
+{
+    "os": "Windows-10-10.0.22621-SP0",
+    "python": "3.11.5",
+    "heartbeatAt": "2023-12-15T21:07:23.825209",
+    "startedAt": "2023-12-15T21:07:22.481957",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "tests"
+    ],
+    "state": "running",
+    "program": "-m __main__",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/Matcar02/Devops_Project_Customer_Segmentation",
+        "commit": "aa962ea9bd68be05c3d35b3bc6e4b2555ea050f7"
+    },
+    "email": "rawbeendraw.248@gmail.com",
+    "root": "C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation",
+    "host": "RAWBEENDRAW",
+    "username": "rawbe",
+    "executable": "C:\\Users\\rawbe\\anaconda3\\envs\\env_devops_project\\python.exe",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1609.0,
+        "min": 0.0,
+        "max": 2112.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1609.0,
+            "min": 0.0,
+            "max": 2112.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 235.75683212280273,
+            "used": 217.93237686157227
+        }
+    },
+    "memory": {
+        "total": 23.641098022460938
+    }
+}
