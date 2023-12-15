@@ -3,6 +3,26 @@ name: DataPreparation
 conda_env: conda.yaml
 
 entry_points:
+  loader:
+    command: "python loader.py --file_path {file_path} --artifact_name {artifact_name} --artifact_type {artifact_type} --artifact_description {artifact_description}"
+    parameters:
+      file_path:
+        type: string
+        default: ""
+        description: "Path to the data file"
+      artifact_name:
+        type: string
+        default: "raw_data"
+        description: "Name for the W&B artifact"
+      artifact_type:
+        type: string
+        default: "raw_data"
+        description: "Type of the artifact"
+      artifact_description:
+        type: string
+        default: "Initial raw data"
+        description: "Description for the artifact"
+
   cleaning:
     command: "python cleaning.py {filepath}"
     parameters:
@@ -11,18 +31,10 @@ entry_points:
         default: ""
         description: "The path to the CSV file to clean."
 
-  encoding:
-    command: "python encoding.py --filepath {filepath}"
-    parameters:
-      filepath:
-        type: string
-        default: "default"
-        description: "The path to the cleaned CSV file for encoding. Optional, will use latest artifact if not provided."
-   
   rfm:
     command: "python rfm.py --filepath {filepath}"
     parameters:
       filepath:
         type: string
         default: "default"
-        description: "The path to the encoded CSV file for RFM analysis."
+        description: "The path to the cleaned CSV file for RFM analysis."

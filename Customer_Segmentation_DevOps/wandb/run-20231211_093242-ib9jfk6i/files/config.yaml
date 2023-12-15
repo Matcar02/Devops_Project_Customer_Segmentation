@@ -1,0 +1,39 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    python_version: 3.11.5
+    cli_version: 0.16.1
+    framework: sklearn
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1702283562.384658
+    t:
+      1:
+      - 5
+      - 53
+      - 55
+      2:
+      - 5
+      - 53
+      - 55
+      3:
+      - 13
+      - 23
+      - 24
+      4: 3.11.5
+      5: 0.16.1
+      8:
+      - 3
+      - 5
+      13: windows-amd64
+algorithm:
+  desc: null
+  value: lloyd
+n_clusters:
+  desc: null
+  value: 5
+n_init:
+  desc: null
+  value: 2

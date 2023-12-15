@@ -10,6 +10,7 @@ import mlflow
 import argparse
 import pandas as pd
 import io
+import wandb
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -254,51 +255,30 @@ def payments_distribution(rfm_dataset):
     logging.info("Payments distribution plotted.")
 
 
-def main(filepath):
-    # Load your data
-    with mlflow.start_run() as run:
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        data_dir = os.path.join(project_root, 'data')
-        default_filepath = os.path.join(data_dir, 'rfm_data.csv')
+def main(args):
+    # Initialize a new wandb run
+    wandb.init(project="customer_segmentation", job_type="data_visualization")
 
-        # Use the default filepath if "default" or not provided
-        if not filepath or filepath == "default":
-            filepath = default_filepath
+    # Load the RFM data artifact
+    if args.filepath == "default":
+        rfm_artifact = wandb.use_artifact('rfm_data:latest')
+        rfm_artifact_dir = rfm_artifact.download()
+        rfm_data_filepath = os.path.join(rfm_artifact_dir, 'rfm_data.csv')
+        rfm_dataset = pd.read_csv(rfm_data_filepath)
+    else:
+        rfm_dataset = pd.read_csv(args.filepath)
 
-        rfm_dataset = pd.read_csv(filepath)
+    visualize_data(rfm_dataset)
 
-        # Generate and log plots directly
-        fig = visualize_data(rfm_dataset)
+    plot_average_spending_by_frequency(rfm_dataset)
 
-        # Save the figure temporarily
-        temp_file_path = "visualize_data.png"
-        fig.savefig(temp_file_path)
+    plot_payment_value_distribution(rfm_dataset)
 
-        # Log the artifact in MLflow and close the figure
-        mlflow.log_artifact(temp_file_path, 'visuals')
-        plt.close(fig)
+    wandb.finish()
 
-
-        fig = plot_average_spending_by_frequency(rfm_dataset)
-        # Save the figure temporarily
-        temp_file_path = "plot_average_spending_by_frequency.png"
-        fig.savefig(temp_file_path)
-
-        # Log the artifact in MLflow and close the figure
-        mlflow.log_artifact(temp_file_path, 'visuals')
-        plt.close(fig)
-
-        fig = plot_payment_value_distribution(rfm_dataset)
-        # Save the figure temporarily
-        temp_file_path = "plot_payment_value_distribution.png"
-        fig.savefig(temp_file_path)
-
-        # Log the artifact in MLflow and close the figure
-        mlflow.log_artifact(temp_file_path, 'visuals')
-        plt.close(fig)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Data Visualization')
-    parser.add_argument('--filepath', type=str, help='Path to the input CSV file')
+    parser.add_argument('--filepath', type=str, default='default', help='Path to the RFM data CSV file or "default" to use the latest W&B artifact')
     args = parser.parse_args()
-    main(args.filepath)
+    main(args)

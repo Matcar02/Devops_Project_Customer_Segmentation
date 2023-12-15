@@ -5,6 +5,8 @@ import random as rand
 from datetime import datetime
 import pandas as pd 
 import mlflow
+import argparse
+import wandb
 
 # Set up logging configuration
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -95,65 +97,40 @@ def clean_data(df):
     return df
 
 
-def get_df(df, output_dir=None):
-    """
-    Save the DataFrame to a CSV file.
+def main(args):
+    wandb.init(project="customer_segmentation", job_type="data_cleaning")
 
-    This function saves the given DataFrame to a CSV file in the specified directory. If the directory is not provided,
-    it saves the CSV in a default 'reports' directory.
-
-    Args:
-        df (pandas.DataFrame): The DataFrame to be saved as a CSV file.
-        output_dir (str, optional): The directory where the CSV file will be saved. Defaults to None, which uses a default directory.
-
-    Returns:
-        bool: True if the DataFrame is saved successfully, False otherwise.
-    """
-
-    logging.info('Getting DataFrame...')
-    # Set the output directory to a default if not provided
-    if output_dir is None:
-        current_path = os.getcwd()
-        output_dir = os.path.abspath(os.path.join(current_path, '..', 'reports'))
-    
-    # Create the output directory if it does not exist
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    logging.info('Saving DataFrame to CSV...')
-
-    # Save the DataFrame as a CSV file in the specified directory
-    try:
-        now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        output_path = os.path.join(output_dir, 'dataframes')
-        if not os.path.exists(output_path):
-            os.makedirs(output_path)
-        df.to_csv(os.path.join(output_path, f'initialdata_{now}.csv'), index=False)
-        logging.info('DataFrame saved successfully.')
-        return True
-    except Exception as e:
-        logging.error('Error saving DataFrame to CSV: %s', e)
-        return False
-
-
-def main(filepath):
-    with mlflow.start_run() as run:
-        mlflow.set_tag("step", "cleaning")
+    # Use the provided filepath or the W&B artifact
+    if args.filepath != "default":
+        df = pd.read_csv(args.filepath)
+    else:
+        # Use W&B to load the data artifact
+        artifact = wandb.use_artifact('customer_segmentation:latest')
+        artifact_dir = artifact.download()
+        filepath = os.path.join(artifact_dir, 'customer_segmentation.csv')
         df = prepare_data(filepath)
-        if df is not None:
-            df = drop_c_id(df)
-            df = clean_data(df)
 
-            # Save the cleaned DataFrame to CSV in the 'data' directory
-            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-            data_dir = os.path.join(project_root, 'data')
-            cleaned_csv_path = os.path.join(data_dir, 'cleaned_data.csv')
-            df.to_csv(cleaned_csv_path, index=False)
 
-            # Log the cleaned DataFrame as an artifact in MLflow
-            mlflow.log_artifact(cleaned_csv_path, artifact_path="cleaned_data")
+    if df is not None:
+        df = drop_c_id(df)
+        df = clean_data(df)
+
+        # Save the cleaned data as a new artifact
+        cleaned_data_artifact = wandb.Artifact(
+        "cleaned_data", type="dataset",
+        description="Cleaned data after preprocessing"
+    )
+    
+        cleaned_csv_path = os.path.join(wandb.run.dir, "cleaned_data.csv")
+        df.to_csv(cleaned_csv_path, index=False)
+        cleaned_data_artifact.add_file(cleaned_csv_path)
+
+        wandb.log_artifact(cleaned_data_artifact)
+    wandb.finish()
 
 if __name__ == "__main__":
-    import sys
-    filepath = sys.argv[1]
-    main(filepath)
+    parser = argparse.ArgumentParser(description="Data Cleaning Process")
+    parser.add_argument("--filepath", type=str, default="default", help="Path to the CSV file for cleaning or 'default' to use the latest W&B artifact")
+    
+    args = parser.parse_args()
+    main(args)

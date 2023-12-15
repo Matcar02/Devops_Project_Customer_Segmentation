@@ -3,22 +3,14 @@ name: DimensionalityReduction
 conda_env: conda.yaml
 
 entry_points:
-  comparison:
-    command: "python comparison.py {input_filepath}"
-    parameters:
-      input_filepath:
-        type: string
-        default: ""
-        description: "The path to the input CSV file for PCA vs. Spectral comparison."
-
   pca:
-    command: "python pca.py --filepath {filepath} --filepath_rfm {filepath_rfm}"
+    command: "python pca.py --rfm {rfm} --customer_segmentation {customer_segmentation}"
     parameters:
-      filepath:
+      rfm:
         type: string
         default: "default"
-        description: "Path to the CSV file for DataFrame."
-      filepath_rfm:
+        description: "Path to the RFM data CSV file or 'default' to use the latest W&B artifact"
+      customer_segmentation:
         type: string
         default: "default"
-        description: "Path to the CSV file for RFM Dataset."
+        description: "Path to the customer segmentation CSV file or 'default' to use the latest W&B artifact"

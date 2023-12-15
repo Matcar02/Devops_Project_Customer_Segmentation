@@ -1,0 +1,54 @@
+{
+    "os": "Windows-10-10.0.22621-SP0",
+    "python": "3.11.4",
+    "heartbeatAt": "2023-12-15T21:00:17.012740",
+    "startedAt": "2023-12-15T21:00:15.716121",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--file_path",
+        "../../data/customer_segmentation.csv",
+        "--artifact_name",
+        "customer_segmentation",
+        "--artifact_type",
+        "dataset",
+        "--artifact_description",
+        "\"\""
+    ],
+    "state": "running",
+    "program": "C:\\Users\\rawbe\\Downloads\\IE_4thYear_1stSem\\DevOps\\Final_Project_DevOps\\Devops_Project_Customer_Segmentation\\Customer_Segmentation_DevOps\\src\\data_preparation\\loader.py",
+    "codePathLocal": "loader.py",
+    "codePath": "Customer_Segmentation_DevOps\\src\\data_preparation\\loader.py",
+    "git": {
+        "remote": "https://github.com/Matcar02/Devops_Project_Customer_Segmentation",
+        "commit": "2b6be16e6ca200a9b8b6d8ed2b56ad310983ea6d"
+    },
+    "email": "rawbeendraw.248@gmail.com",
+    "root": "C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation",
+    "host": "RAWBEENDRAW",
+    "username": "rawbe",
+    "executable": "C:\\Users\\rawbe\\anaconda3\\envs\\mlflow-1b74dd991479422a954a4199884bf8a520f009d5\\python.exe",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1609.0,
+        "min": 0.0,
+        "max": 2112.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1609.0,
+            "min": 0.0,
+            "max": 2112.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 235.75683212280273,
+            "used": 217.92531204223633
+        }
+    },
+    "memory": {
+        "total": 23.641098022460938
+    }
+}

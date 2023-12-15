@@ -4,20 +4,30 @@ conda_env: conda.yaml
 
 entry_points:
   insights:
-    command: "python insights.py --filepath {filepath}"
+    command: "python insights.py --filepath {filepath} --nclusterskmeans {nclusterskmeans} --cluster_num {cluster_num} --column_name {column_name} --rfm {rfm}"
     parameters:
       filepath:
         type: string
-        default: "default" 
-        description: "Path to the input CSV file for generating insights."
-
+        description: "Path to the customer segmentation CSV file for analysis or 'default' to use the latest W&B artifact"
+      nclusterskmeans:
+        type: int
+        description: "Number of KMeans clusters"
+      cluster_num:
+        type: int
+        description: "Specific KMeans cluster number to analyze"
+      column_name:
+        type: string
+        description: "Column name for cluster summary"
+      rfm:
+        type: string
+        description: "Path to the RFM data CSV file for analysis or 'default' to use the latest W&B artifact"
 
   stats:
-    command: "python stats.py --filepath {filepath}"
+    command: "python stats.py --rfm {rfm} --customer_segmentation {customer_segmentation}"
     parameters:
-      filepath:
+      rfm:
         type: string
-        default: "default"
-        description: "The path to the input CSV file for statistical analysis."
-
-
+        description: "Path to the RFM data CSV file or 'default' to use the latest W&B artifact"
+      customer_segmentation:
+        type: string
+        description: "Path to the customer segmentation CSV file or 'default' to use the latest W&B artifact"

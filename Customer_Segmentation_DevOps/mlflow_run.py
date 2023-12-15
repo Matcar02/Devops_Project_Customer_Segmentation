@@ -11,7 +11,6 @@ def run_mlflow_commands():
 
         "mlflow run src/dimensionality_reduction -e pca",  
 
-
     ]
 
     for cmd in commands:

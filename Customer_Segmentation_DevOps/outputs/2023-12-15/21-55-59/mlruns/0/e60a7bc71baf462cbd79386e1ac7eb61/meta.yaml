@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/outputs/2023-12-15/21-55-59/mlruns/0/e60a7bc71baf462cbd79386e1ac7eb61/artifacts
+end_time: 1702673765517
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: e60a7bc71baf462cbd79386e1ac7eb61
+run_name: unleashed-gnat-347
+run_uuid: e60a7bc71baf462cbd79386e1ac7eb61
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702673759596
+status: 4
+tags: []
+user_id: rawbe

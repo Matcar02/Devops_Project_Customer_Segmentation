@@ -1,0 +1,39 @@
+logging:
+  level: INFO
+  format: '%(asctime)s - %(levelname)s - %(message)s'
+main:
+  project_name: CustomerSegmentation
+  experiment_name: SegmentationExperiment
+  steps: loader, cleaning, rfm, stats, insights, pca, data_visualization
+data_loader:
+  file_path: data/customer_segmentation.csv
+  artifact_name: customer_segmentation
+  artifact_type: dataset
+  artifact_description: Initial raw data
+cleaning:
+  artifact_name: cleaned_data
+  artifact_type: dataset
+  artifact_description: Data after cleaning process
+rfm:
+  artifact_name: rfm_data
+  artifact_type: dataset
+  artifact_description: RFM analysis results
+stats:
+  artifact_name: statistics_data
+  artifact_type: dataset
+  artifact_description: Descriptive statistics results
+insights:
+  artifact_name: insights_data
+  artifact_type: dataset
+  artifact_description: Customer insights data
+  nclusterkmenas: 5
+  cluster_num: 2
+  column_name: product_category_name
+pca:
+  artifact_name: pca_data
+  artifact_type: dataset
+  artifact_description: Results of PCA dimensionality reduction
+data_visualization:
+  artifact_name: visualization_data
+  artifact_type: visuals
+  artifact_description: Data visualization outputs

@@ -76,8 +76,6 @@ def plot_clusters(rfmcopy, clusters1):
     plot.show()
 
         
-
-
 def visualize_spectral_clusters(X, sp):
     """
     Visualize clusters using 3D scatter plots for Spectral clustering results.

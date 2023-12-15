@@ -10,6 +10,7 @@ import logging
 import argparse
 import mlflow
 import os
+import wandb
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -136,39 +137,46 @@ def pca(X_):
     return scores
 
 
-def main(filepath, filepath_rfm):
-    with mlflow.start_run() as run:
+def main(args):
+    # Initialize a new wandb run
+    wandb.init(project="customer_segmentation", job_type="pca_analysis")
 
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        data_dir = os.path.join(project_root, 'data')
-        default_filepath_df = os.path.join(data_dir, 'cleaned_data.csv')
-        default_filepath_rfm_dataset = os.path.join(data_dir, 'rfm_data.csv')
+    # Load the RFM data
+    if args.rfm == "default":
+        rfm_artifact = wandb.use_artifact('rfm_data:latest')
+        rfm_artifact_dir = rfm_artifact.download()
+        rfm_data_filepath = os.path.join(rfm_artifact_dir, 'rfm_data.csv')
+        rfm_data = pd.read_csv(rfm_data_filepath)
+    else:
+        rfm_data = pd.read_csv(args.rfm)
 
-        # If filepath is "default" or not provided, use the default filepath
-        if not filepath or filepath == "default":
-            filepath = default_filepath_df
+    # Load the customer segmentation data
+    if args.customer_segmentation == "default":
+        customer_segmentation_artifact = wandb.use_artifact('customer_segmentation:latest')
+        customer_segmentation_artifact_dir = customer_segmentation_artifact.download()
+        customer_segmentation_filepath = os.path.join(customer_segmentation_artifact_dir, 'customer_segmentation.csv')
+        customer_segmentation_data = pd.read_csv(customer_segmentation_filepath)
+    else:
+        customer_segmentation_data = pd.read_csv(args.customer_segmentation)
 
-        if not filepath_rfm or filepath_rfm == "default":
-            filepath_rfm = default_filepath_rfm_dataset
+    # Perform PCA analysis
+    encoded_df, newdf = encoding_PCA(customer_segmentation_data, rfm_data)
+    sc_features = pca_preprocessing(newdf)
+    X_ = pca_ncomponents(sc_features)
+    scores = pca(X_)
 
-        df = pd.read_csv(filepath)
-        rfm_dataset = pd.read_csv(filepath_rfm)
+    # Save PCA results to CSV and log as an artifact
+    scores_df = pd.DataFrame(scores)
+    scores_df.to_csv('pca_scores.csv', index=False)
+    pca_scores_artifact = wandb.Artifact('pca_scores', type='result')
+    pca_scores_artifact.add_file('pca_scores.csv')
+    wandb.log_artifact(pca_scores_artifact)
 
-
-        # Encoding and PCA
-        encoded_df, newdf = encoding_PCA(df, rfm_dataset)
-        sc_features = pca_preprocessing(newdf)
-        X_ = pca_ncomponents(sc_features)
-        scores = pca(X_)
-
-        # Save PCA results to CSV
-        scores_df = pd.DataFrame(scores)
-        scores_df.to_csv('pca_scores.csv', index=False)
-        mlflow.log_artifact('pca_scores.csv')
+    wandb.finish()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PCA Analysis")
-    parser.add_argument("--filepath", type=str, help="Path to the CSV file for DataFrame")
-    parser.add_argument("--filepath_rfm", type=str, help="Path to the CSV file for RFM Dataset")
+    parser.add_argument("--rfm", type=str, default="default", help="Path to the RFM data CSV file or 'default' to use the latest W&B artifact")
+    parser.add_argument("--customer_segmentation", type=str, default="default", help="Path to the customer segmentation CSV file or 'default' to use the latest W&B artifact")
     args = parser.parse_args()
-    main(filepath=args.filepath, filepath_rfm=args.filepath_rfm)
+    main(args)

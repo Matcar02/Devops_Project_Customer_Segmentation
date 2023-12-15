@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/rawbe/Downloads/IE_4thYear_1stSem/DevOps/Final_Project_DevOps/Devops_Project_Customer_Segmentation/Customer_Segmentation_DevOps/mlruns/0/a041e70d4d394fae9bc43ce479fb11d0/artifacts
+end_time: 1702286557709
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a041e70d4d394fae9bc43ce479fb11d0
+run_name: handsome-mule-25
+run_uuid: a041e70d4d394fae9bc43ce479fb11d0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1702286545902
+status: 3
+tags: []
+user_id: rawbe

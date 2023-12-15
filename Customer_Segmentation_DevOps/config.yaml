@@ -1,21 +1,48 @@
-data:
-  current_path: "path/to/current"
-  data_folder: "path/to/data/external"
-  data_filepath: "path/to/data/external/customer_segmentation.csv"
-
 logging:
   level: "INFO"
   format: "%(asctime)s - %(levelname)s - %(message)s"
 
-clustering:
-  kmeans:
-    clusters: 3
-    algorithm: "elkan"  # or "lloyd"
-    random_state: 42
-  agglomerative:
-    n_clusters: 3
-  spectral:
-    n_neighbors: 5
-    affinity: "nearest_neighbors"
-  pca_kmeans:
-    n_clusters: 3
+main:
+  project_name: "CustomerSegmentation"
+  experiment_name: "SegmentationExperiment"
+  steps: "loader, cleaning, rfm, stats, insights, pca, data_visualization"  # Or specify a comma-separated list of steps to run
+
+loader:
+  file_path: "../../data/customer_segmentation.csv"
+  artifact_name: "customer_segmentation"
+  artifact_type: "dataset"
+  artifact_description: ""
+
+cleaning:
+  artifact_name: "cleaned_data"
+  artifact_type: "dataset"
+  artifact_description: "Data after cleaning process"
+
+rfm:
+  artifact_name: "rfm_data"
+  artifact_type: "dataset"
+  artifact_description: "RFM analysis results"
+
+stats:
+  artifact_name: "statistics_data"
+  artifact_type: "dataset"
+  artifact_description: "Descriptive statistics results"
+
+insights:
+  artifact_name: "insights_data"
+  artifact_type: "dataset"
+  artifact_description: "Customer insights data"
+  nclusterkmenas: 5
+  cluster_num: 2
+  column_name: "product_category_name"
+
+pca:
+  artifact_name: "pca_data"
+  artifact_type: "dataset"
+  artifact_description: "Results of PCA dimensionality reduction"
+
+data_visualization:
+  artifact_name: "visualization_data"
+  artifact_type: "visuals"
+  artifact_description: "Data visualization outputs"
+

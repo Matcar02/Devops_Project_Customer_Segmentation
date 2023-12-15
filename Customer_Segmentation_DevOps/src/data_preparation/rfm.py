@@ -2,6 +2,7 @@ import logging
 import os
 from datetime import datetime
 import mlflow
+import wandb
 import pandas as pd
 import argparse
 
@@ -99,66 +100,43 @@ def concatenate_dataframes_(recency, monetary, frequencies):
     return rfm_dataset
 
 
-def get_rfm_dataset(rfm_dataset):
-    """
-    Save the RFM dataset to a CSV file and return the DataFrame.
+def main(args):
+    wandb.init(project="customer_segmentation", job_type="rfm_analysis")
 
-    Args:
-        rfm_dataset (pandas.DataFrame): The RFM dataset to be saved and returned.
+    if args.filepath != "default":
+        df = pd.read_csv(args.filepath)
 
-    Returns:
-        pandas.DataFrame: The RFM dataset after saving it to a CSV file.
-    """
+    else:
 
-    logging.info('Getting DataFrame...')
-    # Save the RFM dataset to a CSV file in the 'reports' directory
-    current_path = os.getcwd()
-    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports', 'dataframes'))
-    if not os.path.exists(reports_path):
-        os.makedirs(reports_path)
+        # Use W&B to load the cleaned data artifact
+        artifact = wandb.use_artifact('cleaned_data:latest')
+        artifact_dir = artifact.download()
+        cleaned_data_filepath = os.path.join(artifact_dir, 'cleaned_data.csv')
+        df = pd.read_csv(cleaned_data_filepath)
 
-    now = datetime.now().strftime("%Y-%m-%d_%H-%M")
-    filename = f'rfmdata_{now}.csv'
-    try:
-        rfm_dataset = pd.DataFrame(rfm_dataset)
-        # Construct the complete file path
-        file_path = os.path.join(reports_path, filename)  
-        # Pass the file path to to_csv function
-        rfm_dataset.to_csv(file_path, index=False)  
-        logging.info('DataFrame saved successfully.')
-    except Exception as e:
-        logging.error('Error saving DataFrame to CSV: %s', e)
-        return None
+    frequencies = get_frequencies(df)
+    recency = get_recency(df)
+    monetary = get_monetary(df)
+    rfm_dataset = concatenate_dataframes_(recency, monetary, frequencies)
 
-    rfm_dataset = pd.DataFrame(rfm_dataset)
-    # Return the DataFrame after saving it
-    return rfm_dataset  
+    # Save the RFM analysis data as a new artifact
+    rfm_data_artifact = wandb.Artifact("rfm_data", type="dataset", description="RFM analysis data")
+    rfm_csv_path = os.path.join(wandb.run.dir, "rfm_data.csv")
+    rfm_dataset.to_csv(rfm_csv_path, index=False)
+    rfm_data_artifact.add_file(rfm_csv_path)
+    wandb.log_artifact(rfm_data_artifact)
 
+    # Save the recency data as a separate artifact
+    recency_data_artifact = wandb.Artifact("recency_data", type="dataset", description="Recency data")
+    recency_csv_path = os.path.join(wandb.run.dir, "recency_data.csv")
+    recency.to_csv(recency_csv_path, index=False)
+    recency_data_artifact.add_file(recency_csv_path)
+    wandb.log_artifact(recency_data_artifact)
 
-def main(filepath=None):
-    with mlflow.start_run() as run:
-
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        data_dir = os.path.join(project_root, 'data')
-        default_filepath = os.path.join(data_dir, 'cleaned_data.csv')
-
-        # If filepath is "default" or not provided, use the default filepath
-        if not filepath or filepath == "default":
-            filepath = default_filepath
-
-
-        df = pd.read_csv(filepath)
-        frequencies = get_frequencies(df)
-        recency = get_recency(df)
-        monetary = get_monetary(df)
-        rfm_dataset = concatenate_dataframes_(recency, monetary, frequencies)
-
-        rfm_csv_path = os.path.join(data_dir, 'rfm_data.csv')
-        rfm_dataset.to_csv(rfm_csv_path, index=False)
-        mlflow.log_artifact(rfm_csv_path, artifact_path="rfm_data")
+    wandb.finish()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run RFM analysis")
-    parser.add_argument("--filepath", type=str, help="Path to the encoded CSV file for RFM analysis", default=None)
+    parser.add_argument("--filepath", type=str, default="default", help="Path to the cleaned CSV file for RFM analysis or 'default' to use the latest W&B artifact")
     args = parser.parse_args()
-    main(filepath=args.filepath)
+    main(args)

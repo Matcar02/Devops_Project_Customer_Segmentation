@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import mlflow
 import os
 import argparse
+import wandb
+import datetime
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG, 
@@ -49,8 +51,19 @@ def corr(df):
     logging.debug('Generating pairplot for columns: %s', ', '.join(columns))
     
      # Generate and display a pairplot for the specified columns
-    sns.pairplot(df[columns])
-    plt.savefig("pairplot.png")
+    pairplot = sns.pairplot(df[columns])
+
+    # Saving plot
+    logging.info('Getting plot...')
+     # Save the pairplot image
+    current_path = os.getcwd()
+    reports_path = os.path.abspath(os.path.join(current_path, '..', 'reports', 'figures'))
+    if not os.path.exists(reports_path):
+        os.makedirs(reports_path)
+    
+    now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    pairplot_filename = f'pairplot_{now}.png'
+    pairplot.savefig(os.path.join(reports_path, pairplot_filename))
     plt.close()
     
     # Compute and log the correlation matrix
@@ -61,38 +74,36 @@ def corr(df):
     logging.info('corr function completed.')
     return corr_matrix
 
-def main(filepath=None):
-    # Load your data
-    
+def main(args):
+    wandb.init(project="customer_segmentation", job_type="stats_analysis")
 
-    # Log the description and correlation matrix as an artifact
-    with mlflow.start_run() as run:
+    # Load the RFM data artifact
+    if args.rfm == "default":
+        rfm_artifact = wandb.use_artifact('rfm_data:latest')
+        rfm_artifact_dir = rfm_artifact.download()
+        rfm_data_filepath = os.path.join(rfm_artifact_dir, 'rfm_data.csv')
+        rfm_data = pd.read_csv(rfm_data_filepath)
+    else:
+        rfm_data = pd.read_csv(args.rfm)
 
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        data_dir = os.path.join(project_root, 'data')
-        default_filepath = os.path.join(data_dir, 'cleaned_data.csv')
+    # Load the customer segmentation artifact
+    if args.customer_segmentation == "default":
+        customer_segmentation_artifact = wandb.use_artifact('customer_segmentation:latest')
+        customer_segmentation_artifact_dir = customer_segmentation_artifact.download()
+        customer_segmentation_filepath = os.path.join(customer_segmentation_artifact_dir, 'customer_segmentation.csv')
+        customer_segmentation_data = pd.read_csv(customer_segmentation_filepath)
+    else:
+        customer_segmentation_data = pd.read_csv(args.customer_segmentation)
 
-        # If filepath is "default" or not provided, use the default filepath
-        if not filepath or filepath == "default":
-            filepath = default_filepath
+    # Perform statistical analysis
+    describe_dataset(rfm_data)
+    corr_matrix = corr(customer_segmentation_data)
 
-        df = pd.read_csv(filepath)
-
-        # Perform your statistical analysis functions
-        description = describe_dataset(df)
-        corr_matrix = corr(df)
-
-
-        description.to_csv("dataset_description.csv")
-        mlflow.log_artifact("dataset_description.csv", artifact_path="dataset_stats")
-
-        corr_matrix.to_csv("correlation_matrix.csv")
-        mlflow.log_artifact("correlation_matrix.csv", artifact_path="dataset_stats")
-
-        mlflow.log_artifact("pairplot.png", artifact_path="visuals")
+    wandb.finish()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Statistical analysis of data")
-    parser.add_argument("--filepath", type=str, help="Path to the input CSV file", required=True)
+    parser.add_argument("--rfm", type=str, default="default", help="Path to the RFM data CSV file or 'default' to use the latest W&B artifact")
+    parser.add_argument("--customer_segmentation", type=str, default="default", help="Path to the customer segmentation CSV file or 'default' to use the latest W&B artifact")
     args = parser.parse_args()
-    main(filepath=args.filepath)
+    main(args)

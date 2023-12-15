@@ -3,14 +3,6 @@ name: Visualization
 conda_env: conda.yaml
 
 entry_points:
-  clustering_visualization:
-    command: "python clustering_visualization.py {input_filepath}"
-    parameters:
-      input_filepath:
-        type: string
-        default: ""
-        description: "The path to the input CSV file for clustering visualization."
-
   data_visualization:
     command: "python data_visualization.py --filepath {filepath}"
     parameters:
